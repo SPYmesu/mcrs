@@ -1,5 +1,5 @@
 use mcrs_minecraft_block::definition::{BlockDefinitions, LootId};
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_loot::loot::LootTable;
 use mcrs_minecraft_loot_condition::{

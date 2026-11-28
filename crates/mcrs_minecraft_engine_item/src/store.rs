@@ -1,7 +1,7 @@
 use bevy_ecs::component::Component;
 use bevy_ecs::world::EntityWorldMut;
-use mcrs_minecraft_item_stack::ItemComponent;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::ItemComponent;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_item_table::Prototype;
 

@@ -14,7 +14,7 @@ use mcrs_minecraft_game_registries::registry_load::load_registries;
 use mcrs_minecraft_game_registries::registry_load::test_additions;
 use mcrs_minecraft_game_registries::registry_load::test_packs;
 use mcrs_minecraft_game_registries::registry_load::test_registries;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::read_saved;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_nbt::compound::NbtCompound;

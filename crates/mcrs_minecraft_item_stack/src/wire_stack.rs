@@ -2,11 +2,11 @@ use std::io::Write;
 
 use alloc::vec::Vec;
 
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_wire::Decode;
 use mcrs_minecraft_wire::Encode;
 
-use crate::ItemStack;
-use crate::Kind;
 use crate::NameLookup;
 use crate::WireError;
 use crate::wire::Entries;

@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 
 use mcrs_minecraft_engine_registries::test_item_table;
 use mcrs_minecraft_game_registries::registry_load::{load_registries, test_additions, test_packs};
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_loot_condition::ConditionProblem;
 use mcrs_minecraft_loot_table::{LootProblem, LootScratch, LootTables};
 use mcrs_minecraft_predicate::BlockHost;

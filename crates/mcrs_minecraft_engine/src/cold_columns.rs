@@ -1,6 +1,6 @@
 use bevy_ecs::change_detection::DetectChanges;
 use bevy_ecs::entity::Entity;
-use bevy_ecs::message::MessageReader;
+use bevy_ecs::message::{MessageReader, MessageWriter, Messages};
 use bevy_ecs::prelude::{Commands, Component, Has, Populated, Query, Ref, Res, ResMut, With};
 use bevy_ecs::resource::Resource;
 use mcrs_minecraft_engine_world::block_update::BlockPlaced;
@@ -14,9 +14,10 @@ use mcrs_minecraft_engine_world::world::storage::column::{
 use mcrs_minecraft_engine_world::world::storage::section_stage::SectionStage;
 
 use crate::column_asks::{ColumnHold, Hold};
-use crate::column_snapshot::ColumnSnapshots;
+use crate::column_snapshot::{ColumnSnapshots, section_rows};
 use crate::column_store::ColumnStoreLink;
-use crate::column_tick_holder::ColumnTickHolder;
+use crate::column_ticks_answer::ColumnTicksAnswer;
+use crate::column_ticks_ask::{ColumnTicksAsk, TickHandoff};
 use crate::coordinator::clock::GameTime;
 use crate::stored_columns_landing::TakenFromStore;
 use mcrs_minecraft_simulation::GameTick;
@@ -93,26 +94,13 @@ pub(crate) fn columns_cooling(dims: Query<&ColumnLoading>) -> bool {
     dims.iter().any(|loading| !loading.cooling().is_empty())
 }
 
-#[cfg_attr(
-    mcrs_lint,
-    expect(
-        mcrs::alloc_in_tick,
-        reason = "each snapshot is built only for a column that cools in this tick, and it moves into the column store"
-    )
-)]
-#[cfg_attr(mcrs_lint, mcrs::alloc_sites(3))]
-pub(crate) fn write_cold_columns<T: ColumnTickHolder>(
+pub(crate) fn ask_cold_column_ticks(
     dims: Query<(&ColumnLoading, &ColumnIndex)>,
-    columns: Query<ColumnMarks>,
-    marks: Query<SectionMarks>,
-    snapshots: ColumnSnapshots,
-    light_gated: Option<Res<LightGated>>,
+    columns: Query<&ColumnSections>,
     owned: Option<Res<OwnedColumns>>,
     mut store: ResMut<ColumnStoreLink>,
-    mut simulation: Option<ResMut<T>>,
-    time: Res<GameTime>,
+    mut asks: MessageWriter<ColumnTicksAsk>,
 ) {
-    let now = GameTick(time.0);
     for (loading, index) in &dims {
         for &column in loading.cooling() {
             if loading.is_column_loaded(column) || !owned_columns::owns(owned.as_deref(), column) {
@@ -125,32 +113,92 @@ pub(crate) fn write_cold_columns<T: ColumnTickHolder>(
             let Some(slot) = index.get(&column) else {
                 continue;
             };
-            let Ok((column_sections, light_final)) = columns.get(slot.entity) else {
+            let Some(rows) = columns.get(slot.entity).ok().and_then(section_rows) else {
                 continue;
             };
-            let min_y = column_sections.min_section_y;
-            let rows = (0..column_sections.sections.len())
-                .map_while(|index| i32::try_from(index).ok()?.checked_add(min_y));
-            let taken = simulation
-                .as_mut()
-                .map(|simulation| simulation.take_column(column, rows, now));
-            let Some(origin) = origin(column_sections, &marks) else {
+            asks.write(ColumnTicksAsk {
+                column,
+                entity: slot.entity,
+                rows,
+                handoff: TickHandoff::Take,
+            });
+        }
+    }
+}
+
+pub(crate) fn ask_saved_column_ticks(
+    dims: Query<(&ColumnLoading, &ColumnIndex)>,
+    columns: Query<&ColumnSections>,
+    owned: Option<Res<OwnedColumns>>,
+    request: Res<SaveRequest>,
+    mut asks: MessageWriter<ColumnTicksAsk>,
+) {
+    let handoff = match *request {
+        SaveRequest::Dirty => TickHandoff::Copy,
+        SaveRequest::All => TickHandoff::Take,
+    };
+    for (loading, index) in &dims {
+        for column in loading.loaded_columns() {
+            if !owned_columns::owns(owned.as_deref(), column) {
+                continue;
+            }
+            let Some(slot) = index.get(&column) else {
                 continue;
             };
-            let unlit = light_gated.is_some() && !light_final;
-            let ticks_changed = taken.as_ref().is_some_and(|taken| taken.changed);
-            match origin {
-                Origin::Unchanged if !ticks_changed => continue,
-                Origin::Generated if unlit && !ticks_changed => continue,
-                Origin::Unchanged | Origin::Generated | Origin::Kept => {}
+            let Some(rows) = columns.get(slot.entity).ok().and_then(section_rows) else {
+                continue;
+            };
+            asks.write(ColumnTicksAsk {
+                column,
+                entity: slot.entity,
+                rows,
+                handoff,
+            });
+        }
+    }
+}
+
+#[cfg_attr(
+    mcrs_lint,
+    expect(
+        mcrs::alloc_in_tick,
+        reason = "each snapshot is built only for a column that cools in this tick, and it moves into the column store"
+    )
+)]
+#[cfg_attr(mcrs_lint, mcrs::alloc_sites(3))]
+pub(crate) fn write_cold_columns(
+    columns: Query<ColumnMarks>,
+    marks: Query<SectionMarks>,
+    snapshots: ColumnSnapshots,
+    light_gated: Option<Res<LightGated>>,
+    mut store: ResMut<ColumnStoreLink>,
+    mut asks: ResMut<Messages<ColumnTicksAsk>>,
+    mut answers: ResMut<Messages<ColumnTicksAnswer>>,
+    time: Res<GameTime>,
+) {
+    let now = GameTick(time.0);
+    let mut answers = answers.drain().peekable();
+    for ask in asks.drain() {
+        let taken = answers.next_if(|answer| answer.entity == ask.entity);
+        let Ok((column_sections, light_final)) = columns.get(ask.entity) else {
+            continue;
+        };
+        let Some(origin) = origin(column_sections, &marks) else {
+            continue;
+        };
+        let unlit = light_gated.is_some() && !light_final;
+        let ticks_changed = taken.as_ref().is_some_and(|taken| taken.changed);
+        match origin {
+            Origin::Unchanged if !ticks_changed => continue,
+            Origin::Generated if unlit && !ticks_changed => continue,
+            Origin::Unchanged | Origin::Generated | Origin::Kept => {}
+        }
+        if let Some(mut stored) = snapshots.take_unlit(ask.entity) {
+            stored.last_update = now.0;
+            if let Some(taken) = taken {
+                stored.ticks = taken.ticks;
             }
-            if let Some(mut stored) = snapshots.take_unlit(slot.entity) {
-                stored.last_update = now.0;
-                if let Some(taken) = taken {
-                    stored.ticks = taken.ticks;
-                }
-                store.put(column, stored);
-            }
+            store.put(ask.column, stored);
         }
     }
 }
@@ -162,15 +210,14 @@ pub(crate) fn write_cold_columns<T: ColumnTickHolder>(
         reason = "runs only on a save request, and each snapshot moves into the column store"
     )
 )]
-#[cfg_attr(mcrs_lint, mcrs::alloc_sites(5))]
-pub(crate) fn save_dirty_loaded_columns<T: ColumnTickHolder>(
-    dims: Query<(&ColumnLoading, &ColumnIndex)>,
+#[cfg_attr(mcrs_lint, mcrs::alloc_sites(4))]
+pub(crate) fn save_dirty_loaded_columns(
     columns: Query<ColumnMarks>,
     marks: Query<SectionMarks>,
     snapshots: ColumnSnapshots,
-    owned: Option<Res<OwnedColumns>>,
     mut store: ResMut<ColumnStoreLink>,
-    simulation: Option<Res<T>>,
+    mut asks: ResMut<Messages<ColumnTicksAsk>>,
+    mut answers: ResMut<Messages<ColumnTicksAnswer>>,
     time: Res<GameTime>,
     mut commands: Commands,
     request: Option<Res<SaveRequest>>,
@@ -179,39 +226,27 @@ pub(crate) fn save_dirty_loaded_columns<T: ColumnTickHolder>(
         return;
     }
     let now = GameTick(time.0);
-    for (loading, index) in &dims {
-        for column in loading.loaded_columns() {
-            if !owned_columns::owns(owned.as_deref(), column) {
-                continue;
-            }
-            let Some(slot) = index.get(&column) else {
-                continue;
-            };
-            let Ok((column_sections, _)) = columns.get(slot.entity) else {
-                continue;
-            };
-            let dirty = dirty_sections(column_sections, &marks);
-            let Some(rows) = snapshots.rows(slot.entity) else {
-                continue;
-            };
-            let copied = simulation
-                .as_deref()
-                .map(|simulation| simulation.copy_column(column, rows, now));
-            let ticks_changed = copied.as_ref().is_some_and(|copied| copied.changed);
-            if dirty.is_empty() && !ticks_changed {
-                continue;
-            }
-            let Some(mut stored) = snapshots.take_unlit(slot.entity) else {
-                continue;
-            };
-            stored.last_update = now.0;
-            if let Some(copied) = copied {
-                stored.ticks = copied.ticks;
-            }
-            store.put(column, stored);
-            for section in dirty {
-                commands.entity(section).remove::<SectionChanged>();
-            }
+    let mut answers = answers.drain().peekable();
+    for ask in asks.drain() {
+        let copied = answers.next_if(|answer| answer.entity == ask.entity);
+        let Ok((column_sections, _)) = columns.get(ask.entity) else {
+            continue;
+        };
+        let dirty = dirty_sections(column_sections, &marks);
+        let ticks_changed = copied.as_ref().is_some_and(|copied| copied.changed);
+        if dirty.is_empty() && !ticks_changed {
+            continue;
+        }
+        let Some(mut stored) = snapshots.take_unlit(ask.entity) else {
+            continue;
+        };
+        stored.last_update = now.0;
+        if let Some(copied) = copied {
+            stored.ticks = copied.ticks;
+        }
+        store.put(ask.column, stored);
+        for section in dirty {
+            commands.entity(section).remove::<SectionChanged>();
         }
     }
     commands.remove_resource::<SaveRequest>();
@@ -239,12 +274,11 @@ fn dirty_sections(column: &ColumnSections, marks: &Query<SectionMarks>) -> Vec<E
     )
 )]
 #[cfg_attr(mcrs_lint, mcrs::alloc_sites(3))]
-pub(crate) fn save_all_loaded_columns<T: ColumnTickHolder>(
-    dims: Query<(&ColumnLoading, &ColumnIndex)>,
+pub(crate) fn save_all_loaded_columns(
     snapshots: ColumnSnapshots,
-    owned: Option<Res<OwnedColumns>>,
     mut store: ResMut<ColumnStoreLink>,
-    mut simulation: Option<ResMut<T>>,
+    mut asks: ResMut<Messages<ColumnTicksAsk>>,
+    mut answers: ResMut<Messages<ColumnTicksAnswer>>,
     time: Res<GameTime>,
     mut commands: Commands,
     request: Option<Res<SaveRequest>>,
@@ -254,27 +288,15 @@ pub(crate) fn save_all_loaded_columns<T: ColumnTickHolder>(
         return;
     }
     let now = GameTick(time.0);
-    for (loading, index) in &dims {
-        for column in loading.loaded_columns() {
-            if !owned_columns::owns(owned.as_deref(), column) {
-                continue;
+    let mut answers = answers.drain().peekable();
+    for ask in asks.drain() {
+        let taken = answers.next_if(|answer| answer.entity == ask.entity);
+        if let Some(mut stored) = snapshots.take_unlit(ask.entity) {
+            stored.last_update = now.0;
+            if let Some(taken) = taken {
+                stored.ticks = taken.ticks;
             }
-            let Some(slot) = index.get(&column) else {
-                continue;
-            };
-            let Some(rows) = snapshots.rows(slot.entity) else {
-                continue;
-            };
-            let taken = simulation
-                .as_mut()
-                .map(|simulation| simulation.take_column(column, rows, now));
-            if let Some(mut stored) = snapshots.take_unlit(slot.entity) {
-                stored.last_update = now.0;
-                if let Some(taken) = taken {
-                    stored.ticks = taken.ticks;
-                }
-                store.put(column, stored);
-            }
+            store.put(ask.column, stored);
         }
     }
     for section in &changed_sections {
@@ -314,7 +336,8 @@ mod tests {
     use bevy_app::App;
     use bevy_ecs::change_detection::DetectChangesMut;
     use mcrs_minecraft_block_entity::{ContainerData, GeneratedBlockEntity};
-    use mcrs_voxel::BlockPos;
+    use mcrs_minecraft_engine_world::world::storage::column::ColumnSlot;
+    use mcrs_voxel::{BlockPos, ColumnPos};
 
     #[derive(Resource, Default)]
     struct Dirty(Vec<Entity>);
@@ -377,5 +400,40 @@ mod tests {
             )));
         app.update();
         assert!(app.world().entity(section).contains::<SectionChanged>());
+    }
+
+    #[test]
+    fn a_dirty_save_copies_ticks_and_a_full_save_takes_them() {
+        for (request, expected) in [
+            (SaveRequest::Dirty, TickHandoff::Copy),
+            (SaveRequest::All, TickHandoff::Take),
+        ] {
+            let mut app = App::new();
+            app.add_message::<ColumnTicksAsk>();
+            app.insert_resource(request);
+            app.add_systems(bevy_app::Update, ask_saved_column_ticks);
+            let column = ColumnPos::new(0, 0);
+            let entity = app.world_mut().spawn(ColumnSections::new(0, 1)).id();
+            let mut loading = ColumnLoading::bounded(0..=0);
+            loading.add_ticket(column);
+            let mut index = ColumnIndex::default();
+            index.insert(
+                column,
+                ColumnSlot {
+                    entity,
+                    section_count: 1,
+                },
+            );
+            app.world_mut().spawn((loading, index));
+            app.update();
+
+            let handoffs: Vec<TickHandoff> = app
+                .world_mut()
+                .resource_mut::<Messages<ColumnTicksAsk>>()
+                .drain()
+                .map(|ask| ask.handoff)
+                .collect();
+            assert_eq!(handoffs, [expected], "{request:?} asks the wrong handoff");
+        }
     }
 }

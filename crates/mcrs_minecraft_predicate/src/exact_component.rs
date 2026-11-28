@@ -1,4 +1,4 @@
-use mcrs_minecraft_item_stack::Builtin;
+use mcrs_minecraft_item_component::Builtin;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::read_saved_component;
 use mcrs_minecraft_nbt::to_nbt_tag;

@@ -63,15 +63,6 @@ impl ColumnSnapshots<'_, '_> {
         self.snapshot(column, Light::Keep)
     }
 
-    pub(crate) fn rows(&self, column: Entity) -> Option<Range<i32>> {
-        let (column_sections, ..) = self.columns.get(column).ok()?;
-        let min_y = column_sections.min_section_y;
-        let end = i32::try_from(column_sections.sections.len())
-            .ok()?
-            .checked_add(min_y)?;
-        Some(min_y..end)
-    }
-
     pub(crate) fn take_unlit(&self, column: Entity) -> Option<StoredColumn> {
         self.snapshot(column, Light::Drop)
     }
@@ -135,4 +126,12 @@ impl ColumnSnapshots<'_, '_> {
         }
         Some(stored)
     }
+}
+
+pub(crate) fn section_rows(column_sections: &ColumnSections) -> Option<Range<i32>> {
+    let min_y = column_sections.min_section_y;
+    let end = i32::try_from(column_sections.sections.len())
+        .ok()?
+        .checked_add(min_y)?;
+    Some(min_y..end)
 }

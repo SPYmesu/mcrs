@@ -14,7 +14,7 @@ use mcrs_minecraft_engine_item::{ItemCommandsExt, ItemPlugin, Selected, Slots, S
 use mcrs_minecraft_engine_world::birth_clock::BirthClock;
 use mcrs_minecraft_engine_world::session::{Owner, PlayerSession};
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     AttackAnimation, Count, ItemStack, Kind, SwingAnimation, SwingKind,
 };
 use mcrs_minecraft_item_table::{DefinitionFile, ItemTable, bake};

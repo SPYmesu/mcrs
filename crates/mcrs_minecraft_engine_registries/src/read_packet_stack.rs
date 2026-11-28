@@ -1,5 +1,5 @@
 use mcrs_minecraft_item::ProtoStack;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::WireError;
 use mcrs_minecraft_item_stack::read_wire;
 use mcrs_minecraft_registries::Wire;

@@ -5,7 +5,7 @@ use bevy_ecs::system::IntoSystem;
 use bevy_ecs::world::EntityWorldMut;
 use mcrs_minecraft_engine_item::SlotRef;
 use mcrs_minecraft_inventory_file::PlayerItems;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_player_holders::HandAction;
 use mcrs_minecraft_player_holders::restore_holders;
 

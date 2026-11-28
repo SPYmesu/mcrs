@@ -10,8 +10,8 @@ use mcrs_minecraft_engine::block_simulation::{
 };
 use mcrs_minecraft_engine::world_kinds::WorldKinds;
 use mcrs_minecraft_engine_world::block_drops::{BlockDrops, DroppingBlock};
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_loot::context_key_set_keys::ContextKeySet;
 use mcrs_minecraft_loot_condition::{LootContext, Tool};

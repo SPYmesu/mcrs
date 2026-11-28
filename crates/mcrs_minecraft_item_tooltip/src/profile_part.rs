@@ -1,6 +1,6 @@
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::Profile;
+use mcrs_minecraft_item_component::Profile;
 use mcrs_minecraft_profile::ProfileIdentity;
 use mcrs_minecraft_text::Color;
 use mcrs_minecraft_text::IntoText;

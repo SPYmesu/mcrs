@@ -13,7 +13,7 @@ use mcrs_minecraft_engine_item::RequestId;
 use mcrs_minecraft_engine_item::RequestResult;
 use mcrs_minecraft_engine_item::SlotRef;
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_player_holders::PlayerHolders;
 

@@ -1,4 +1,4 @@
-use mcrs_minecraft_item_stack::ItemModel;
+use mcrs_minecraft_item_component::ItemModel;
 use mcrs_minecraft_model::item_model_asset::TintSource;
 use mcrs_minecraft_model::item_model_bake::{BakedNode, ItemModels};
 use mcrs_minecraft_model::item_model_context::ItemModelContext;

@@ -1,8 +1,9 @@
 use core::error::Error;
 use core::fmt;
 
-use crate::BuiltinKey;
-use crate::ComponentType;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ComponentType;
+
 use crate::NameTable;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

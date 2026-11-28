@@ -1,18 +1,18 @@
 use alloc::vec::Vec;
 use core::mem;
 
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::PatchEntry;
+use mcrs_minecraft_item_component::UndecodedWireValue;
 use mcrs_minecraft_nbt::NbtBudget;
 use mcrs_minecraft_resource::ResourceLocation;
 
-use crate::BuiltinKey;
-use crate::ComponentType;
-use crate::Count;
-use crate::ItemStack;
-use crate::Kind;
 use crate::NameLookup;
 use crate::NameTable;
-use crate::PatchEntry;
-use crate::UndecodedWireValue;
 use crate::WireError;
 use crate::check_saved_form::check_saved_form;
 use crate::nbt_depth::STACK_LEVEL;

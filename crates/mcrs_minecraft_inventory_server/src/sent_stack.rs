@@ -1,5 +1,5 @@
 use mcrs_minecraft_engine_registries::RegistryNames;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::write_wire;
 use mcrs_minecraft_protocol_game::ProtoStack;
 use mcrs_minecraft_registries::Wire;

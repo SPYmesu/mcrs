@@ -8,118 +8,116 @@ use core::ops::RangeInclusive;
 use std::io::Cursor;
 
 use mcrs_minecraft_banner_pattern::BannerPattern;
+use mcrs_minecraft_item_component::ArgbColor;
+use mcrs_minecraft_item_component::AttackAnimation;
+use mcrs_minecraft_item_component::AttributeId;
+use mcrs_minecraft_item_component::AttributeModifier;
+use mcrs_minecraft_item_component::AttributeModifiers;
+use mcrs_minecraft_item_component::BannerLayer;
+use mcrs_minecraft_item_component::BannerPatternId;
+use mcrs_minecraft_item_component::BannerPatterns;
+use mcrs_minecraft_item_component::BeeOccupant;
+use mcrs_minecraft_item_component::Bees;
+use mcrs_minecraft_item_component::BlockId;
+use mcrs_minecraft_item_component::BlockSet;
+use mcrs_minecraft_item_component::BlockState;
+use mcrs_minecraft_item_component::BlockStateProperty;
+use mcrs_minecraft_item_component::BlockTagId;
+use mcrs_minecraft_item_component::Builtin;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::BundleContents;
+use mcrs_minecraft_item_component::ChargedProjectiles;
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::Container;
+use mcrs_minecraft_item_component::ContainerLoot;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::CustomData;
+use mcrs_minecraft_item_component::CustomModelData;
+use mcrs_minecraft_item_component::CustomName;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::DimensionPos;
+use mcrs_minecraft_item_component::DyeColor;
+use mcrs_minecraft_item_component::DyedColor;
+use mcrs_minecraft_item_component::EffectInstance;
+use mcrs_minecraft_item_component::EnchantmentGlintOverride;
+use mcrs_minecraft_item_component::EnchantmentId;
+use mcrs_minecraft_item_component::EnchantmentLevel;
+use mcrs_minecraft_item_component::Enchantments;
+use mcrs_minecraft_item_component::EntityData;
+use mcrs_minecraft_item_component::EntityTypeId;
+use mcrs_minecraft_item_component::EntityTypeSet;
+use mcrs_minecraft_item_component::EntityTypeTagId;
+use mcrs_minecraft_item_component::Equippable;
+use mcrs_minecraft_item_component::EquippableSlot;
+use mcrs_minecraft_item_component::FireworkExplosion;
+use mcrs_minecraft_item_component::FireworkShape;
+use mcrs_minecraft_item_component::Fireworks;
+use mcrs_minecraft_item_component::Food;
+use mcrs_minecraft_item_component::Identifier;
+use mcrs_minecraft_item_component::InlineInstrument;
+use mcrs_minecraft_item_component::Instrument;
+use mcrs_minecraft_item_component::InstrumentId;
+use mcrs_minecraft_item_component::InteractAnimation;
+use mcrs_minecraft_item_component::ItemModel;
+use mcrs_minecraft_item_component::ItemName;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::LodestoneTracker;
+use mcrs_minecraft_item_component::MapDecoration;
+use mcrs_minecraft_item_component::MapDecorationTypeId;
+use mcrs_minecraft_item_component::MapDecorations;
+use mcrs_minecraft_item_component::MapId;
+use mcrs_minecraft_item_component::MaxDamage;
+use mcrs_minecraft_item_component::MaxStackSize;
+use mcrs_minecraft_item_component::MobEffectId;
+use mcrs_minecraft_item_component::ModifierDisplay;
+use mcrs_minecraft_item_component::OminousBottleAmplifier;
+use mcrs_minecraft_item_component::PaintingVariant;
+use mcrs_minecraft_item_component::PaintingVariantId;
+use mcrs_minecraft_item_component::PatchEntry;
+use mcrs_minecraft_item_component::PiercingWeapon;
+use mcrs_minecraft_item_component::PotionContents;
+use mcrs_minecraft_item_component::PotionId;
+use mcrs_minecraft_item_component::Profile;
+use mcrs_minecraft_item_component::Rarity;
+use mcrs_minecraft_item_component::RegistryValue;
+use mcrs_minecraft_item_component::RepairCost;
+use mcrs_minecraft_item_component::SlotGroup;
+use mcrs_minecraft_item_component::SoundEventId;
+use mcrs_minecraft_item_component::SoundEventRef;
+use mcrs_minecraft_item_component::StewEffect;
+use mcrs_minecraft_item_component::StoredEnchantments;
+use mcrs_minecraft_item_component::SuspiciousStewEffects;
+use mcrs_minecraft_item_component::SwingAnimation;
+use mcrs_minecraft_item_component::SwingKind;
+use mcrs_minecraft_item_component::Tool;
+use mcrs_minecraft_item_component::ToolRule;
+use mcrs_minecraft_item_component::TooltipDisplay;
+use mcrs_minecraft_item_component::Trim;
+use mcrs_minecraft_item_component::TrimMaterialId;
+use mcrs_minecraft_item_component::TrimPatternId;
+use mcrs_minecraft_item_component::Unbreakable;
+use mcrs_minecraft_item_component::UndecodedValue;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::deserializer::NbtReadHelper;
 use mcrs_minecraft_nbt::from_tag;
 use mcrs_minecraft_nbt::serializer::WriteAdaptor;
 use mcrs_minecraft_nbt::tag::NbtTag;
-use mcrs_minecraft_resource::ResourceLocation;
+use mcrs_minecraft_resource::{DEFAULT_NAMESPACE, ResourceLocation};
 use mcrs_minecraft_snbt::parse_compound;
 use mcrs_minecraft_sound::SoundEventValue;
 use mcrs_minecraft_trim::TrimMaterial;
 use mcrs_minecraft_trim::TrimPattern;
 use mcrs_voxel::BlockPos;
 
-use crate::ArgbColor;
-use crate::AttackAnimation;
-use crate::AttributeId;
-use crate::AttributeModifier;
-use crate::AttributeModifiers;
-use crate::BannerLayer;
-use crate::BannerPatternId;
-use crate::BannerPatterns;
-use crate::BeeOccupant;
-use crate::Bees;
-use crate::BlockId;
-use crate::BlockSet;
-use crate::BlockState;
-use crate::BlockStateProperty;
-use crate::BlockTagId;
-use crate::Builtin;
-use crate::BuiltinKey;
-use crate::BundleContents;
-use crate::ChargedProjectiles;
-use crate::ComponentType;
-use crate::Container;
-use crate::ContainerLoot;
-use crate::Count;
-use crate::CustomData;
-use crate::CustomModelData;
-use crate::CustomName;
-use crate::Damage;
-use crate::DimensionPos;
-use crate::DyeColor;
-use crate::DyedColor;
-use crate::EffectInstance;
-use crate::EnchantmentGlintOverride;
-use crate::EnchantmentId;
-use crate::EnchantmentLevel;
-use crate::Enchantments;
-use crate::EntityData;
-use crate::EntityTypeId;
-use crate::EntityTypeSet;
-use crate::EntityTypeTagId;
-use crate::Equippable;
-use crate::EquippableSlot;
-use crate::FireworkExplosion;
-use crate::FireworkShape;
-use crate::Fireworks;
-use crate::Food;
-use crate::Identifier;
-use crate::InlineInstrument;
-use crate::Instrument;
-use crate::InstrumentId;
-use crate::InteractAnimation;
-use crate::ItemModel;
-use crate::ItemName;
-use crate::ItemStack;
-use crate::Kind;
-use crate::LodestoneTracker;
-use crate::MapDecoration;
-use crate::MapDecorationTypeId;
-use crate::MapDecorations;
-use crate::MapId;
-use crate::MaxDamage;
-use crate::MaxStackSize;
-use crate::MobEffectId;
-use crate::ModifierDisplay;
 use crate::NameLookup;
 use crate::NameTable;
-use crate::OminousBottleAmplifier;
-use crate::PaintingVariant;
-use crate::PaintingVariantId;
-use crate::PatchEntry;
-use crate::PiercingWeapon;
-use crate::PotionContents;
-use crate::PotionId;
-use crate::Profile;
-use crate::Rarity;
-use crate::RegistryValue;
-use crate::RepairCost;
 use crate::SavedError;
-use crate::SlotGroup;
 use crate::SlotStack;
-use crate::SoundEventId;
-use crate::SoundEventRef;
-use crate::StewEffect;
-use crate::StoredEnchantments;
-use crate::SuspiciousStewEffects;
-use crate::SwingAnimation;
-use crate::SwingKind;
-use crate::Tool;
-use crate::ToolRule;
-use crate::TooltipDisplay;
-use crate::Trim;
-use crate::TrimMaterialId;
-use crate::TrimPatternId;
-use crate::Unbreakable;
-use crate::UndecodedValue;
-use crate::builtin_key::NAMESPACE;
 use crate::check_saved_form::NOT_NEGATIVE;
 use crate::check_saved_form::OMINOUS_AMPLIFIER;
 use crate::check_saved_form::POSITIVE;
 use crate::check_saved_form::STACK_SIZE;
-use crate::entity_data::ENTITY_TYPE_KEY;
 use crate::nbt_depth::LIST_TEMPLATE_LEVELS;
 use crate::nbt_depth::SLOT_TEMPLATE_LEVELS;
 use crate::nbt_depth::STACK_LEVEL;
@@ -152,6 +150,12 @@ pub fn read_saved<L: NameLookup>(saved: &NbtCompound, names: &L) -> Result<ItemS
     let stack = read_stack(saved, names, STACK_LEVEL)?;
     check_nbt_depth(&stack, names).map_err(Fault::into_saved)?;
     Ok(stack)
+}
+
+fn named<T: Copy>(all: &[T], name: fn(T) -> &'static str, text: &str) -> Option<T> {
+    all.iter()
+        .copied()
+        .find(|candidate| name(*candidate) == text)
 }
 
 fn read_item<L: NameLookup>(id: &str, names: &L) -> Result<Kind, SavedError> {
@@ -265,7 +269,7 @@ pub fn write_saved_with_slot<L: NameLookup>(
 }
 
 pub(crate) fn is_air(item: ResourceLocation<'_>) -> bool {
-    item.namespace() == NAMESPACE && item.path() == AIR
+    item.namespace() == DEFAULT_NAMESPACE && item.path() == AIR
 }
 
 fn read_entry<L: NameLookup>(
@@ -318,11 +322,11 @@ fn write_entry<L: NameLookup>(
 ) -> Result<(), SavedError> {
     match entry {
         PatchEntry::Value(value) => {
-            let key = format!("{NAMESPACE}:{}", value.key().path());
+            let key = format!("{DEFAULT_NAMESPACE}:{}", value.key().path());
             patch.put(&key, write_value(value, names)?);
         }
         PatchEntry::Removal(component) => {
-            let key = format!("{REMOVAL_MARKER}{NAMESPACE}:{}", component.path());
+            let key = format!("{REMOVAL_MARKER}{DEFAULT_NAMESPACE}:{}", component.path());
             patch.put(&key, NbtTag::Compound(NbtCompound::new()));
         }
         PatchEntry::Undecoded(value) => patch.put(value.name.as_str(), decode(&value.bytes)?),
@@ -419,7 +423,8 @@ fn read_flat_value<L: NameLookup>(
             Builtin::ItemModel(ItemModel::new(reader.identifier(tag)?.to_buf()))
         }
         BuiltinKey::Rarity => {
-            let rarity = Rarity::from_name(reader.string(tag)?).ok_or(reader.bad())?;
+            let rarity =
+                named(&Rarity::ALL, Rarity::name, reader.string(tag)?).ok_or(reader.bad())?;
             Builtin::Rarity(rarity)
         }
         BuiltinKey::Enchantments => Builtin::Enchantments(reader.enchantments(tag)?),
@@ -585,7 +590,8 @@ impl<L: NameLookup> Reader<'_, L> {
             let operation: ModifierOperation = operation.parse().map_err(|_| self.bad())?;
             let mut modifier = AttributeModifier::new(attribute, id, amount, operation);
             if let Some(slot) = entry.get("slot") {
-                modifier.slot = SlotGroup::from_name(self.string(slot)?).ok_or(self.bad())?;
+                modifier.slot = named(&SlotGroup::ALL, SlotGroup::name, self.string(slot)?)
+                    .ok_or(self.bad())?;
             }
             if let Some(display) = entry.get("display") {
                 let display = self.map(display)?;
@@ -718,7 +724,9 @@ impl<L: NameLookup> Reader<'_, L> {
     fn equippable(&self, tag: &NbtTag) -> Result<Equippable, SavedError> {
         let map = self.map(tag)?;
         let slot = self.string(self.necessary(map, "slot")?)?;
-        let mut equippable = Equippable::new(EquippableSlot::from_name(slot).ok_or(self.bad())?);
+        let mut equippable = Equippable::new(
+            named(&EquippableSlot::ALL, EquippableSlot::name, slot).ok_or(self.bad())?,
+        );
         equippable.equip_sound = self.optional(map, "equip_sound", Self::sound_event)?;
         equippable.asset_id = self.optional(map, "asset_id", |reader, tag| {
             Ok(Identifier::Owned(reader.identifier(tag)?.to_buf()))
@@ -1042,7 +1050,7 @@ impl<L: NameLookup> Reader<'_, L> {
 
     fn entity_data(&self, tag: &NbtTag) -> Result<EntityData, SavedError> {
         let data = self.custom_data(tag)?;
-        let entity_type = self.string(self.necessary(&data, ENTITY_TYPE_KEY)?)?;
+        let entity_type = self.string(self.necessary(&data, EntityData::TYPE_KEY)?)?;
         let entity_type = self.entity_type(entity_type)?;
         Ok(EntityData::new(entity_type, data))
     }
@@ -1063,7 +1071,7 @@ impl<L: NameLookup> Reader<'_, L> {
         let shape = self.string(self.necessary(map, "shape")?)?;
         let int = |reader: &Self, tag: &NbtTag| Ok(reader.number(tag)?.to_int());
         Ok(FireworkExplosion {
-            shape: FireworkShape::from_name(shape).ok_or(self.bad())?,
+            shape: named(&FireworkShape::ALL, FireworkShape::name, shape).ok_or(self.bad())?,
             colors: self.listed(map, "colors", int)?,
             fade_colors: self.listed(map, "fade_colors", int)?,
             has_trail: self.flag(map, "has_trail", false)?,
@@ -1110,7 +1118,7 @@ impl<L: NameLookup> Reader<'_, L> {
         let color = self.string(self.necessary(map, "color")?)?;
         Ok(BannerLayer {
             pattern,
-            color: DyeColor::from_name(color).ok_or(self.bad())?,
+            color: named(&DyeColor::ALL, DyeColor::name, color).ok_or(self.bad())?,
         })
     }
 
@@ -1155,7 +1163,9 @@ impl<L: NameLookup> Reader<'_, L> {
     fn swing_animation(&self, tag: &NbtTag) -> Result<SwingAnimation, SavedError> {
         let map = self.map(tag)?;
         let kind = match map.get("type") {
-            Some(tag) => SwingKind::from_name(self.string(tag)?).ok_or(self.bad())?,
+            Some(tag) => {
+                named(&SwingKind::ALL, SwingKind::name, self.string(tag)?).ok_or(self.bad())?
+            }
             None => SwingAnimation::DEFAULT_KIND,
         };
         let duration = match map.get("duration") {

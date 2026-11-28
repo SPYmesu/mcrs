@@ -1,7 +1,9 @@
 use std::borrow::Cow;
 
 use mcrs_minecraft_entity_attribute::ModifierOperation;
-use mcrs_minecraft_item_stack::{AttributeId, AttributeModifier, AttributeModifiers, SlotGroup};
+use mcrs_minecraft_item_component::{
+    AttributeId, AttributeModifier, AttributeModifiers, SlotGroup,
+};
 use mcrs_minecraft_loot_condition::{FloatProvider, LootWorld, bounded};
 use mcrs_minecraft_predicate::PredicateScratch;
 use mcrs_minecraft_random::Random;

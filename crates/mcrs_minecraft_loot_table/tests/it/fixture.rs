@@ -9,10 +9,10 @@ use mcrs_minecraft_environment::{AttributeValue, WorldClock};
 use mcrs_minecraft_game_registries::registry_load::test_registries;
 use mcrs_minecraft_item::component::equippable::EquipmentSlot;
 use mcrs_minecraft_item::enchantment::Enchantment;
-use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     Count, EnchantmentId, EnchantmentLevel, Enchantments, ItemStack, Kind,
 };
+use mcrs_minecraft_item_key::item_keys::Item;
 use mcrs_minecraft_loot::context_key_set_keys::ContextKeySet;
 use mcrs_minecraft_loot::loot::LootTable;
 use mcrs_minecraft_loot_condition::{

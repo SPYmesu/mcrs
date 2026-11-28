@@ -1,4 +1,4 @@
-use crate::ComponentType;
+use mcrs_minecraft_item_component::ComponentType;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct HashedComponent {

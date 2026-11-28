@@ -1,8 +1,9 @@
-use crate::BuiltinKey;
-use crate::ComponentType;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::data_component_type_keys::DataComponentType;
+
 use crate::WireError;
 use crate::any_names::AnyNames;
-use crate::data_component_type_keys::DataComponentType;
 use crate::shape_skip::ShapeSkip;
 use crate::wire_scan::skip_component_map;
 use crate::wire_value::read_value_at;

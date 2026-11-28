@@ -1,7 +1,7 @@
 use alloc::format;
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::EnchantmentLevel;
+use mcrs_minecraft_item_component::EnchantmentLevel;
 use mcrs_minecraft_text::Color;
 use mcrs_minecraft_text::IntoText;
 use mcrs_minecraft_text::Text;

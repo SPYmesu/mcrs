@@ -8,9 +8,11 @@ use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_nbt::tag_deserializer::from_tag;
 use mcrs_minecraft_nbt::tag_serializer::to_nbt_tag;
+use mcrs_minecraft_save::PlayerDat;
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::collections::BTreeMap;
+use std::path::Path;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PersistScope {
@@ -45,6 +47,25 @@ impl IntoIterator for PersistedSnapshot {
 impl PersistedSnapshot {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn from_dat(
+        dat: &PlayerDat,
+        registry: &PersistedRegistry,
+        path: &Path,
+    ) -> Result<Self, PersistedError> {
+        let mut snapshot = Self::default();
+        for (key, tag) in &dat.root.child_tags {
+            let claimed =
+                registry
+                    .file_key(key)
+                    .ok_or_else(|| PersistedError::UnclaimedFileKey {
+                        path: path.display().to_string(),
+                        key: key.clone(),
+                    })?;
+            snapshot.insert(claimed, tag.clone());
+        }
+        Ok(snapshot)
     }
 
     #[must_use]

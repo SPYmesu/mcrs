@@ -1,5 +1,5 @@
 use glam::DVec3;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_loot::context_key_set_keys::ContextKeySet;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_predicate::DamageSource;

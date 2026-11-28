@@ -93,10 +93,10 @@ behaviour.
 
 | Crate | Layer | Files | Lines | Job |
 |---|---|---|---|---|
-| `mcrs_minecraft_engine_shared` | 4 | about 22 | about 2,400 | Vocabulary: messages, shared values, game time, dimension table |
-| `mcrs_minecraft_engine_columns` | 4 | 22 | 4,449 | Column store, cold and stored columns, column streams, light codec, heightmap |
+| `mcrs_minecraft_engine_shared` | 4 | 25 | 2,528 | Vocabulary: messages, shared values, game time, dimension table |
+| `mcrs_minecraft_engine_columns` | 4 | 25 | 4,034 | Column store, cold and stored columns, column streams, light codec, heightmap |
 | `mcrs_minecraft_engine_player` | 4 | 36 | about 5,700 | Player spawn and despawn, persistence, movement, teleport, transfer, player tiles |
-| `mcrs_minecraft_engine_block` | 4 | 11 | 2,186 | Block simulation, block updates, block break, digs |
+| `mcrs_minecraft_engine_block` | 4 | 12 | 2,254 | Block simulation, block updates, block break, digs |
 | `mcrs_minecraft_engine_host` | 4 | about 26 | about 4,000 | Dimension cells, sub-app builder, roster, join placement, world state, autosave, host plugins of the shared lists |
 | `mcrs_minecraft_engine_edge` | 4 | 24 | 3,880 | The bridge, sessions, dimension inputs and outputs, entity replication, column views |
 | `mcrs_minecraft_engine` | 4 | 2 | about 160 | `EnginePlugin` and the code between two ticks |
@@ -141,21 +141,26 @@ for this map. Open question 2 keeps only the later move of the edge beside the h
 
 A module name is the file name in `crates/mcrs_minecraft_engine/src/` today.
 
-**`mcrs_minecraft_engine_shared`** (22 modules and parts of two more):
+**`mcrs_minecraft_engine_shared`** (25 modules):
 `ability`, `background_writer`, `banlist`, `block_action_ack`, `bus`, `column_change`,
-`column_request`, `column_version`, `dimension_generators`, `game_profile`, `json_list`,
-`persisted_registry`, `player_view`, `replicated`, `server_edit`, `tile_events`, `whitelist`,
-`coordinator/clock`, `coordinator/default_game_mode`, `coordinator/dimension_order`,
-`coordinator/ops`, `coordinator/running_dimensions`. It also takes `SavedSpawn` from
-`world_state` and the set `DimInboxDrain` from `dim_tick`.
+`column_request`, `column_version`, `dim_inbox_drain`, `dimension_generators`, `game_profile`,
+`json_list`, `persisted_registry`, `player_view`, `replicated`, `saved_spawn`, `server_edit`,
+`spawn_override`, `tile_events`, `whitelist`, `coordinator/clock`,
+`coordinator/default_game_mode`, `coordinator/dimension_order`, `coordinator/ops`,
+`coordinator/running_dimensions`. Cuts 1 and 4 made `dim_inbox_drain` and `saved_spawn`.
 The host plugins of `banlist`, `whitelist`, `coordinator/ops`, `coordinator/clock` and
 `server_edit` do not stay here. They move to the host (cut 2).
+`persisted_registry` holds `PersistedSnapshot` with its methods that use only shared types and
+`PlayerDat`. The methods that read player types are in `PersistedSnapshotExt` and in six
+crate-private functions, in `persistence` (cut 8).
 
-**`mcrs_minecraft_engine_columns`** (21 modules): `advance_production`, `block_entity_packet`,
+**`mcrs_minecraft_engine_columns`** (25 modules): `advance_production`, `block_entity_packet`,
 `cold_columns`, `cold_light_edit`, `column_asks`, `column_generation`, `column_light`,
-`column_packet`, `column_production`, `column_snapshot`, `column_store`, `column_streams`,
-`column_ticks`, `foreign_views`, `heightmap`, `held_light`, `hot_ticket`, `light_codec`,
-`stored_column`, `stored_columns_landing`, `wanted_column`.
+`column_packet`, `column_production`, `column_snapshot`, `column_store`, `column_store_mail`,
+`column_streams`, `column_ticks`, `column_ticks_answer`, `column_ticks_ask`,
+`column_ticks_exchange`, `foreign_views`, `heightmap`, `held_light`, `hot_ticket`,
+`light_codec`, `stored_column`, `stored_columns_landing`, `wanted_column`.
+Cut 6 made `column_store_mail`. Cut 7 made the three files of the tick exchange.
 
 **`mcrs_minecraft_engine_player`** (36 modules): `carried_attributes`, `cell_crossing`,
 `client_info`, `client_on_ground`, `client_view_distance`, `consume_inbound_player_spawn`,
@@ -167,16 +172,20 @@ The host plugins of `banlist`, `whitelist`, `coordinator/ops`, `coordinator/cloc
 `publish_pose`, `respawn_packet`, `send_own_attributes`, `shift_key`, `swing`, `teleport`.
 The autosave part of `persistence` moves to the host (cut 3).
 
-**`mcrs_minecraft_engine_block`** (11 modules): `advance_digs`, `block_break`,
+**`mcrs_minecraft_engine_block`** (12 modules): `advance_digs`, `block_break`, `block_mail`,
 `block_simulation`, `block_update`, `break_session`, `cell_volume`, `dig_rate`, `diggers`,
 `random_tick_speed`, `use_item_on_request`, `world_kinds`.
+Cut 6 made `block_mail`.
 
-**`mcrs_minecraft_engine_host`** (18 modules and the new files of cuts 2 and 3):
-`assign_global_entity_id`, `cell_mail`, `channel_types`, `command_handoff`, `dim_mail`,
-`dim_tick`, `held_joins`, `player_roster`, `to_coordinator`, `to_muxer`, `world_state`,
-`coordinator/birth_clock`, `coordinator/coordinator_plugin`, `coordinator/dim`,
-`coordinator/dim_cells`, `coordinator/entity_id_ranges`, `coordinator/join`,
-`coordinator/roster`, `coordinator/sub_app_builder`. The files lose the prefix `coordinator/`.
+**`mcrs_minecraft_engine_host`** (25 modules):
+`assign_global_entity_id`, `autosave`, `cell_mail`, `channel_types`, `command_handoff`,
+`dim_mail`, `dim_tick`, `held_joins`, `player_roster`, `to_coordinator`, `to_muxer`,
+`world_state`, `coordinator/ban_list_host_plugin`, `coordinator/birth_clock`,
+`coordinator/coordinator_plugin`, `coordinator/dim`, `coordinator/dim_cells`,
+`coordinator/entity_id_ranges`, `coordinator/join`, `coordinator/op_list_host_plugin`,
+`coordinator/roster`, `coordinator/server_state_host_plugin`, `coordinator/sub_app_builder`,
+`coordinator/whitelist_host_plugin`, `coordinator/world_clock_host_plugin`. Cut 2 made the five
+host plugins, and cut 3 made `autosave`. The files lose the prefix `coordinator/`.
 
 **`mcrs_minecraft_engine_edge`** (24 modules): the 23 files of `muxer/` and `view_radius`. The
 files lose the prefix `muxer/`.
@@ -185,7 +194,7 @@ files lose the prefix `muxer/`.
 `between_ticks` stays in the facade because it calls the host and the edge. `coordinator.rs`
 and `muxer.rs` hold only `mod` lines, so they go away.
 
-Each of the 138 files has one target crate. Section "Open questions" lists the assignments
+Each of the 152 files has one target crate. Section "Open questions" lists the assignments
 that are a choice and not a consequence of the graph.
 
 ### Features
@@ -244,9 +253,33 @@ cut is one pull request and lands before the extraction that needs it.
 | 4 | `consume_inbound_player_spawn` to `world_state` | `SavedSpawn` moves to a file of its own. | shared |
 | 5 | `dim_player_plugin` to `block_break` | The host adds `BlockBreakPlugin` to the dimension sub-app. `DimPlayerPlugin` stops adding it. | player |
 | 6 | `block_simulation` and `column_store` to `cell_mail` | The block simulation and the column store each own the type of their part of the mail. `CellMail` holds the parts. | columns, block |
-| 7 | `cold_columns` to `block_simulation` | `write_cold_columns` and the two other cold systems call `take_column` and `copy_column` on `BlockSimulation`. The columns crate gets a small trait for the ticks of a column, with one empty host. The block crate implements it and adds the cold systems with its type as the generic parameter. | columns |
+| 7 | `cold_columns` to `block_simulation` | The columns side writes a `ColumnTicksAsk` for each cooling column and for each column of a save request. The block side answers each ask with a `ColumnTicksAnswer` in its system `hand_over_column_ticks`, which lives in `block_simulation`. `write_cold_columns` and the two save systems drain the asks and the answers. | columns |
+| 8 | `persistence` to `persisted_registry` (E0116) | `from_dat` moves into `persisted_registry`. The methods of `PersistedSnapshot` that read player types move to the extension trait `PersistedSnapshotExt` (public) and to six crate-private functions in `persistence`. Callers of the trait change only an import line. | shared |
 
-Cut 7 is the only cut that changes the shape of a system. Open question 4 asks for a review of it.
+Cut 7 is the only cut that changes the shape of a system. Section "The tick exchange of cut 7" describes it.
+
+### The tick exchange of cut 7
+
+The first form of cut 7 was a generic cold system over a small trait. The linter does not follow
+a trait method, so the allocations of a take and a copy were not in the reach of any system.
+The cut now uses messages, and each allocation is in the reach of a system of its own crate.
+
+The set `ColumnTicksExchange` of the columns crate has three ordered variants: `Ask`, `Answer`
+and `Use`. The columns plugin configures the set in `FixedUpdate`, inside `ColumnCoolSet`, and
+in `Last`, after `update_column_heightmaps`. One tick holds the three steps in this order:
+
+1. `ask_cold_column_ticks` and `ask_saved_column_ticks` write a `ColumnTicksAsk` with the column,
+   its entity, its section rows and the handoff, `Take` or `Copy`. The hold report of a cooling
+   column stays in the ask step.
+2. `hand_over_column_ticks` in `block_simulation` of the block crate takes or copies the ticks of each ask from
+   `BlockSimulation`. It writes one `ColumnTicksAnswer` for each ask, in the order of the asks.
+3. `write_cold_columns`, `save_dirty_loaded_columns` and `save_all_loaded_columns` drain the
+   asks and the answers. An answer carries the entity of its ask and pairs with the ask of the same entity. A column without an
+   answer keeps empty ticks, so a dimension without a block simulation needs no empty host.
+
+The consumer drains both buffers, so no reader sees an ask or an answer of an earlier step.
+The take happens in the same tick, before the check of the origin of the column, as before the
+cut.
 
 The cuts also widen visibility. A module of one target crate imports 21 private modules and
 about 10 `pub(crate)` items of another target crate. Each one becomes `pub` in the extraction
@@ -288,16 +321,17 @@ with no edit besides `use` paths, visibility, `mod` lines and `Cargo.toml`. Each
 | 4 | cut | Cut 4 | `SavedSpawn` in `world_state.rs` |
 | 5 | cut | Cut 5 | `BlockBreakPlugin` in `DimPlayerPlugin` |
 | 6 | cut | Cut 6 | the access of `block_simulation` and `column_store` to the fields of `CellMail` |
-| 7 | cut | Cut 7 | the import of `BlockSimulation` in `cold_columns.rs` |
-| 8 | extraction | Add `mcrs_minecraft_engine_shared` | the 22 shared files and the moved items from the engine crate |
-| 9 | extraction | Add `mcrs_minecraft_engine_columns` | the 21 column files and `src/heightmap/` |
+| 7 | cut | Cut 7 | the import of `BlockSimulation` in `cold_columns.rs`, `ColumnTickHolder`, `NoColumnTicks` and `CopiedTicks` |
+| 7a | cut | Cut 8 | the inherent methods of `PersistedSnapshot` in `persistence.rs` |
+| 8 | extraction | Add `mcrs_minecraft_engine_shared` | the 25 shared files and the moved items from the engine crate |
+| 9 | extraction | Add `mcrs_minecraft_engine_columns` | the 24 column files and `src/heightmap/` |
 | 10 | extraction | Add `mcrs_minecraft_engine_player` | the 36 player files |
-| 11 | extraction | Add `mcrs_minecraft_engine_block` | the 11 block files |
+| 11 | extraction | Add `mcrs_minecraft_engine_block` | the 12 block files |
 | 12 | extraction | Add `mcrs_minecraft_engine_host` | the host files, `src/coordinator/` and `coordinator.rs` |
 | 13 | extraction | Add `mcrs_minecraft_engine_edge` | `src/muxer/`, `muxer.rs` and `view_radius.rs` |
 | 14 | cleanup | Regenerate `docs/crates.md` with `cargo run -p xtask -- crate-map` | the old description of `mcrs_minecraft_engine` |
 
-Steps 1 to 7 can land in any order. Step 8 needs steps 2 and 4. Step 9 needs steps 6 and 7.
+Steps 1 to 7a can land in any order. Step 8 needs steps 2, 4 and 7a. Step 9 needs steps 6 and 7.
 Step 10 needs steps 1 and 5. Each extraction needs the extractions before it in the table,
 because each new crate depends only on crates that exist.
 
@@ -375,8 +409,8 @@ crate group.
    step moves player types into the vocabulary.
 3. **Crate groups.** May an extraction change the `use` lines of callers in other crate groups?
    Recommendation: yes, for `use` lines only, as RFD 5 allowed for its step 2.
-4. **Cut 7.** Is a generic cold system over a small trait the right seam between the columns and
-   the block simulation? The other way is a message from the block crate per cooling column.
+4. **Resolved: cut 7.** The seam is a pair of messages and an ordered set, not a trait.
+   Section "The tick exchange of cut 7" gives the design.
 5. **The 3,000-line limit for a move.** Recommendation: count the lines that `git diff -M` shows
    as changed. A rename with only `use` edits then counts as small.
 6. **The width of the player crate.** Should the replication of a player be a seventh crate?

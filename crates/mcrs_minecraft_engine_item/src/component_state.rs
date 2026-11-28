@@ -1,4 +1,4 @@
-use mcrs_minecraft_item_stack::ItemComponent;
+use mcrs_minecraft_item_component::ItemComponent;
 use mcrs_minecraft_item_table::Prototype;
 
 use crate::Removed;

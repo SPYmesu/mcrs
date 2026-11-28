@@ -342,8 +342,9 @@ pub(crate) fn push_flat_quad(
 mod tests {
     use super::*;
     use bevy::ecs::system::RunSystemOnce;
+    use mcrs_minecraft_item_component::{Count, ItemStack, Kind};
     use mcrs_minecraft_item_icon::{IconSources, resolve};
-    use mcrs_minecraft_item_stack::{Count, ItemStack, Kind, NameLookup, NameTable};
+    use mcrs_minecraft_item_stack::{NameLookup, NameTable};
     use mcrs_minecraft_model::item_model_asset::DisplayContext;
     use mcrs_minecraft_model::item_model_context::ItemModelContext;
     use mcrs_minecraft_model::stack_view::StackView;

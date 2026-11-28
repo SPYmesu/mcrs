@@ -4,7 +4,7 @@ use bevy_ecs::world::World;
 use mcrs_minecraft_engine_registries::RegistryNames;
 use mcrs_minecraft_engine_world::birth_clock::BirthClock;
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_item_stack::WireStackWithLength;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_network::event::Received;

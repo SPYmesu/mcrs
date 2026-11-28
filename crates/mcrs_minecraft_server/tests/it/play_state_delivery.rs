@@ -87,6 +87,7 @@ fn play_login_targets_host_anchor() {
         ));
 
     {
+        use mcrs_minecraft_engine::PersistedSnapshotExt;
         use mcrs_minecraft_engine::channel_types::ToDim;
         use mcrs_minecraft_engine::persisted_registry::PersistedSnapshot;
         let sent = app

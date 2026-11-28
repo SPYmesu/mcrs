@@ -23,7 +23,7 @@ use mcrs_minecraft_engine_item::{SlotRef, Slots, Stacks};
 use mcrs_minecraft_game_mode::Abilities;
 use mcrs_minecraft_inventory_client::{InventoryClientSet, MenuAction, MenuInput};
 use mcrs_minecraft_inventory_menu::MenuLayout;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_menu_geometry::{CreativeHit, CreativeTabIndex, MenuGeometry};
 use mcrs_minecraft_network::client::ClientNetworkSystems;

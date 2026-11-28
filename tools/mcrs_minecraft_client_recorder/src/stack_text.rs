@@ -1,5 +1,5 @@
+use mcrs_minecraft_item_component::ComponentType;
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::ComponentType;
 use mcrs_minecraft_item_stack::HashedStack;
 use mcrs_minecraft_protocol_game::ProtoStack;
 use mcrs_minecraft_protocol_game::item::data_component_type_keys::DataComponentType;

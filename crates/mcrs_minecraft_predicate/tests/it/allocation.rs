@@ -5,8 +5,8 @@ use glam::DVec3;
 use mcrs_minecraft_block::definition::FluidState;
 use mcrs_minecraft_block::fluid_keys::Fluid;
 use mcrs_minecraft_item::component::equippable::EquipmentSlot;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::Enchantments;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::Enchantments;
 use mcrs_minecraft_predicate::ItemSubject;
 use mcrs_minecraft_predicate::{
     ActiveEffect, DamageEvent, DamagePredicate, DamageSource, EntityPredicate, LocationPredicate,

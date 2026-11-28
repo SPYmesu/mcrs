@@ -18,8 +18,8 @@ use mcrs_minecraft_inventory_transaction::Op;
 use mcrs_minecraft_inventory_transaction::Plan;
 use mcrs_minecraft_inventory_transaction::Planned;
 use mcrs_minecraft_inventory_transaction::plan;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
 
 use crate::Gate;
 use crate::GateQuery;

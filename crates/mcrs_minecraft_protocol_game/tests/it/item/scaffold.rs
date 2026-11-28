@@ -3,11 +3,11 @@ use crate::item::harness::WireCodec;
 use mcrs_minecraft_block::block_keys::Block;
 use mcrs_minecraft_core::codec::Bounded;
 use mcrs_minecraft_item::data_component_type_keys::DataComponentType;
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::ComponentType;
 use mcrs_minecraft_item_stack::HashedComponent;
 use mcrs_minecraft_item_stack::HashedStack;
-use mcrs_minecraft_item_stack::Kind;
 use mcrs_minecraft_protocol::{Decode, Encode, VarInt};
 use mcrs_minecraft_protocol_game::item::{
     ComponentMap, ComponentPatch, CreativeSlotLock, CustomData, CustomName, ItemComponentValue,

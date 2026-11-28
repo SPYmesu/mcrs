@@ -1,5 +1,5 @@
 use mcrs_minecraft_item::enchantment::Enchantment;
-use mcrs_minecraft_item_stack::{Builtin, EnchantmentLevel, ItemStack, Kind, PatchEntry};
+use mcrs_minecraft_item_component::{Builtin, EnchantmentLevel, ItemStack, Kind, PatchEntry};
 use mcrs_minecraft_predicate::ItemSubject;
 use mcrs_minecraft_resource::Id;
 

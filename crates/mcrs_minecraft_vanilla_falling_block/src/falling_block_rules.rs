@@ -9,7 +9,7 @@ use mcrs_minecraft_falling_block::FallingBlockTable;
 use mcrs_minecraft_falling_block::PackConcretePairs;
 use mcrs_minecraft_falling_block::Settings;
 use mcrs_minecraft_item::Items;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_registries::CurrentRegistries;
 use mcrs_voxel::BlockStateId;
 

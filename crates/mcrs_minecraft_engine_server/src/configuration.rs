@@ -23,7 +23,7 @@ use mcrs_minecraft_engine::persisted_registry::{
 };
 use mcrs_minecraft_engine::to_coordinator::JoinRequested;
 use mcrs_minecraft_engine::to_muxer::JoinPlaced;
-use mcrs_minecraft_engine::{SavedSpawn, SpawnOverride};
+use mcrs_minecraft_engine::{PersistedSnapshotExt, SavedSpawn, SpawnOverride};
 use mcrs_minecraft_engine_registries::SyncedRegistries;
 use mcrs_minecraft_engine_world::entity::physics::{Rotation, Transform};
 use mcrs_minecraft_engine_world::entity::player::chunk_view::PlayerViewDistance;

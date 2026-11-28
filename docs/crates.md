@@ -131,10 +131,11 @@ Use the crate that owns the item. Do not write a second copy.
 ## item
 
 - `mcrs_minecraft_item`: Item definitions and the item table, data components, ComponentPatch, wire and hashed stack forms, and the ItemStack of an item id and a count
+- `mcrs_minecraft_item_component`: Every item component value type, the builtin value enum, the data component type enum, and the kind, count and typed patch of an item stack
 - `mcrs_minecraft_item_entity`: The rules of an item entity: its counters, its start values, its pickup and its merge
 - `mcrs_minecraft_item_icon`: The icon of an item stack as a value, and the GUI-posed shaded meshes of the item models it draws
 - `mcrs_minecraft_item_key`: The keys of the item registry and of its tags
-- `mcrs_minecraft_item_stack`: The item stack value of kind, count and typed component patch, with every item component type and its saved and hashed forms
+- `mcrs_minecraft_item_stack`: The saved, wire and hashed forms of an item stack and of each item component
 - `mcrs_minecraft_item_table`: The prototype of each item kind and the effective components of an item stack
 - `mcrs_minecraft_item_tooltip`: The parts of an item tooltip as text values, from an item stack, the item table and the inputs the caller fills
 

@@ -17,7 +17,7 @@ use mcrs_minecraft_engine_item::Stacks;
 use mcrs_minecraft_engine_registries::RegistryNames;
 use mcrs_minecraft_engine_registries::read_packet_stack;
 use mcrs_minecraft_inventory_menu::MenuLayout;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::WireError;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_player_holders::PlayerHolders;

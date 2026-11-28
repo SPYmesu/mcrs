@@ -62,7 +62,7 @@ pub use definition::{ItemDefinitions, ItemEntry, ItemTableError};
 pub use inventory::{LAST_HOTBAR_SLOT, slots};
 pub use item_hover_map::ItemHoverMap;
 pub use kind::{ItemComponentValue, ItemDataComponent};
-pub use mcrs_minecraft_item_stack::data_component_type_keys;
+pub use mcrs_minecraft_item_component::data_component_type_keys;
 pub use patch::{ComponentMap, ComponentPatch};
 pub use stack::{ItemStackValue, ItemStackWithSlot, ProtoStack, Template};
 

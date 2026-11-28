@@ -9,7 +9,7 @@ pub struct Count(NonZeroU8);
 impl Count {
     pub const MAX: u8 = 99;
 
-    pub(crate) const ONE: Self = Self(NonZeroU8::MIN);
+    pub const ONE: Self = Self(NonZeroU8::MIN);
 
     #[must_use]
     pub fn new(count: u8) -> Option<Self> {

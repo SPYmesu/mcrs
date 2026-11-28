@@ -7,7 +7,7 @@ use mcrs_minecraft_engine_world::birth_clock::BirthClock;
 use mcrs_minecraft_engine_world::entity::player::Player;
 use mcrs_minecraft_engine_world::session::{Owner, PlayerSession};
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     AttackAnimation, Count, InteractAnimation, ItemStack, SwingAnimation, SwingKind,
 };
 use mcrs_minecraft_player_holders::HandAction;

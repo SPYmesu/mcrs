@@ -1,10 +1,10 @@
-use mcrs_minecraft_item_stack::BuiltinKey;
-use mcrs_minecraft_item_stack::ComponentType;
-use mcrs_minecraft_item_stack::ItemComponent;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::ItemComponent;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::TooltipDisplay;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
-use mcrs_minecraft_item_stack::TooltipDisplay;
 use mcrs_minecraft_item_table::ItemTable;
 
 pub(crate) struct Visible<'a, N> {

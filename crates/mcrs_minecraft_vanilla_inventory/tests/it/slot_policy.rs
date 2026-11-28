@@ -15,7 +15,7 @@ use mcrs_minecraft_engine_item::RequestResult;
 use mcrs_minecraft_engine_item::SlotAccess;
 use mcrs_minecraft_engine_item::SlotPolicy;
 use mcrs_minecraft_engine_world::entity::player::Player;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_player_holders::HandAction;
 use mcrs_minecraft_vanilla_inventory::InventoryPersistencePlugin;
 use mcrs_minecraft_vanilla_inventory::PlayerInventoryCommandsExt;

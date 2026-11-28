@@ -1,11 +1,11 @@
 use bevy_ecs::system::SystemState;
 use mcrs_minecraft_engine_item::Stacks;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Lore;
-use mcrs_minecraft_item_stack::Rarity;
-use mcrs_minecraft_item_stack::RepairCost;
-use mcrs_minecraft_item_stack::Tool;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Lore;
+use mcrs_minecraft_item_component::Rarity;
+use mcrs_minecraft_item_component::RepairCost;
+use mcrs_minecraft_item_component::Tool;
 
 use crate::fixture::FOOD;
 use crate::fixture::LORED;

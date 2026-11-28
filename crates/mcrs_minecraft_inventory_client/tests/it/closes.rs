@@ -5,7 +5,7 @@ use mcrs_minecraft_container_click::ClickKind;
 use mcrs_minecraft_container_click::Clicked;
 use mcrs_minecraft_inventory_client::MenuAction;
 use mcrs_minecraft_inventory_client::MenuInput;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_network::event::Received;
 use mcrs_minecraft_protocol_game::clientbound::ClientboundContainerClose;
 use mcrs_minecraft_protocol_game::clientbound::ClientboundContainerSetSlot;

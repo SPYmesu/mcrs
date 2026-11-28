@@ -1,8 +1,8 @@
 use alloc::vec;
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::CustomName;
-use mcrs_minecraft_item_stack::MapId;
+use mcrs_minecraft_item_component::CustomName;
+use mcrs_minecraft_item_component::MapId;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_text::Color;
 use mcrs_minecraft_text::IntoText;

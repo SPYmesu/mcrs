@@ -1,11 +1,11 @@
 use alloc::vec;
 
-use mcrs_minecraft_item_stack::CustomName;
-use mcrs_minecraft_item_stack::ItemName;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::CustomName;
+use mcrs_minecraft_item_component::ItemName;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Profile;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
-use mcrs_minecraft_item_stack::Profile;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_profile::ProfileIdentity;
 use mcrs_minecraft_text::Text;

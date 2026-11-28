@@ -3,7 +3,7 @@ use bevy_math::DVec3;
 use mcrs_minecraft_command_engine::CommandPlugin;
 use mcrs_minecraft_command_vanilla::{VanillaCommands, VanillaCommandsPlugin};
 use mcrs_minecraft_engine_item::Dropped;
-use mcrs_minecraft_item_stack::Count;
+use mcrs_minecraft_item_component::Count;
 use mcrs_minecraft_item_table::{DefinitionFile, ItemTable, bake};
 use mcrs_minecraft_protocol::Bounded;
 use mcrs_minecraft_protocol::uuid::Uuid;

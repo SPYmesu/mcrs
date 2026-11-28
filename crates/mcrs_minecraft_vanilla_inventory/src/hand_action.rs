@@ -10,7 +10,7 @@ use mcrs_minecraft_engine_item::Selected;
 use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_game_mode::GameMode;
 use mcrs_minecraft_game_mode::PlayerGameMode;
-use mcrs_minecraft_item_stack::Count;
+use mcrs_minecraft_item_component::Count;
 use mcrs_minecraft_player_holders::HandAction;
 use mcrs_minecraft_player_holders::PlayerHolders;
 

@@ -1,4 +1,4 @@
-use mcrs_minecraft_item_stack::{Count, ItemStack, MaxStackSize};
+use mcrs_minecraft_item_component::{Count, ItemStack, MaxStackSize};
 use mcrs_minecraft_loot::context_key_set_keys::ContextKeySet;
 use mcrs_minecraft_loot_condition::{ContextParam, LootContext, ParamNotAllowed};
 use mcrs_minecraft_loot_table::{LootProblem, LootScratch, LootTableFile};

@@ -19,7 +19,7 @@ pub enum DyeColor {
 }
 
 impl DyeColor {
-    pub(crate) const ALL: [Self; 16] = [
+    pub const ALL: [Self; 16] = [
         Self::White,
         Self::Orange,
         Self::Magenta,
@@ -38,7 +38,8 @@ impl DyeColor {
         Self::Black,
     ];
 
-    pub(crate) const fn name(self) -> &'static str {
+    #[must_use]
+    pub const fn name(self) -> &'static str {
         match self {
             Self::White => "white",
             Self::Orange => "orange",
@@ -57,9 +58,5 @@ impl DyeColor {
             Self::Red => "red",
             Self::Black => "black",
         }
-    }
-
-    pub(crate) fn from_name(name: &str) -> Option<Self> {
-        Self::ALL.into_iter().find(|color| color.name() == name)
     }
 }

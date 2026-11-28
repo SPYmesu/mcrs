@@ -1,0 +1,29 @@
+[package]
+name = "mcrs_minecraft_item_component"
+description = "Every item component value type, the builtin value enum, the data component type enum, and the kind, count and typed patch of an item stack"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+bevy_ecs = { workspace = true, optional = true }
+mcrs_minecraft_banner_pattern.workspace = true
+mcrs_minecraft_entity_attribute.workspace = true
+mcrs_minecraft_nbt.workspace = true
+mcrs_minecraft_profile.workspace = true
+mcrs_minecraft_resource.workspace = true
+mcrs_minecraft_static_registry.workspace = true
+mcrs_minecraft_sound.workspace = true
+mcrs_minecraft_text.workspace = true
+mcrs_minecraft_trim.workspace = true
+mcrs_voxel.workspace = true
+
+[features]
+default = []
+bevy = ["dep:bevy_ecs", "mcrs_minecraft_profile/bevy"]
+std = ["mcrs_minecraft_static_registry/std"]

@@ -7,7 +7,7 @@ use mcrs_minecraft_inventory_player::ArmourLock;
 use mcrs_minecraft_inventory_player::Holder;
 use mcrs_minecraft_inventory_player::PlayerMode;
 use mcrs_minecraft_inventory_transaction::Filter;
-use mcrs_minecraft_item_stack::Enchantments;
+use mcrs_minecraft_item_component::Enchantments;
 
 use crate::enchantment_effects::EnchantmentEffects;
 

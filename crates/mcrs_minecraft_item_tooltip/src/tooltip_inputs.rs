@@ -1,4 +1,4 @@
-use mcrs_minecraft_item_stack::EnchantmentId;
+use mcrs_minecraft_item_component::EnchantmentId;
 
 use crate::AttackBases;
 use crate::EnchantmentEntry;

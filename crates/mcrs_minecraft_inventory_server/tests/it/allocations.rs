@@ -9,9 +9,9 @@ use mcrs_minecraft_engine_item::StackCommandsExt;
 use mcrs_minecraft_engine_world::entity::player::Player;
 use mcrs_minecraft_engine_world::session::Owner;
 use mcrs_minecraft_engine_world::session::PlayerSession;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::MaxStackSize;
 use mcrs_test_alloc::allocations;
 
 use crate::fixture::DIRT;

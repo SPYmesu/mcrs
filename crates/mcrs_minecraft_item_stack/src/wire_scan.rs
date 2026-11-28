@@ -1,9 +1,9 @@
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::data_component_type_keys::DataComponentType;
 use mcrs_minecraft_nbt::MAX_DEPTH;
 use mcrs_minecraft_nbt::NbtBudget;
 
-use crate::ComponentType;
 use crate::WireError;
-use crate::data_component_type_keys::DataComponentType;
 use crate::nbt_depth::STACK_LEVEL;
 use crate::skip_value::skip_value;
 use crate::wire::Entries;

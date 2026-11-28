@@ -15,7 +15,9 @@ pub use id::{Id, NarrowError, TagId};
 pub use registry_key::{Registered, RegistryKey, RegistryValue};
 pub use resource_key::ResourceKey;
 pub use resource_key_buf::ResourceKeyBuf;
-pub use resource_location::{InvalidResourceLocation, ResourceLocation, parse_parts};
+pub use resource_location::{
+    DEFAULT_NAMESPACE, InvalidResourceLocation, ResourceLocation, parse_parts,
+};
 pub use resource_location_buf::ResourceLocationBuf;
 pub use tag_key::TagKey;
 pub use tag_key_buf::TagKeyBuf;

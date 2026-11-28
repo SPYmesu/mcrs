@@ -3,7 +3,7 @@ use mcrs_minecraft_client_widget::EditBox;
 use mcrs_minecraft_client_widget::EditBoxLook;
 use mcrs_minecraft_client_widget::LengthUnit;
 use mcrs_minecraft_creative_content::SearchQuery;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_menu_geometry::CreativeGeometry;
 use mcrs_minecraft_menu_geometry::CreativeTab;
 use mcrs_minecraft_menu_geometry::CreativeTabIndex;

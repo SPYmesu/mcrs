@@ -7,6 +7,7 @@ use bevy_ecs::prelude::*;
 use bevy_math::{DVec3, Vec2};
 use bevy_state::prelude::NextState;
 use mcrs_minecraft_assets::AppState;
+use mcrs_minecraft_engine::PersistedSnapshotExt;
 use mcrs_minecraft_engine::between_ticks::drain_dim_spawn_queue;
 use mcrs_minecraft_engine::bus::InboundPlayerSpawn;
 use mcrs_minecraft_engine::channel_types::ToDim;

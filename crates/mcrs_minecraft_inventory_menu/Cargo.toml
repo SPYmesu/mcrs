@@ -14,7 +14,7 @@ workspace = true
 [dependencies]
 bevy_ecs = { workspace = true, optional = true }
 mcrs_minecraft_inventory_player.workspace = true
-mcrs_minecraft_item_stack.workspace = true
+mcrs_minecraft_item_component.workspace = true
 mcrs_minecraft_menu_key.workspace = true
 
 [features]

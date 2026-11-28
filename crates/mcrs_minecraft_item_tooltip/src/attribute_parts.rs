@@ -4,9 +4,9 @@ use alloc::vec::Vec;
 
 use mcrs_minecraft_entity_attribute::ModifierOperation;
 use mcrs_minecraft_entity_attribute::attribute_keys::Attribute;
-use mcrs_minecraft_item_stack::AttributeModifier;
-use mcrs_minecraft_item_stack::ModifierDisplay;
-use mcrs_minecraft_item_stack::SlotGroup;
+use mcrs_minecraft_item_component::AttributeModifier;
+use mcrs_minecraft_item_component::ModifierDisplay;
+use mcrs_minecraft_item_component::SlotGroup;
 use mcrs_minecraft_text::Color;
 use mcrs_minecraft_text::IntoText;
 use mcrs_minecraft_text::Text;

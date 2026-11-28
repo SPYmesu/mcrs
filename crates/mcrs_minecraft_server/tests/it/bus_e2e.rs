@@ -4,6 +4,7 @@ use bevy_ecs::prelude::*;
 use bevy_state::prelude::NextState;
 use bytes::Bytes;
 use mcrs_minecraft_assets::AppState;
+use mcrs_minecraft_engine::PersistedSnapshotExt;
 use mcrs_minecraft_engine::between_ticks::drain_dim_spawn_queue;
 use mcrs_minecraft_engine::between_ticks::take_dim_outputs;
 use mcrs_minecraft_engine::bus::{

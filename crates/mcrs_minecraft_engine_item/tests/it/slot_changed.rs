@@ -7,8 +7,8 @@ use mcrs_minecraft_engine_item::SlotChanged;
 use mcrs_minecraft_engine_item::SlotRef;
 use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_engine_item::StackCommandsExt;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Rarity;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Rarity;
 
 use crate::fixture::PLAIN;
 use crate::fixture::app;

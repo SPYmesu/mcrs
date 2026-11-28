@@ -1,7 +1,7 @@
 use alloc::vec;
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 pub(crate) fn remove_same_stacks(stacks: &mut Vec<ItemStack>) {
     let mut order: Vec<usize> = (0..stacks.len()).collect();

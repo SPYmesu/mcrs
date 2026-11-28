@@ -12,4 +12,5 @@ doctest = false
 workspace = true
 
 [dependencies]
+mcrs_minecraft_item_component.workspace = true
 mcrs_minecraft_item_stack.workspace = true

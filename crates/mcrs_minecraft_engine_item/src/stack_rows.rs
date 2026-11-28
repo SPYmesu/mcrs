@@ -4,11 +4,11 @@ use bevy_ecs::component::Component;
 use bevy_ecs::entity::Entity;
 use bevy_ecs::system::Query;
 use bevy_ecs::system::SystemParam;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemComponent;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
-use mcrs_minecraft_item_stack::PatchEntry;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemComponent;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::PatchEntry;
 use mcrs_minecraft_item_table::Prototype;
 use rustc_hash::FxHasher;
 

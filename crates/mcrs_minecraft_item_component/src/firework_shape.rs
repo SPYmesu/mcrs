@@ -8,7 +8,7 @@ pub enum FireworkShape {
 }
 
 impl FireworkShape {
-    pub(crate) const ALL: [Self; 5] = [
+    pub const ALL: [Self; 5] = [
         Self::SmallBall,
         Self::LargeBall,
         Self::Star,
@@ -16,7 +16,8 @@ impl FireworkShape {
         Self::Burst,
     ];
 
-    pub(crate) const fn name(self) -> &'static str {
+    #[must_use]
+    pub const fn name(self) -> &'static str {
         match self {
             Self::SmallBall => "small_ball",
             Self::LargeBall => "large_ball",
@@ -24,9 +25,5 @@ impl FireworkShape {
             Self::Creeper => "creeper",
             Self::Burst => "burst",
         }
-    }
-
-    pub(crate) fn from_name(name: &str) -> Option<Self> {
-        Self::ALL.into_iter().find(|shape| shape.name() == name)
     }
 }

@@ -1,8 +1,8 @@
+use mcrs_minecraft_item_component::Builtin;
+use mcrs_minecraft_item_component::BuiltinKey;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_resource::ResourceLocation;
 
-use crate::Builtin;
-use crate::BuiltinKey;
 use crate::NameLookup;
 use crate::SavedError;
 use crate::saved::read_value;

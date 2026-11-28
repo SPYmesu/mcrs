@@ -9,8 +9,8 @@ use bevy_ecs::system::ScheduleSystem;
 use bevy_ecs::world::World;
 use mcrs_minecraft_engine_item::Effective;
 use mcrs_minecraft_engine_item::Removed;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::MaxDamage;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::MaxDamage;
 
 #[derive(ScheduleLabel, Clone, Debug, PartialEq, Eq, Hash)]
 struct Tick;

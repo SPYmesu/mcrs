@@ -1,7 +1,7 @@
 use alloc::boxed::Box;
 
-use mcrs_minecraft_item_stack::Builtin;
-use mcrs_minecraft_item_stack::ItemComponent;
+use mcrs_minecraft_item_component::Builtin;
+use mcrs_minecraft_item_component::ItemComponent;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Prototype {

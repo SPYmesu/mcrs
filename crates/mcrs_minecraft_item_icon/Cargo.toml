@@ -14,7 +14,7 @@ workspace = true
 bevy_ecs = { workspace = true, optional = true }
 bytemuck = { workspace = true, features = ["derive"] }
 glam = { workspace = true, features = ["std"] }
-mcrs_minecraft_item_stack.workspace = true
+mcrs_minecraft_item_component.workspace = true
 mcrs_minecraft_item_table.workspace = true
 mcrs_minecraft_model.workspace = true
 mcrs_minecraft_model_file.workspace = true
@@ -26,6 +26,7 @@ mcrs_minecraft_creative_content.workspace = true
 mcrs_minecraft_creative_report.workspace = true
 mcrs_minecraft_engine_registries = { workspace = true, features = ["test-support"] }
 mcrs_minecraft_game_registries = { workspace = true, features = ["test-support"] }
+mcrs_minecraft_item_stack.workspace = true
 mcrs_minecraft_model = { workspace = true, features = ["test-support"] }
 mcrs_test_alloc.workspace = true
 

@@ -15,7 +15,7 @@ use crate::ability::{PlayerFlying, PlayerOpLevel};
 use crate::coordinator::clock::GameTime;
 use crate::dimension_change::{Arrival, DimensionChangeError};
 use crate::persisted_registry::{CaptureCause, PersistedRegistry, PersistedSnapshot};
-use crate::persistence::UnreadablePlayerDat;
+use crate::persistence::{self, PersistedSnapshotExt, UnreadablePlayerDat};
 use crate::swing::PlayerSwing;
 use crate::teleport::TeleportState;
 
@@ -113,24 +113,24 @@ impl CarriedPlayer {
     }
 
     pub(crate) fn game_mode(&self) -> GameMode {
-        self.snapshot.game_mode().0
+        persistence::game_mode(&self.snapshot).0
     }
 
     pub(crate) fn flying(&self) -> PlayerFlying {
-        self.snapshot.flying()
+        persistence::flying(&self.snapshot)
     }
 
     pub(crate) fn op_level(&self) -> PlayerOpLevel {
-        self.snapshot.op_level()
+        persistence::op_level(&self.snapshot)
     }
 
     pub(crate) fn send_teleport(&mut self, destination: Transform) -> i32 {
-        self.snapshot.send_teleport(destination, self.departed_at)
+        persistence::send_teleport(&mut self.snapshot, destination, self.departed_at)
     }
 
     pub(crate) fn insert_into(self, world: &mut World, player: bevy_ecs::entity::Entity) {
         let mut snapshot = self.snapshot;
-        snapshot.forget_placement();
+        persistence::forget_placement(&mut snapshot);
         if self.unreadable {
             world.entity_mut(player).insert(UnreadablePlayerDat);
         }

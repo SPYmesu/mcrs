@@ -1,5 +1,5 @@
 use mcrs_minecraft_client_widget::GuiPoint;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_menu_geometry::{CreativeGeometry, CreativeHit, CreativeTabKind};
 
 use crate::creative_screen_state::CreativeScreenState;

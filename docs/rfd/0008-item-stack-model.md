@@ -319,11 +319,16 @@ No threshold is set. The maintainer sets it before the bench runs.
 The work is steps of #1114. It is not a new migration. Each step is one pull request and ends
 with the old path deleted.
 
-1. Move the value types, `Builtin` and `DataComponentType` to `mcrs_minecraft_item_component`, and
-   make their fields `pub`. This is a `refactor` and changes no behaviour.
+1. Move the value types, `Builtin`, `BuiltinKey` and `DataComponentType` to
+   `mcrs_minecraft_item_component`. `BundleContents`, `ChargedProjectiles` and `Container` hold
+   `ItemStack`, so `ItemStack`, `Kind`, `Count` and the patch move in the same step.
+   `mcrs_minecraft_item_stack` keeps the saved codec, the wire codec and the hash. The codecs read
+   no private field, so each field keeps its visibility. This is a `refactor` and changes no
+   behaviour.
 2. Add `ItemTemplate`, the normal `ItemStack`, `Prototypes`, `StackView` and the comparisons.
-   Nested values hold `ItemTemplate`. Delete `ItemStack::mergeable` and `ItemTable::effective`.
-   This changes the merge check (problem 2), so it is a `fix`.
+   Nested values hold `ItemTemplate`, and `ItemStack` moves back to `mcrs_minecraft_item_stack`.
+   Delete `ItemStack::mergeable` and `ItemTable::effective`. This changes the merge check
+   (problem 2), so it is a `fix`.
 3. Move the codecs to the three codec crates, one pull request for each.
 4. In `mcrs_minecraft_engine_item`, replace the `u128` and `MAX_ROWS` with `RowMask`. This step
    can run in parallel with the others.

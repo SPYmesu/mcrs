@@ -1,9 +1,9 @@
+use mcrs_minecraft_item_component::data_component_type_keys::DataComponentType;
 use mcrs_minecraft_resource::ResourceLocation;
 use mcrs_minecraft_resource::rl;
 
 use crate::NameLookup;
 use crate::NameTable;
-use crate::data_component_type_keys::DataComponentType;
 
 const ANY: ResourceLocation<'static> = rl!("mcrs:any");
 

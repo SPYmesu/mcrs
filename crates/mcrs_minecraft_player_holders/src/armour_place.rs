@@ -4,7 +4,7 @@ use mcrs_minecraft_inventory_menu::worn_slot;
 use mcrs_minecraft_inventory_player::Holder;
 use mcrs_minecraft_inventory_player::Offer;
 use mcrs_minecraft_inventory_transaction::Filter;
-use mcrs_minecraft_item_stack::Equippable;
+use mcrs_minecraft_item_component::Equippable;
 
 use crate::player_entity_type::PlayerEntityType;
 

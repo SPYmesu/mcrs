@@ -1,42 +1,48 @@
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-#[non_exhaustive]
-pub enum EquippableSlot {
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
+pub enum SlotGroup {
+    #[default]
+    Any,
     Mainhand,
+    Offhand,
+    Hand,
     Feet,
     Legs,
     Chest,
     Head,
-    Offhand,
+    Armor,
     Body,
     Saddle,
 }
 
-impl EquippableSlot {
-    pub(crate) const ALL: [Self; 8] = [
+impl SlotGroup {
+    pub const ALL: [Self; 11] = [
+        Self::Any,
         Self::Mainhand,
+        Self::Offhand,
+        Self::Hand,
         Self::Feet,
         Self::Legs,
         Self::Chest,
         Self::Head,
-        Self::Offhand,
+        Self::Armor,
         Self::Body,
         Self::Saddle,
     ];
 
-    pub(crate) const fn name(self) -> &'static str {
+    #[must_use]
+    pub const fn name(self) -> &'static str {
         match self {
+            Self::Any => "any",
             Self::Mainhand => "mainhand",
+            Self::Offhand => "offhand",
+            Self::Hand => "hand",
             Self::Feet => "feet",
             Self::Legs => "legs",
             Self::Chest => "chest",
             Self::Head => "head",
-            Self::Offhand => "offhand",
+            Self::Armor => "armor",
             Self::Body => "body",
             Self::Saddle => "saddle",
         }
-    }
-
-    pub(crate) fn from_name(name: &str) -> Option<Self> {
-        Self::ALL.into_iter().find(|slot| slot.name() == name)
     }
 }

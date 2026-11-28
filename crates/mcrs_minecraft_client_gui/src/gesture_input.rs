@@ -9,7 +9,7 @@ use mcrs_minecraft_engine_inventory_click::MenuTargetView;
 use mcrs_minecraft_engine_item::Stacks;
 use mcrs_minecraft_inventory_click::{DragEntry, DragKind, DragSplit};
 use mcrs_minecraft_inventory_client::{CreativeClick, MenuAction, MenuInput};
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 use crate::creative_clicks;
 use crate::creative_grid::CreativeGrid;

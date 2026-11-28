@@ -1,3 +1,5 @@
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Profile;
 use mcrs_minecraft_nbt::MAX_DEPTH;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::depth_of;
@@ -6,9 +8,7 @@ use mcrs_minecraft_nbt::tag::deepest;
 use mcrs_minecraft_resource::ResourceLocation;
 use mcrs_minecraft_text::Text;
 
-use crate::ItemStack;
 use crate::NameLookup;
-use crate::Profile;
 use crate::saved_form::Fault;
 use crate::saved_form::saved_patch;
 use crate::saved_sink::Field;

@@ -1,7 +1,7 @@
 use mcrs_minecraft_fixtures::fixture;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_wire::Encode;

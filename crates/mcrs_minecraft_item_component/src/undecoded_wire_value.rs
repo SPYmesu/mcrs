@@ -12,7 +12,8 @@ pub struct UndecodedWireValue {
 }
 
 impl UndecodedWireValue {
-    pub(crate) fn new(component: ComponentType, builtin: Option<BuiltinKey>, bytes: &[u8]) -> Self {
+    #[must_use]
+    pub fn new(component: ComponentType, builtin: Option<BuiltinKey>, bytes: &[u8]) -> Self {
         Self {
             component,
             builtin,

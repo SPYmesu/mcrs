@@ -42,8 +42,10 @@ mod column_snapshot;
 pub mod column_store;
 mod column_store_mail;
 pub mod column_streams;
-mod column_tick_holder;
 pub mod column_ticks;
+mod column_ticks_answer;
+mod column_ticks_ask;
+mod column_ticks_exchange;
 pub mod column_version;
 pub mod command_handoff;
 mod consume_inbound_player_spawn;
@@ -129,14 +131,16 @@ impl Plugin for EnginePlugin {
 
 pub use autosave::{AutosaveCadence, AutosavePlugin};
 pub use block_break::{BlockBreakSet, eye_position, in_reach, reach};
-pub use column_tick_holder::{ColumnTickHolder, CopiedTicks, NoColumnTicks, TakenTicks};
+pub use column_ticks_answer::ColumnTicksAnswer;
+pub use column_ticks_ask::{ColumnTicksAsk, TickHandoff};
+pub use column_ticks_exchange::ColumnTicksExchange;
 pub use consume_inbound_player_spawn::InboundPlayerSpawnSet;
 pub use dim_inbox_drain::DimInboxDrain;
 pub use held_joins::HeldJoins;
 pub use max_health::max_health;
 pub use persistence::{
-    PlayerPersistencePlugin, UnreadablePlayerDat, apply_join_snapshot, load_player, save_player,
-    write_player,
+    PersistedSnapshotExt, PlayerPersistencePlugin, UnreadablePlayerDat, apply_join_snapshot,
+    load_player, save_player, write_player,
 };
 pub use player_dimension_change::{check_departure, is_own_dimension};
 pub use player_dimensions::{PlayerBody, PlayerBodyItem, player_dimensions, player_scale};

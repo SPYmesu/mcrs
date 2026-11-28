@@ -1,9 +1,9 @@
 use bevy_ecs::system::Commands;
 use bevy_ecs::system::EntityCommands;
 use bevy_ecs::world::EntityWorldMut;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
 
 use crate::spawn_stack::spawn_stack;
 

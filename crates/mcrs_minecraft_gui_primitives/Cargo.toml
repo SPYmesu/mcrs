@@ -26,8 +26,8 @@ mcrs_minecraft_engine_registries = { workspace = true, optional = true }
 mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_gui_atlas.workspace = true
 mcrs_minecraft_gui_scene.workspace = true
+mcrs_minecraft_item_component = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_item_icon = { workspace = true, features = ["bevy"] }
-mcrs_minecraft_item_stack = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_item_table = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_model.workspace = true
 mcrs_minecraft_registries = { workspace = true, features = ["bevy"] }

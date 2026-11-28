@@ -1,6 +1,6 @@
 use bevy_ecs::entity::Entity;
 use mcrs_minecraft_engine_item::Stacks;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::MaxStackSize;
 
 const LARGEST: i32 = 99;
 

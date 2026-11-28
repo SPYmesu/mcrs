@@ -1,5 +1,5 @@
 use fixedbitset::FixedBitSet;
-use mcrs_minecraft_item_stack::Enchantments;
+use mcrs_minecraft_item_component::Enchantments;
 use mcrs_minecraft_registries::Registries;
 
 use crate::id_bits::id_bits;

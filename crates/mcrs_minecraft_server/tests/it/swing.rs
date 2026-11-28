@@ -19,11 +19,11 @@ use mcrs_minecraft_engine_world::world::storage::column::ColumnPos;
 use mcrs_minecraft_engine_world::world::sub_app::AddDimensionPlugins;
 use mcrs_minecraft_environment::{AdvanceTime, WorldClockPlugin};
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
-use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     AttackAnimation, Count, InteractAnimation, ItemStack, Kind, PiercingWeapon, SwingAnimation,
     SwingKind,
 };
+use mcrs_minecraft_item_key::item_keys::Item;
 use mcrs_minecraft_protocol::packets::common::serverbound::ClientInformation;
 use mcrs_minecraft_protocol::setting::{ChatMode, DisplayedSkinParts, MainArm, ParticleStatus};
 use mcrs_minecraft_protocol::uuid::Uuid;

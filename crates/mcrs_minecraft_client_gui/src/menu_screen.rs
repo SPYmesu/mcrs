@@ -243,12 +243,12 @@ mod tests {
     use mcrs_minecraft_inventory_click::DragSplit;
     use mcrs_minecraft_inventory_file::PlayerItems;
     use mcrs_minecraft_inventory_menu::MenuLayout;
+    use mcrs_minecraft_item_component::Builtin;
+    use mcrs_minecraft_item_component::Count;
+    use mcrs_minecraft_item_component::ItemStack;
+    use mcrs_minecraft_item_component::Kind;
+    use mcrs_minecraft_item_component::MaxStackSize;
     use mcrs_minecraft_item_icon::IconSources;
-    use mcrs_minecraft_item_stack::Builtin;
-    use mcrs_minecraft_item_stack::Count;
-    use mcrs_minecraft_item_stack::ItemStack;
-    use mcrs_minecraft_item_stack::Kind;
-    use mcrs_minecraft_item_stack::MaxStackSize;
     use mcrs_minecraft_item_stack::NameLookup;
     use mcrs_minecraft_item_stack::NameTable;
     use mcrs_minecraft_item_table::ItemTable;

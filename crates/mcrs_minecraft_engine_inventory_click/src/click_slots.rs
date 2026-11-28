@@ -19,10 +19,10 @@ use mcrs_minecraft_inventory_player::Stacking;
 use mcrs_minecraft_inventory_transaction::Filter;
 use mcrs_minecraft_inventory_transaction::Loaded;
 use mcrs_minecraft_inventory_transaction::Planned;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::Equippable;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::Equippable;
+use mcrs_minecraft_item_component::MaxStackSize;
 
 const CAPACITY: usize = MenuLayout::MAX_LEN as usize + 42;
 

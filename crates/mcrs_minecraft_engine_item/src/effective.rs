@@ -1,8 +1,8 @@
 use bevy_ecs::component::Component;
 use bevy_ecs::query::QueryData;
-use mcrs_minecraft_item_stack::ItemComponent;
-use mcrs_minecraft_item_stack::Kind;
-use mcrs_minecraft_item_stack::Neutral;
+use mcrs_minecraft_item_component::ItemComponent;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::Neutral;
 use mcrs_minecraft_item_table::ItemTable;
 
 use crate::ComponentState;

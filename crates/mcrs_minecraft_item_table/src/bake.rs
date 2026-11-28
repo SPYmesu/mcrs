@@ -2,7 +2,7 @@ use alloc::borrow::ToOwned;
 use alloc::collections::BTreeMap;
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::Builtin;
+use mcrs_minecraft_item_component::Builtin;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
 use mcrs_minecraft_item_stack::SavedError;

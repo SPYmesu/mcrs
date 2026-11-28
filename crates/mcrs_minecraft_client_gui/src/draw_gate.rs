@@ -4,7 +4,7 @@ use mcrs_minecraft_engine_item::{Removed, SlotChanged, Slots};
 use mcrs_minecraft_entity_attribute::AttributeInstances;
 use mcrs_minecraft_game_mode::Abilities;
 use mcrs_minecraft_inventory_menu::MenuLayout;
-use mcrs_minecraft_item_stack::{Count, Kind};
+use mcrs_minecraft_item_component::{Count, Kind};
 use mcrs_minecraft_player_holders::PlayerHolders;
 
 use crate::shown_drag_preview::ShownDragPreview;

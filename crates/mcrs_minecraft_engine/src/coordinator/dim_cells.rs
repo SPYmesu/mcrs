@@ -43,6 +43,7 @@ use crate::coordinator::running_dimensions::RunningDimensions;
 use crate::departure::PlayerTransfer;
 use crate::dim_tick;
 use crate::dim_tick::{DimInput, DimOutput, DimWorld, TickDimensions, TickDimensionsSet};
+use crate::persistence::PersistedSnapshotExt;
 use crate::player_roster::RosterRow;
 use crate::player_view::PlayerView;
 use crate::to_coordinator::RoutedInput;

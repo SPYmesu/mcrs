@@ -1,10 +1,10 @@
 use alloc::vec::Vec;
 
+use mcrs_minecraft_item_component::BuiltinKey;
 use mcrs_minecraft_text::Text;
 use mcrs_minecraft_wire::Decode;
 use mcrs_minecraft_wire::Encode;
 
-use crate::BuiltinKey;
 use crate::WireError;
 use crate::split_nbt::split_nbt;
 
