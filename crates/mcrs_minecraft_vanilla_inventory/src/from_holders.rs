@@ -1,7 +1,7 @@
 use bevy_ecs::entity::Entity;
 use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_inventory_file::PlayerItems;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_player_holders::PlayerHolders;
 
 pub(crate) fn from_holders<'a>(

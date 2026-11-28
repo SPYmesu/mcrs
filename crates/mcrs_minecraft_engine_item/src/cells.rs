@@ -3,7 +3,7 @@ use bevy_ecs::entity::Entity;
 use bevy_ecs::storage::Table;
 use bevy_ecs::storage::TableRow;
 use bevy_ecs::world::World;
-use mcrs_minecraft_item_stack::ItemComponent;
+use mcrs_minecraft_item_component::ItemComponent;
 
 use crate::Removed;
 use crate::column::Column;

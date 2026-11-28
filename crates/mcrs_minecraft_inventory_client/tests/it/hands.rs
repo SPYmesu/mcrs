@@ -3,7 +3,7 @@ use bevy_app::FixedUpdate;
 use mcrs_minecraft_game_mode::GameMode;
 use mcrs_minecraft_game_mode::PlayerGameMode;
 use mcrs_minecraft_inventory_client::HandInput;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_network::event::Received;
 use mcrs_minecraft_player_holders::HandAction;
 use mcrs_minecraft_protocol_game::Direction;

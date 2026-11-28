@@ -19,7 +19,7 @@ use mcrs_minecraft_save::{
     PlayerDat, player_dat_path, read_player_dat, uuid_to_int_array, write_player_dat,
 };
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use tracing::error;
 
 use crate::ability::{PlayerFlying, PlayerOpLevel};
@@ -576,16 +576,37 @@ impl PlayerSaveQueue {
 #[derive(Component, Debug, Clone, Copy)]
 pub struct UnreadablePlayerDat;
 
-impl PersistedSnapshot {
+pub trait PersistedSnapshotExt {
     #[doc(hidden)]
-    pub fn joining_player(
+    fn joining_player(
+        uuid: Uuid,
+        username: String,
+        position: bevy_math::DVec3,
+        rotation: bevy_math::Vec2,
+        client_info: Option<ClientInfo>,
+    ) -> Self;
+    fn insert_profile(&mut self, profile: &GameProfile);
+    fn insert_client_info(&mut self, info: &ClientInfo);
+    fn insert_view_distance(&mut self, view: PlayerViewDistance);
+    fn insert_transform(&mut self, transform: Transform);
+    fn insert_rotation(&mut self, rotation: Rotation);
+    fn profile(&self) -> Option<GameProfile>;
+    fn client_info(&self) -> Option<ClientInfo>;
+    fn view_distance(&self) -> Option<PlayerViewDistance>;
+    fn transform(&self) -> Option<Transform>;
+    fn pos(&self) -> Result<Option<bevy_math::DVec3>, PersistedError>;
+    fn rotation(&self) -> Result<Option<[f32; 2]>, PersistedError>;
+}
+
+impl PersistedSnapshotExt for PersistedSnapshot {
+    fn joining_player(
         uuid: Uuid,
         username: String,
         position: bevy_math::DVec3,
         rotation: bevy_math::Vec2,
         client_info: Option<ClientInfo>,
     ) -> Self {
-        let mut snapshot = Self::default();
+        let mut snapshot = PersistedSnapshot::default();
         snapshot.insert_profile(&GameProfile {
             id: uuid,
             username,
@@ -605,56 +626,25 @@ impl PersistedSnapshot {
         snapshot
     }
 
-    pub fn from_dat(
-        dat: &PlayerDat,
-        registry: &PersistedRegistry,
-        path: &Path,
-    ) -> Result<Self, PersistedError> {
-        let mut snapshot = Self::default();
-        for (key, tag) in &dat.root.child_tags {
-            let claimed =
-                registry
-                    .file_key(key)
-                    .ok_or_else(|| PersistedError::UnclaimedFileKey {
-                        path: path.display().to_string(),
-                        key: key.clone(),
-                    })?;
-            snapshot.insert(claimed, tag.clone());
-        }
-        Ok(snapshot)
+    fn insert_profile(&mut self, profile: &GameProfile) {
+        put_logged(self, PROFILE_KEYS, profile);
     }
 
-    fn put_logged<T: Serialize>(&mut self, keys: &[&'static str], value: &T) {
-        if let Err(err) = self.put(keys, value) {
-            error!("player snapshot not encoded: {err}");
-        }
+    fn insert_client_info(&mut self, info: &ClientInfo) {
+        put_logged(self, CLIENT_INFO_KEYS, info);
     }
 
-    fn get_logged<T: serde::de::DeserializeOwned>(&self, keys: &[&'static str]) -> Option<T> {
-        self.get_as(keys).unwrap_or_else(|err| {
-            error!("player snapshot not decoded: {err}");
-            None
-        })
+    fn insert_view_distance(&mut self, view: PlayerViewDistance) {
+        put_logged(self, VIEW_DISTANCE_KEYS, &ViewDistance::from_value(&view));
     }
 
-    pub fn insert_profile(&mut self, profile: &GameProfile) {
-        self.put_logged(PROFILE_KEYS, profile);
+    fn insert_transform(&mut self, transform: Transform) {
+        put_logged(self, POSE_KEYS, &Pose::from_value(&transform));
     }
 
-    pub fn insert_client_info(&mut self, info: &ClientInfo) {
-        self.put_logged(CLIENT_INFO_KEYS, info);
-    }
-
-    pub fn insert_view_distance(&mut self, view: PlayerViewDistance) {
-        self.put_logged(VIEW_DISTANCE_KEYS, &ViewDistance::from_value(&view));
-    }
-
-    pub fn insert_transform(&mut self, transform: Transform) {
-        self.put_logged(POSE_KEYS, &Pose::from_value(&transform));
-    }
-
-    pub fn insert_rotation(&mut self, rotation: Rotation) {
-        self.put_logged(
+    fn insert_rotation(&mut self, rotation: Rotation) {
+        put_logged(
+            self,
             POSE_KEYS,
             &Pose {
                 pos: None,
@@ -663,75 +653,91 @@ impl PersistedSnapshot {
         );
     }
 
-    pub fn profile(&self) -> Option<GameProfile> {
-        self.get_logged(PROFILE_KEYS)
+    fn profile(&self) -> Option<GameProfile> {
+        get_logged(self, PROFILE_KEYS)
     }
 
-    pub fn client_info(&self) -> Option<ClientInfo> {
-        self.get_logged(CLIENT_INFO_KEYS)
+    fn client_info(&self) -> Option<ClientInfo> {
+        get_logged(self, CLIENT_INFO_KEYS)
     }
 
-    pub fn view_distance(&self) -> Option<PlayerViewDistance> {
-        self.get_logged::<ViewDistance>(VIEW_DISTANCE_KEYS)
-            .and_then(|form| form.into_value().ok())
+    fn view_distance(&self) -> Option<PlayerViewDistance> {
+        get_logged::<ViewDistance>(self, VIEW_DISTANCE_KEYS).and_then(|form| form.into_value().ok())
     }
 
-    pub fn transform(&self) -> Option<Transform> {
-        self.get_logged::<Pose>(POSE_KEYS)
+    fn transform(&self) -> Option<Transform> {
+        get_logged::<Pose>(self, POSE_KEYS)
             .filter(|pose| pose.pos.is_some() && pose.rotation.is_some())
             .and_then(|form| form.into_value().ok())
     }
 
-    pub fn pos(&self) -> Result<Option<bevy_math::DVec3>, PersistedError> {
+    fn pos(&self) -> Result<Option<bevy_math::DVec3>, PersistedError> {
         Ok(self
             .get_as::<Pose>(POSE_KEYS)?
             .and_then(|pose| pose.pos)
             .map(bevy_math::DVec3::from_array))
     }
 
-    pub fn rotation(&self) -> Result<Option<[f32; 2]>, PersistedError> {
+    fn rotation(&self) -> Result<Option<[f32; 2]>, PersistedError> {
         Ok(self
             .get_as::<Pose>(POSE_KEYS)?
             .and_then(|pose| pose.rotation))
     }
+}
 
-    pub(crate) fn game_mode(&self) -> PlayerGameMode {
-        self.saved_game_mode()
-            .map(PlayerGameMode)
-            .unwrap_or_default()
-    }
+pub(crate) fn game_mode(snapshot: &PersistedSnapshot) -> PlayerGameMode {
+    saved_game_mode(snapshot)
+        .map(PlayerGameMode)
+        .unwrap_or_default()
+}
 
-    pub(crate) fn saved_game_mode(&self) -> Option<GameMode> {
-        self.get_logged::<GameType>(GAME_TYPE_KEYS)
-            .and_then(|form| form.into_value().ok())
-            .map(|PlayerGameMode(mode)| mode)
-    }
+pub(crate) fn saved_game_mode(snapshot: &PersistedSnapshot) -> Option<GameMode> {
+    get_logged::<GameType>(snapshot, GAME_TYPE_KEYS)
+        .and_then(|form| form.into_value().ok())
+        .map(|PlayerGameMode(mode)| mode)
+}
 
-    pub(crate) fn flying(&self) -> PlayerFlying {
-        PlayerFlying(
-            self.get_logged::<Abilities>(ABILITIES_KEYS)
-                .is_some_and(|abilities| abilities.flying),
-        )
-    }
+pub(crate) fn flying(snapshot: &PersistedSnapshot) -> PlayerFlying {
+    PlayerFlying(
+        get_logged::<Abilities>(snapshot, ABILITIES_KEYS).is_some_and(|abilities| abilities.flying),
+    )
+}
 
-    pub(crate) fn op_level(&self) -> PlayerOpLevel {
-        self.get_logged(OP_LEVEL_KEYS).unwrap_or_default()
-    }
+pub(crate) fn op_level(snapshot: &PersistedSnapshot) -> PlayerOpLevel {
+    get_logged(snapshot, OP_LEVEL_KEYS).unwrap_or_default()
+}
 
-    pub(crate) fn send_teleport(&mut self, destination: Transform, departed_at: GameTime) -> i32 {
-        let mut state = self
-            .get_logged::<TeleportState>(TELEPORT_KEYS)
-            .unwrap_or_default();
-        let id = state.sent(destination, departed_at);
-        self.put_logged(TELEPORT_KEYS, &state);
-        id
-    }
+pub(crate) fn send_teleport(
+    snapshot: &mut PersistedSnapshot,
+    destination: Transform,
+    departed_at: GameTime,
+) -> i32 {
+    let mut state = get_logged::<TeleportState>(snapshot, TELEPORT_KEYS).unwrap_or_default();
+    let id = state.sent(destination, departed_at);
+    put_logged(snapshot, TELEPORT_KEYS, &state);
+    id
+}
 
-    pub(crate) fn forget_placement(&mut self) {
-        for key in POSE_KEYS.iter().chain(DIMENSION_KEYS) {
-            self.remove(key);
-        }
+pub(crate) fn forget_placement(snapshot: &mut PersistedSnapshot) {
+    for key in POSE_KEYS.iter().chain(DIMENSION_KEYS) {
+        snapshot.remove(key);
     }
+}
+
+fn put_logged<T: Serialize>(snapshot: &mut PersistedSnapshot, keys: &[&'static str], value: &T) {
+    if let Err(err) = snapshot.put(keys, value) {
+        error!("player snapshot not encoded: {err}");
+    }
+}
+
+fn get_logged<T: serde::de::DeserializeOwned>(
+    snapshot: &PersistedSnapshot,
+    keys: &[&'static str],
+) -> Option<T> {
+    snapshot.get_as(keys).unwrap_or_else(|err| {
+        error!("player snapshot not decoded: {err}");
+        None
+    })
 }
 
 pub fn load_player(world: &mut World, player: Entity) {
@@ -1390,10 +1396,10 @@ pub(crate) mod tests {
     #[test]
     fn the_saved_game_mode_is_absent_without_a_game_type() {
         let mut snapshot = PersistedSnapshot::default();
-        assert_eq!(snapshot.saved_game_mode(), None);
+        assert_eq!(saved_game_mode(&snapshot), None);
 
         snapshot.put(GAME_TYPE_KEYS, &2).unwrap();
 
-        assert_eq!(snapshot.saved_game_mode(), Some(GameMode::ALL[2]));
+        assert_eq!(saved_game_mode(&snapshot), Some(GameMode::ALL[2]));
     }
 }

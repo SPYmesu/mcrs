@@ -1,15 +1,15 @@
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::AttributeModifiers;
-use mcrs_minecraft_item_stack::Enchantments;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Lore;
-use mcrs_minecraft_item_stack::MapId;
+use mcrs_minecraft_item_component::AttributeModifiers;
+use mcrs_minecraft_item_component::Enchantments;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Lore;
+use mcrs_minecraft_item_component::MapId;
+use mcrs_minecraft_item_component::Neutral;
+use mcrs_minecraft_item_component::Profile;
+use mcrs_minecraft_item_component::TooltipDisplay;
+use mcrs_minecraft_item_component::Unbreakable;
 use mcrs_minecraft_item_stack::NameLookup;
-use mcrs_minecraft_item_stack::Neutral;
-use mcrs_minecraft_item_stack::Profile;
-use mcrs_minecraft_item_stack::TooltipDisplay;
-use mcrs_minecraft_item_stack::Unbreakable;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_text::Color;
 use mcrs_minecraft_text::IntoText;

@@ -9,7 +9,7 @@ use mcrs_minecraft_item::TrimMaterial;
 use mcrs_minecraft_item::data_component_predicate_type_keys::DataComponentPredicateType;
 use mcrs_minecraft_item::data_component_type_keys::DataComponentType;
 use mcrs_minecraft_item::{ComponentPredicate, DyeColor, RgbInt};
-use mcrs_minecraft_item_stack::Builtin;
+use mcrs_minecraft_item_component::Builtin;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
 use mcrs_minecraft_item_stack::SavedError;
@@ -986,8 +986,8 @@ mod tests {
 
     #[test]
     fn the_component_switch_reads_its_cases_with_the_components_codec() {
-        use mcrs_minecraft_item_stack::ArgbColor;
-        use mcrs_minecraft_item_stack::DyedColor;
+        use mcrs_minecraft_item_component::ArgbColor;
+        use mcrs_minecraft_item_component::DyedColor;
 
         let item = model(&format!(
             r#"{{"type": "minecraft:select", "property": "minecraft:component", "component": "minecraft:dyed_color", "cases": [{{"when": [255, [1.0, 0.0, 0.0]], "model": {LEAF}}}]}}"#

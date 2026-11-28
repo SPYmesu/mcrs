@@ -11,12 +11,12 @@ use mcrs_minecraft_engine_item::Effective;
 use mcrs_minecraft_engine_item::ItemAppExt;
 use mcrs_minecraft_engine_item::StackCommandsExt;
 use mcrs_minecraft_engine_item::Stacks;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::CustomComponent;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Lore;
-use mcrs_minecraft_item_stack::MaxDamage;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::CustomComponent;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Lore;
+use mcrs_minecraft_item_component::MaxDamage;
 
 use crate::fixture::LORED;
 use crate::fixture::PLAIN;

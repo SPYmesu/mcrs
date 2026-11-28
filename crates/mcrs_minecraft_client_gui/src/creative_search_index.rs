@@ -2,8 +2,8 @@ use std::ops::Range;
 
 use mcrs_minecraft_creative_content::SearchQuery;
 use mcrs_minecraft_engine_registries::RegistryNames;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::ItemStack;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
 use mcrs_minecraft_item_table::ItemTable;

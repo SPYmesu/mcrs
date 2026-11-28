@@ -34,8 +34,8 @@ use mcrs_minecraft_entity_attribute::{
 };
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
 use mcrs_minecraft_game_rule::GameRule;
+use mcrs_minecraft_item_component::{Count, Kind};
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{Count, Kind};
 use mcrs_minecraft_network::ServerSideConnection;
 use mcrs_minecraft_protocol::VarInt;
 use mcrs_minecraft_protocol::uuid::Uuid;

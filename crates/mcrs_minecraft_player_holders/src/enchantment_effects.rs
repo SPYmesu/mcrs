@@ -11,7 +11,7 @@ use bevy_ecs::world::FromWorld;
 use bevy_ecs::world::World;
 use mcrs_minecraft_enchantment::enchantment_effect_component_type_keys::EnchantmentEffectComponentType;
 use mcrs_minecraft_enchantment::file::EnchantmentFile;
-use mcrs_minecraft_item_stack::Enchantments;
+use mcrs_minecraft_item_component::Enchantments;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_registries::CurrentRegistries;
 use mcrs_minecraft_registries::Registries;

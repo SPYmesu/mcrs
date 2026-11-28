@@ -1,7 +1,7 @@
 use fixedbitset::FixedBitSet;
 use mcrs_minecraft_entity_attribute::ModifierOperation;
-use mcrs_minecraft_item_stack::AttributeModifier;
-use mcrs_minecraft_item_stack::SlotGroup;
+use mcrs_minecraft_item_component::AttributeModifier;
+use mcrs_minecraft_item_component::SlotGroup;
 use mcrs_minecraft_registries::Registries;
 use mcrs_minecraft_resource::ResourceLocationBuf;
 

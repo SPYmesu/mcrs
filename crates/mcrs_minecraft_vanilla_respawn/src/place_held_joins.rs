@@ -1,8 +1,8 @@
 use bevy_ecs::message::{MessageReader, MessageWriter};
 use bevy_ecs::system::{Local, Query, Res, ResMut};
-use mcrs_minecraft_engine::HeldJoins;
 use mcrs_minecraft_engine::bus::{InboundPlayerDespawn, InboundPlayerSpawn};
 use mcrs_minecraft_engine::column_store::ColumnStoreLink;
+use mcrs_minecraft_engine::{HeldJoins, PersistedSnapshotExt};
 use mcrs_minecraft_engine_world::entity::physics::{Rotation, Transform};
 use mcrs_minecraft_engine_world::world::lifecycle::column_loading::ColumnLoading;
 

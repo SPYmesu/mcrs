@@ -9,7 +9,7 @@ use mcrs_minecraft_falling_block::Fall;
 use mcrs_minecraft_falling_block::ItemDrop;
 use mcrs_minecraft_falling_block::Settings;
 use mcrs_minecraft_falling_block::Start;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_protocol_game::block::BlockStateNumber;
 use mcrs_minecraft_replication::SpawnLook;
 use mcrs_minecraft_vanilla_falling_block::FallRequest;

@@ -1,9 +1,9 @@
 use mcrs_minecraft_inventory_player::Slot;
 use mcrs_minecraft_inventory_player::Stacking;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::MaxStackSize;
 use mcrs_minecraft_item_table::ItemTable;
 
 use crate::close_place::Place;

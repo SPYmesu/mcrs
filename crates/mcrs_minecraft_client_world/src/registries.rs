@@ -361,7 +361,7 @@ mod tests {
     use bevy::prelude::*;
     use mcrs_minecraft_block::definition::Blocks;
     use mcrs_minecraft_game_registries::registry_load::{load_received, sent_by, test_registries};
-    use mcrs_minecraft_item_stack::Kind;
+    use mcrs_minecraft_item_component::Kind;
     use mcrs_minecraft_item_table::{ItemTable, Prototype};
     use mcrs_minecraft_registries::{Diagnostics, Registries};
 

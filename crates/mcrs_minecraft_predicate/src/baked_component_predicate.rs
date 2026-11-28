@@ -1,7 +1,7 @@
-use mcrs_minecraft_item_stack::AttributeModifiers;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::Enchantments;
-use mcrs_minecraft_item_stack::MaxDamage;
+use mcrs_minecraft_item_component::AttributeModifiers;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::Enchantments;
+use mcrs_minecraft_item_component::MaxDamage;
 use mcrs_minecraft_registries::Registries;
 use mcrs_minecraft_value_provider::bounds::MinMaxBounds;
 

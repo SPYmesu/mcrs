@@ -1,9 +1,9 @@
 use alloc::borrow::Cow;
 use alloc::vec::Vec;
 
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_wire::ErrorKind;
 
-use crate::Kind;
 use crate::WireError;
 use crate::wire::Entries;
 use crate::wire_scan::Head;

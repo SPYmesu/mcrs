@@ -428,7 +428,7 @@ pub const OWNERS: &[Owner] = &[
     },
     Owner {
         registry: "minecraft:data_component_type",
-        krate: "mcrs_minecraft_item_stack",
+        krate: "mcrs_minecraft_item_component",
         value: ValueType::NoStdEnum("DataComponentType"),
     },
     Owner {

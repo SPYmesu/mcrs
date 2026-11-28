@@ -3,7 +3,7 @@ use alloc::vec::Vec;
 use mcrs_minecraft_creative_report::CreativeReport;
 use mcrs_minecraft_creative_report::ItemsTab;
 use mcrs_minecraft_creative_report::ListKind;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
 use mcrs_minecraft_item_stack::read_saved;

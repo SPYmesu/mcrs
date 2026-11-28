@@ -1,6 +1,6 @@
 use mcrs_minecraft_enchantment::file::EnchantmentFile;
+use mcrs_minecraft_item_component::{EnchantmentId, Kind};
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{EnchantmentId, Kind};
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_registries::Registries;
 use mcrs_minecraft_resource::ResourceLocation;

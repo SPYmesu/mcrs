@@ -1,6 +1,6 @@
 use bevy_ecs::entity::Entity;
 use mcrs_minecraft_engine_item::Stacks;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::write_wire;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_protocol_game::ProtoStack;

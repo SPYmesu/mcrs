@@ -2,16 +2,16 @@ use std::io::Write;
 
 use alloc::vec::Vec;
 
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::data_component_type_keys::DataComponentType;
 use mcrs_minecraft_wire::Decode;
 use mcrs_minecraft_wire::Encode;
 use mcrs_minecraft_wire::VarInt;
 
-use crate::ComponentType;
 use crate::HashedComponent;
 use crate::HashedStack;
-use crate::Kind;
 use crate::WireError;
-use crate::data_component_type_keys::DataComponentType;
 use crate::wire_frame::codec_error;
 use crate::wire_value::read_var_int;
 

@@ -19,7 +19,7 @@ use mcrs_minecraft_engine_entity_motion_replication::PublishedTile;
 use mcrs_minecraft_engine_item::Stacks;
 use mcrs_minecraft_entity_key::EntityId;
 use mcrs_minecraft_entity_key::TileKey;
-use mcrs_minecraft_item_stack::Count;
+use mcrs_minecraft_item_component::Count;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_replication::MobReport;
 use mcrs_minecraft_replication::MobSignal;

@@ -1,6 +1,6 @@
+use mcrs_minecraft_item_component::ComponentType;
 use mcrs_minecraft_nbt::MAX_DEPTH;
 
-use crate::ComponentType;
 use crate::WireError;
 use crate::nbt_depth::LIST_TEMPLATE_LEVELS;
 use crate::nbt_depth::SLOT_TEMPLATE_LEVELS;

@@ -1,4 +1,3 @@
-use std::marker::PhantomData;
 use std::vec;
 
 use bevy_app::{App, FixedUpdate, Last, Plugin};
@@ -20,8 +19,9 @@ use rustc_hash::FxHashMap;
 
 use crate::advance_production::advance_production;
 use crate::cold_columns::{
-    SaveRequest, columns_cooling, mark_changed_block_entities, mark_changed_sections,
-    mark_final_light, save_all_loaded_columns, save_dirty_loaded_columns, write_cold_columns,
+    SaveRequest, ask_cold_column_ticks, ask_saved_column_ticks, columns_cooling,
+    mark_changed_block_entities, mark_changed_sections, mark_final_light, save_all_loaded_columns,
+    save_dirty_loaded_columns, write_cold_columns,
 };
 use crate::column_asks::{
     ColumnAnswer, ColumnAsk, ColumnHold, ColumnOrigin, Hold, OtherColumns, OwnerReply,
@@ -31,7 +31,9 @@ use crate::column_light::ColdStageLandSet;
 use crate::column_production::ColumnProduction;
 use crate::column_store_mail::ColumnStoreMail;
 use crate::column_streams::{ColumnStreamSet, land_viewed_columns, report_player_views};
-use crate::column_tick_holder::ColumnTickHolder;
+use crate::column_ticks_answer::ColumnTicksAnswer;
+use crate::column_ticks_ask::ColumnTicksAsk;
+use crate::column_ticks_exchange::ColumnTicksExchange;
 use crate::heightmap::update_column_heightmaps;
 use crate::hot_ticket::{raise_hot_ticket, release_hot_ticket, track_hot_tickets};
 use crate::stored_columns_landing::{
@@ -44,18 +46,14 @@ pub type ColumnStoreInput = StoreInput<ColumnPos, StoredColumn>;
 
 pub type ColumnStoreOutput = StoreOutput<ColumnPos, StoredColumn>;
 
-pub struct ColumnStorePlugin<T> {
+pub struct ColumnStorePlugin {
     owned: Option<OwnedColumns>,
-    ticks: PhantomData<fn() -> T>,
 }
 
-impl<T> ColumnStorePlugin<T> {
+impl ColumnStorePlugin {
     #[must_use]
     pub fn new(owned: Option<OwnedColumns>) -> Self {
-        Self {
-            owned,
-            ticks: PhantomData,
-        }
+        Self { owned }
     }
 }
 
@@ -329,11 +327,33 @@ impl ColumnStoreLink {
 #[derive(SystemSet, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct StoredColumnLandSet;
 
-impl<T: ColumnTickHolder> Plugin for ColumnStorePlugin<T> {
+impl Plugin for ColumnStorePlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(ColumnStoreLink::new(self.owned));
         app.init_resource::<ColumnProduction>();
         app.init_resource::<PendingColumnFacts>();
+        app.add_message::<ColumnTicksAsk>();
+        app.add_message::<ColumnTicksAnswer>();
+        app.configure_sets(
+            FixedUpdate,
+            (
+                ColumnTicksExchange::Ask,
+                ColumnTicksExchange::Answer,
+                ColumnTicksExchange::Use,
+            )
+                .chain()
+                .in_set(ColumnCoolSet),
+        );
+        app.configure_sets(
+            Last,
+            (
+                ColumnTicksExchange::Ask,
+                ColumnTicksExchange::Answer,
+                ColumnTicksExchange::Use,
+            )
+                .chain()
+                .after(update_column_heightmaps),
+        );
         app.configure_sets(
             FixedUpdate,
             ColdStageLandSet
@@ -351,7 +371,12 @@ impl<T: ColumnTickHolder> Plugin for ColumnStorePlugin<T> {
                 (
                     mark_changed_sections.run_if(on_message::<BlockPlaced>),
                     mark_changed_block_entities,
-                    write_cold_columns::<T>.run_if(columns_cooling),
+                    ask_cold_column_ticks
+                        .run_if(columns_cooling)
+                        .in_set(ColumnTicksExchange::Ask),
+                    write_cold_columns
+                        .run_if(columns_cooling)
+                        .in_set(ColumnTicksExchange::Use),
                 )
                     .chain()
                     .in_set(ColumnCoolSet),
@@ -391,11 +416,16 @@ impl<T: ColumnTickHolder> Plugin for ColumnStorePlugin<T> {
         app.add_systems(
             Last,
             (
-                save_dirty_loaded_columns::<T>.run_if(resource_exists::<SaveRequest>),
-                save_all_loaded_columns::<T>.run_if(resource_exists::<SaveRequest>),
-            )
-                .chain()
-                .after(update_column_heightmaps),
+                ask_saved_column_ticks
+                    .run_if(resource_exists::<SaveRequest>)
+                    .in_set(ColumnTicksExchange::Ask),
+                (
+                    save_dirty_loaded_columns.run_if(resource_exists::<SaveRequest>),
+                    save_all_loaded_columns.run_if(resource_exists::<SaveRequest>),
+                )
+                    .chain()
+                    .in_set(ColumnTicksExchange::Use),
+            ),
         );
     }
 }

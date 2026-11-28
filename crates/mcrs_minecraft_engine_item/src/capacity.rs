@@ -1,6 +1,6 @@
 use bevy_ecs::entity::Entity;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::MaxStackSize;
 
 use crate::Stacks;
 

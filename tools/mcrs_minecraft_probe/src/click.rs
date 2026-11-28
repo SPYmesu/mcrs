@@ -1,7 +1,7 @@
 use mcrs_minecraft_container_click::ClickKind;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_item_key::item_keys::Item;
 use mcrs_minecraft_item_stack::HashedStack;
-use mcrs_minecraft_item_stack::Kind;
 use mcrs_minecraft_item_stack::WireStackWithLength;
 use mcrs_minecraft_protocol::Decode;
 use mcrs_minecraft_protocol::Encode;

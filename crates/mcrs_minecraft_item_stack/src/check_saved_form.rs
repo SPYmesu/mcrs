@@ -1,7 +1,8 @@
 use core::ops::RangeInclusive;
 
-use crate::Count;
-use crate::ItemStack;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+
 use crate::NameLookup;
 use crate::WireError;
 use crate::nbt_depth::check_nbt_depth;

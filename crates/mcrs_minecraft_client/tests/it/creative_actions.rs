@@ -12,9 +12,9 @@ use mcrs_minecraft_inventory_client::CreativeArea;
 use mcrs_minecraft_inventory_client::CreativeClick;
 use mcrs_minecraft_inventory_client::MenuAction;
 use mcrs_minecraft_inventory_client::MenuInput;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::PatchEntry;
-use mcrs_minecraft_item_stack::UndecodedValue;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::PatchEntry;
+use mcrs_minecraft_item_component::UndecodedValue;
 use mcrs_minecraft_resource::ResourceLocationBuf;
 
 use crate::local_world::{self, ENTRIES, LocalWorld};

@@ -1,7 +1,7 @@
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::FireworkExplosion;
+use mcrs_minecraft_item_component::FireworkShape;
 use mcrs_minecraft_item_icon::{Durability, StackOverlay};
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::FireworkExplosion;
-use mcrs_minecraft_item_stack::FireworkShape;
 
 use crate::corpus::{icon, stack, view};
 

@@ -6,9 +6,9 @@ use mcrs_minecraft_engine_item::ComponentState;
 use mcrs_minecraft_engine_item::Effective;
 use mcrs_minecraft_engine_item::StackCommandsExt;
 use mcrs_minecraft_engine_item::Stacks;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::MaxDamage;
-use mcrs_minecraft_item_stack::Rarity;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::MaxDamage;
+use mcrs_minecraft_item_component::Rarity;
 use mcrs_minecraft_item_table::ItemTable;
 
 use crate::fixture::PLAIN;

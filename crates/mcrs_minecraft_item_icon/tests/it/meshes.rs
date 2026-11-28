@@ -1,10 +1,10 @@
 use std::num::NonZeroU8;
 
 use glam::Vec3;
+use mcrs_minecraft_item_component::EnchantmentId;
+use mcrs_minecraft_item_component::EnchantmentLevel;
+use mcrs_minecraft_item_component::Enchantments;
 use mcrs_minecraft_item_icon::{GuiVertex, IconLayer, ItemIcon, light_directions};
-use mcrs_minecraft_item_stack::EnchantmentId;
-use mcrs_minecraft_item_stack::EnchantmentLevel;
-use mcrs_minecraft_item_stack::Enchantments;
 use mcrs_minecraft_model_file::model_file::GuiLight;
 
 use crate::corpus::{MESHES, icon, stack};

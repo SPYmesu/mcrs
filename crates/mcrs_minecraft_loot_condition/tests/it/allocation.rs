@@ -1,7 +1,7 @@
 use glam::DVec3;
 use mcrs_minecraft_entity::damage_type::DamageType;
 use mcrs_minecraft_game_registries::registry_load::test_registries;
-use mcrs_minecraft_item_stack::{Count, ItemStack};
+use mcrs_minecraft_item_component::{Count, ItemStack};
 use mcrs_minecraft_loot_condition::Tool;
 use mcrs_minecraft_predicate::{BlockHost, DamageSource, PredicateScratch};
 use mcrs_minecraft_random::xoroshiro::XoroshiroRandom;

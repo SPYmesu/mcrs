@@ -14,7 +14,7 @@ use mcrs_minecraft_engine_item::RequestDrop;
 use mcrs_minecraft_engine_item::RequestResult;
 use mcrs_minecraft_engine_item::SlotRef;
 use mcrs_minecraft_engine_item::Slots;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 use crate::fixture::PLAIN;
 use crate::fixture::app;

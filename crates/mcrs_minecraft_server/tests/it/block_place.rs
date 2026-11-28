@@ -21,8 +21,8 @@ use mcrs_minecraft_engine_world::world::dimension::{DimensionTypeConfig, InDimen
 use mcrs_minecraft_engine_world::world::storage::random_ticks::RandomTickIndex;
 use mcrs_minecraft_engine_world::world::storage::section::SectionIndex;
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
+use mcrs_minecraft_item_component::{Count, ItemStack, Kind};
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{Count, ItemStack, Kind};
 use mcrs_minecraft_item_table::{DefinitionFile, ItemTable, bake};
 use mcrs_minecraft_protocol::VarInt;
 use mcrs_minecraft_protocol::uuid::Uuid;

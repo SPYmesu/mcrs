@@ -1,8 +1,8 @@
 use bevy::ecs::system::SystemParam;
 use bevy::math::IVec2;
 use bevy::prelude::*;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_icon::{IconMeshes, IconSources, ItemIcon, Overlays, StackOverlay};
-use mcrs_minecraft_item_stack::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_model::item_model_bake::ItemModels;
 use mcrs_minecraft_model::stack_view::StackView;

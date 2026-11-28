@@ -1,6 +1,6 @@
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::HashScratch;
 use mcrs_minecraft_item_stack::HashedStack;
-use mcrs_minecraft_item_stack::ItemStack;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::matches_hashed;
 

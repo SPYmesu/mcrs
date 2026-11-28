@@ -10,7 +10,7 @@ use mcrs_minecraft_engine::loaded_client::UnloadedClient;
 use mcrs_minecraft_engine::swing::{SwingPlayer, SwingSimulateSet};
 use mcrs_minecraft_engine_item::{Selected, Slots};
 use mcrs_minecraft_engine_world::session::Owner;
-use mcrs_minecraft_item_stack::{AttackAnimation, PiercingWeapon, SwingAnimation, SwingKind};
+use mcrs_minecraft_item_component::{AttackAnimation, PiercingWeapon, SwingAnimation, SwingKind};
 use mcrs_minecraft_network::event::Received;
 use mcrs_minecraft_protocol_game::player::PlayerAction;
 use mcrs_minecraft_protocol_game::serverbound::{ServerboundPlayerAction, ServerboundPunch};

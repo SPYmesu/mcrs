@@ -1,7 +1,7 @@
-use mcrs_minecraft_item_stack::CustomName;
-use mcrs_minecraft_item_stack::Enchantments;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Rarity;
+use mcrs_minecraft_item_component::CustomName;
+use mcrs_minecraft_item_component::Enchantments;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Rarity;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_text::Color;
 use mcrs_minecraft_text::IntoText;

@@ -1,9 +1,8 @@
-use mcrs_minecraft_resource::ResourceLocation;
+use mcrs_minecraft_resource::{DEFAULT_NAMESPACE, ResourceLocation};
 
 macro_rules! builtin_key {
     ($($name:ident => $path:literal),* $(,)?) => {
         #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-        #[non_exhaustive]
         pub enum BuiltinKey {
             $($name,)*
         }
@@ -11,7 +10,8 @@ macro_rules! builtin_key {
         const ALL: &[BuiltinKey] = &[$(BuiltinKey::$name,)*];
 
         impl BuiltinKey {
-            pub(crate) const fn path(self) -> &'static str {
+            #[must_use]
+            pub const fn path(self) -> &'static str {
                 match self {
                     $(Self::$name => $path,)*
                 }
@@ -22,8 +22,6 @@ macro_rules! builtin_key {
 
 crate::for_each_builtin!(builtin_key);
 
-pub(crate) const NAMESPACE: &str = "minecraft";
-
 impl BuiltinKey {
     #[doc(hidden)]
     #[must_use]
@@ -33,12 +31,12 @@ impl BuiltinKey {
 
     #[must_use]
     pub fn location(self) -> Option<ResourceLocation<'static>> {
-        ResourceLocation::new(NAMESPACE, self.path()).ok()
+        ResourceLocation::new(DEFAULT_NAMESPACE, self.path()).ok()
     }
 
     #[must_use]
     pub fn from_location(location: ResourceLocation<'_>) -> Option<Self> {
-        if location.namespace() != NAMESPACE {
+        if location.namespace() != DEFAULT_NAMESPACE {
             return None;
         }
         ALL.iter()

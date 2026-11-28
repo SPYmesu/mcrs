@@ -3,7 +3,7 @@ use bevy_ecs::entity::Entity;
 use bevy_ecs::system::EntityCommands;
 use bevy_ecs::world::EntityWorldMut;
 use bevy_math::DVec3;
-use mcrs_minecraft_item_stack::ItemComponent;
+use mcrs_minecraft_item_component::ItemComponent;
 
 use crate::Dropped;
 use crate::consume::consume;

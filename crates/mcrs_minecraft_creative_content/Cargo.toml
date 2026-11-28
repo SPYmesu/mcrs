@@ -14,6 +14,7 @@ workspace = true
 mcrs_minecraft_creative_report.workspace = true
 mcrs_minecraft_enchantment.workspace = true
 mcrs_minecraft_item.workspace = true
+mcrs_minecraft_item_component.workspace = true
 mcrs_minecraft_item_stack.workspace = true
 mcrs_minecraft_item_table.workspace = true
 mcrs_minecraft_nbt.workspace = true

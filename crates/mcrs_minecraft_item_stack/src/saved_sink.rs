@@ -1,9 +1,9 @@
+use mcrs_minecraft_item_component::Profile;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_resource::ResourceLocation;
 use mcrs_minecraft_text::Text;
 
-use crate::Profile;
 use crate::saved_form::Fault;
 
 pub(crate) const TAG_MARKER: &str = "#";

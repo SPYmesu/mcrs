@@ -7,7 +7,7 @@ use mcrs_minecraft_engine_inventory_menu::{MenuParts, Menus};
 use mcrs_minecraft_engine_item::{SlotRef, Slots, Stacks};
 use mcrs_minecraft_entity_attribute::AttributeInstances;
 use mcrs_minecraft_inventory_menu::MenuLayout;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_item_tooltip::TooltipView;
 use mcrs_minecraft_menu_geometry::{CreativeGeometry, CreativeHit, CreativeTabKind};

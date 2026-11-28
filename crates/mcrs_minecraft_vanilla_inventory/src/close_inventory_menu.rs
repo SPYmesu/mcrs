@@ -1,6 +1,6 @@
 use mcrs_minecraft_inventory_file::PlayerItems;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_table::ItemTable;
 
 use crate::close_place::Place;

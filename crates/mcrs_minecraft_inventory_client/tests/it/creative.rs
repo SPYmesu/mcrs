@@ -15,7 +15,7 @@ use mcrs_minecraft_inventory_client::CreativeArea;
 use mcrs_minecraft_inventory_client::CreativeClick;
 use mcrs_minecraft_inventory_client::MenuAction;
 use mcrs_minecraft_inventory_client::MenuInput;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::WireStackWithLength;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_network::client::ClientConnection;

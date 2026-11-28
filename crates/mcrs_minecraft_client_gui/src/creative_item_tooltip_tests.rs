@@ -6,7 +6,7 @@ use mcrs_minecraft_client_world::player::Player;
 use mcrs_minecraft_client_world::screen::Screen;
 use mcrs_minecraft_engine_item::{ItemCommandsExt, StackCommandsExt};
 use mcrs_minecraft_game_registries::registry_load::test_registries;
-use mcrs_minecraft_item_stack::{Count, ItemStack};
+use mcrs_minecraft_item_component::{Count, ItemStack};
 use mcrs_minecraft_menu_geometry::{CreativeGeometry, CreativeTabIndex};
 use mcrs_minecraft_registries::CurrentRegistries;
 

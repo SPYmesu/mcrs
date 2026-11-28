@@ -18,7 +18,7 @@ use mcrs_minecraft_engine_item::Selected;
 use mcrs_minecraft_engine_item::SlotRef;
 use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_engine_item::StackCommandsExt;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 use crate::fixture::PLAIN;
 use crate::fixture::TABLE;

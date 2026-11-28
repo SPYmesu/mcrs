@@ -3,7 +3,7 @@ use alloc::vec::Vec;
 use bevy_ecs::system::EntityCommands;
 use bevy_ecs::world::EntityWorldMut;
 use bevy_math::DVec3;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 use crate::Gift;
 use crate::Request;

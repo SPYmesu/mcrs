@@ -1,7 +1,7 @@
 use bevy_ecs::system::EntityCommands;
 use bevy_ecs::world::EntityWorldMut;
 use mcrs_minecraft_engine_item::StackCommandsExt;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Kind;
 
 use crate::Launch;
 use crate::launch::Launching;

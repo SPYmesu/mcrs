@@ -4,12 +4,12 @@ use core::hash::Hasher;
 use bevy_ecs::component::Component;
 use bevy_ecs::component::ComponentId;
 use bevy_ecs::world::EntityWorldMut;
-use mcrs_minecraft_item_stack::Builtin;
-use mcrs_minecraft_item_stack::BuiltinKey;
-use mcrs_minecraft_item_stack::CustomComponent;
-use mcrs_minecraft_item_stack::ItemComponent;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::PatchEntry;
+use mcrs_minecraft_item_component::Builtin;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::CustomComponent;
+use mcrs_minecraft_item_component::ItemComponent;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::PatchEntry;
 use mcrs_minecraft_item_table::Prototype;
 use rustc_hash::FxHasher;
 

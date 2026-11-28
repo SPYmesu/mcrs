@@ -1,6 +1,6 @@
 use mcrs_minecraft_engine::persisted_registry::PersistedError;
 use mcrs_minecraft_engine_registries::RegistryNames;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_stack::SlotStack;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 

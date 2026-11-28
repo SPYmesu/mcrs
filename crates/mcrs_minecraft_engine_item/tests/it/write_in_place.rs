@@ -5,9 +5,9 @@ use bevy_ecs::system::Query;
 use bevy_ecs::system::SystemState;
 use mcrs_minecraft_engine_item::StackCommandsExt;
 use mcrs_minecraft_engine_item::Stacks;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Lore;
-use mcrs_minecraft_item_stack::Rarity;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Lore;
+use mcrs_minecraft_item_component::Rarity;
 
 use crate::fixture::LORED;
 use crate::fixture::SWORD;

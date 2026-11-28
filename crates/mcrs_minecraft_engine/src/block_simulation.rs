@@ -1,6 +1,6 @@
 use std::mem;
 
-use bevy_app::{App, FixedPostUpdate, FixedUpdate, Plugin, SubApp};
+use bevy_app::{App, FixedPostUpdate, FixedUpdate, Last, Plugin, SubApp};
 use bevy_ecs::entity::Entity;
 use bevy_ecs::message::{MessageReader, MessageWriter};
 use bevy_ecs::prelude::{Has, Query, With};
@@ -27,7 +27,7 @@ use mcrs_minecraft_engine_world::world::storage::random_ticks::{
 };
 use mcrs_minecraft_engine_world::world::storage::section::SectionIndex;
 use mcrs_minecraft_engine_world::world::storage::view::WorldViewMut;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_protocol::VarInt;
 use mcrs_minecraft_protocol_game::clientbound::ClientboundBlockEvent;
 use mcrs_minecraft_resource::{Id, ResourceKeyBuf};
@@ -46,10 +46,13 @@ use crate::block_mail::BlockOutbox;
 use crate::block_update::{BroadcastMarks, remove_replaced_block_entities};
 use crate::bus::PacketPayload;
 use crate::cell_volume::CellVolume;
+use crate::cold_columns::{SaveRequest, columns_cooling};
 use crate::column_change::ColumnChange;
 use crate::column_streams::ColumnStreams;
-use crate::column_tick_holder::{ColumnTickHolder, CopiedTicks, TakenTicks};
 use crate::column_ticks::LandedTicks;
+use crate::column_ticks_answer::ColumnTicksAnswer;
+use crate::column_ticks_ask::{ColumnTicksAsk, TickHandoff};
+use crate::column_ticks_exchange::ColumnTicksExchange;
 use crate::coordinator::clock::GameTime;
 use crate::random_tick_speed::RandomTickSpeed;
 use crate::world_kinds::{WorldFacts, WorldKinds};
@@ -112,6 +115,8 @@ impl<B: BlockBehaviour<WorldKinds> + BlockDrops + Clone + Send + 'static> Plugin
         app.init_resource::<BroadcastMarks>();
         app.add_message::<ItemDropped>();
         app.add_message::<BlockBroken>();
+        app.add_message::<ColumnTicksAsk>();
+        app.add_message::<ColumnTicksAnswer>();
         app.add_plugins(RandomTickIndexPlugin);
         app.add_systems(
             FixedUpdate,
@@ -126,6 +131,19 @@ impl<B: BlockBehaviour<WorldKinds> + BlockDrops + Clone + Send + 'static> Plugin
                 .in_set(BlockSimulationSet),
         );
         app.configure_sets(FixedUpdate, BlockSimulationSet.in_set(TickSet::WorldWrite));
+        app.add_systems(
+            FixedUpdate,
+            hand_over_column_ticks
+                .run_if(columns_cooling)
+                .in_set(ColumnTicksExchange::Answer)
+                .after(BlockSimulationSet),
+        );
+        app.add_systems(
+            Last,
+            hand_over_column_ticks
+                .run_if(resource_exists::<SaveRequest>)
+                .in_set(ColumnTicksExchange::Answer),
+        );
         app.add_systems(
             FixedPostUpdate,
             remove_replaced_block_entities
@@ -184,18 +202,12 @@ impl BlockSimulation {
             !runs
         });
     }
-}
 
-impl ColumnTickHolder for BlockSimulation {
-    fn copy_column(
-        &self,
-        column: ColumnPos,
-        rows: impl IntoIterator<Item = i32>,
-        now: GameTick,
-    ) -> CopiedTicks {
+    fn copy_column(&self, ask: &ColumnTicksAsk, now: GameTick) -> ColumnTicksAnswer {
+        let column = ask.column;
         let mut block = Taken::default();
         let mut fluid = Taken::default();
-        for y in rows {
+        for y in ask.rows.clone() {
             let section = SectionPos::new(column.x, y, column.z);
             if let Some(ticks) = self.shard.block_ticks().section_ticks(section) {
                 block.add(ticks, now);
@@ -205,7 +217,9 @@ impl ColumnTickHolder for BlockSimulation {
             }
         }
         let changed = self.activated.contains(&column) || block.has_active() || fluid.has_active();
-        CopiedTicks {
+        ColumnTicksAnswer {
+            entity: ask.entity,
+            column,
             ticks: ColumnTicks {
                 block: block.into_list(),
                 fluid: fluid.into_list(),
@@ -214,15 +228,11 @@ impl ColumnTickHolder for BlockSimulation {
         }
     }
 
-    fn take_column(
-        &mut self,
-        column: ColumnPos,
-        rows: impl IntoIterator<Item = i32>,
-        now: GameTick,
-    ) -> TakenTicks {
+    fn take_column(&mut self, ask: &ColumnTicksAsk, now: GameTick) -> ColumnTicksAnswer {
+        let column = ask.column;
         let mut block = Taken::default();
         let mut fluid = Taken::default();
-        for y in rows {
+        for y in ask.rows.clone() {
             let section = SectionPos::new(column.x, y, column.z);
             self.held.remove(&section);
             if let Some(ticks) = self.shard.block_ticks_mut().take_section(section) {
@@ -234,13 +244,39 @@ impl ColumnTickHolder for BlockSimulation {
         }
         let activated = self.activated.remove(&column);
         let changed = activated || block.has_active() || fluid.has_active();
-        TakenTicks {
+        ColumnTicksAnswer {
+            entity: ask.entity,
+            column,
             ticks: ColumnTicks {
                 block: block.into_list(),
                 fluid: fluid.into_list(),
             },
             changed,
         }
+    }
+}
+
+#[cfg_attr(
+    mcrs_lint,
+    expect(
+        mcrs::alloc_in_tick,
+        reason = "runs only for a column that cools or is saved in this tick, and the ticks move into the column store"
+    )
+)]
+#[cfg_attr(mcrs_lint, mcrs::alloc_sites(5))]
+fn hand_over_column_ticks(
+    mut asks: MessageReader<ColumnTicksAsk>,
+    mut simulation: ResMut<BlockSimulation>,
+    mut answers: MessageWriter<ColumnTicksAnswer>,
+    time: Res<GameTime>,
+) {
+    let now = GameTick(time.0);
+    for ask in asks.read() {
+        let answer = match ask.handoff {
+            TickHandoff::Copy => simulation.copy_column(ask, now),
+            TickHandoff::Take => simulation.take_column(ask, now),
+        };
+        answers.write(answer);
     }
 }
 
@@ -808,14 +844,20 @@ mod tests {
             key,
         });
 
-        let copied = simulation.copy_column(column, 4..5, GameTick(1));
+        let ask = |rows| ColumnTicksAsk {
+            column,
+            entity: Entity::PLACEHOLDER,
+            rows,
+            handoff: TickHandoff::Copy,
+        };
+        let copied = simulation.copy_column(&ask(4..5), GameTick(1));
         assert!(
             copied.changed,
             "a scheduled tick is not reported as a change"
         );
         assert_eq!(copied.ticks.block.len(), 1);
         assert!(
-            !simulation.copy_column(column, 0..1, GameTick(1)).changed,
+            !simulation.copy_column(&ask(0..1), GameTick(1)).changed,
             "a tick in another section marks the column changed"
         );
     }

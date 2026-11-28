@@ -5,7 +5,7 @@ use bevy_ecs::system::In;
 use bevy_ecs::system::ParamSet;
 use bevy_ecs::system::Query;
 use bevy_ecs::system::ResMut;
-use mcrs_minecraft_item_stack::Count;
+use mcrs_minecraft_item_component::Count;
 
 use crate::InSlot;
 use crate::SlotChanged;

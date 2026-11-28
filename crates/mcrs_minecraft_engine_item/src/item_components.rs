@@ -6,8 +6,8 @@ use bevy_ecs::component::StorageType;
 use bevy_ecs::resource::Resource;
 use bevy_ecs::world::FromWorld;
 use bevy_ecs::world::World;
-use mcrs_minecraft_item_stack::BuiltinKey;
-use mcrs_minecraft_item_stack::CustomComponent;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::CustomComponent;
 
 use crate::RegisterError;
 use crate::column::Column;
@@ -27,14 +27,14 @@ impl FromWorld for ItemComponents {
             ($($name:ident => $path:literal),* $(,)?) => {
                 vec![
                     $(Row::builtin(
-                        Column::<mcrs_minecraft_item_stack::$name>::register(world),
+                        Column::<mcrs_minecraft_item_component::$name>::register(world),
                         BuiltinKey::$name,
                     ),)*
                     Row::undecoded(Column::register(world)),
                 ]
             };
         }
-        let rows = mcrs_minecraft_item_stack::for_each_builtin!(rows);
+        let rows = mcrs_minecraft_item_component::for_each_builtin!(rows);
         Self { rows }
     }
 }

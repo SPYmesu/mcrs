@@ -52,7 +52,7 @@ impl ItemStack {
         self
     }
 
-    pub(crate) fn put_entry(&mut self, entry: PatchEntry) {
+    pub fn put_entry(&mut self, entry: PatchEntry) {
         let found = self
             .patch
             .binary_search_by(|present| present.key().cmp(&entry.key()));

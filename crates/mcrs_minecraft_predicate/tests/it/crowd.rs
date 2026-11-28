@@ -6,7 +6,7 @@ use mcrs_minecraft_entity::entity_type_keys::EntityType;
 use mcrs_minecraft_entity::mob_effect_keys::MobEffect;
 use mcrs_minecraft_entity::spawn_condition::Structure;
 use mcrs_minecraft_item::component::equippable::EquipmentSlot;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_pose::Pose;
 use mcrs_minecraft_predicate::{

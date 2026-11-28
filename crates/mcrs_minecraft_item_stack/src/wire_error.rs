@@ -1,10 +1,10 @@
 use core::error::Error;
 use core::fmt;
 
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ComponentType;
 use mcrs_minecraft_wire::ErrorKind;
 
-use crate::BuiltinKey;
-use crate::ComponentType;
 use crate::NameTable;
 use crate::SavedError;
 

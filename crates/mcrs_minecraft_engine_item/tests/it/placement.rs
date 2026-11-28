@@ -8,9 +8,9 @@ use mcrs_minecraft_engine_item::HolderCommandsExt;
 use mcrs_minecraft_engine_item::InSlot;
 use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_engine_item::StackCommandsExt;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
 
 use crate::fixture::LORED;
 use crate::fixture::PLAIN;

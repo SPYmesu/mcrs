@@ -6,8 +6,6 @@ use mcrs_minecraft_text::Text;
 
 use crate::Neutral;
 
-pub(crate) const MAX_LINES: usize = 256;
-
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "bevy", derive(bevy_ecs::component::Component))]
 pub struct Lore {
@@ -15,10 +13,12 @@ pub struct Lore {
 }
 
 impl Lore {
+    pub const MAX_LINES: usize = 256;
+
     #[must_use]
     pub fn new(lines: impl Into<Cow<'static, [Text]>>) -> Option<Self> {
         let lines: Cow<'static, [Text]> = lines.into();
-        (lines.len() <= MAX_LINES).then_some(Self { lines })
+        (lines.len() <= Self::MAX_LINES).then_some(Self { lines })
     }
 }
 

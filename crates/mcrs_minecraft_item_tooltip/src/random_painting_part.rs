@@ -1,9 +1,9 @@
 use alloc::vec::Vec;
 
-use mcrs_minecraft_item_stack::BuiltinKey;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::PaintingVariant;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
-use mcrs_minecraft_item_stack::PaintingVariant;
 use mcrs_minecraft_resource::ResourceLocation;
 use mcrs_minecraft_resource::rl;
 use mcrs_minecraft_text::Color;

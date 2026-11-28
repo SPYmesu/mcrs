@@ -6,9 +6,9 @@ use glam::DVec3;
 use mcrs_minecraft_engine_item::ItemCommandsExt;
 use mcrs_minecraft_entity_key::BirthSource;
 use mcrs_minecraft_entity_key::EntityUuid;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_entity::ItemEntity;
 use mcrs_minecraft_item_entity::Start;
-use mcrs_minecraft_item_stack::ItemStack;
 
 use crate::Form;
 use crate::ItemEntityCommandsExt;

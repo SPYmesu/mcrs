@@ -1,8 +1,8 @@
 use bevy_ecs::entity::Entity;
 use bevy_ecs::world::World;
 use bevy_math::DVec3;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::Kind;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::Kind;
 
 use crate::Dropped;
 use crate::Gift;

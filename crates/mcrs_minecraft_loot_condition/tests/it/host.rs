@@ -4,7 +4,7 @@ use mcrs_minecraft_environment::environment_attribute_keys::EnvironmentAttribute
 use mcrs_minecraft_environment::{AttributeValue, WorldClock};
 use mcrs_minecraft_game_registries::registry_load::test_registries;
 use mcrs_minecraft_item::component::equippable::EquipmentSlot;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_loot_condition::{
     ClockView, EnvironmentView, NbtNumber, ScoreHolder, ScoreView, StorageView, WeatherView,
 };

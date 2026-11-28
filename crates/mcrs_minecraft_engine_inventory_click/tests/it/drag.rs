@@ -20,11 +20,11 @@ use mcrs_minecraft_engine_item::StackCommandsExt;
 use mcrs_minecraft_inventory_click::ClickPlayer;
 use mcrs_minecraft_inventory_menu::MenuLayout;
 use mcrs_minecraft_inventory_player::Holder;
-use mcrs_minecraft_item_stack::Builtin;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::Builtin;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::MaxStackSize;
 use mcrs_minecraft_item_table::ItemTable;
 
 fn drag(button: u8, clicked: Clicked) -> Click {

@@ -1,8 +1,8 @@
 use alloc::vec::Vec;
 
 use bevy_ecs::world::EntityWorldMut;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::PatchEntry;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::PatchEntry;
 use mcrs_minecraft_item_table::ItemTable;
 
 use crate::Removed;

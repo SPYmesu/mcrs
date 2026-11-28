@@ -14,7 +14,7 @@ use mcrs_minecraft_entity_attribute::AttributeInstances;
 use mcrs_minecraft_entity_attribute::attribute_keys::Attribute;
 use mcrs_minecraft_inventory_menu::MenuLayout;
 use mcrs_minecraft_item::ItemHoverMap;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_table::{ItemTable, Prototype};
 use mcrs_minecraft_item_tooltip::{
     AttackBases, TooltipDetail, TooltipInputs, TooltipView, append_tooltip_parts,
@@ -378,7 +378,8 @@ mod tests {
     use mcrs_minecraft_entity_attribute::InstanceEdit;
     use mcrs_minecraft_game_registries::registry_load::test_registries;
     use mcrs_minecraft_inventory_file::PlayerItems;
-    use mcrs_minecraft_item_stack::{Count, CustomName, Kind, NameLookup, NameTable};
+    use mcrs_minecraft_item_component::{Count, CustomName, Kind};
+    use mcrs_minecraft_item_stack::{NameLookup, NameTable};
     use mcrs_minecraft_menu_key::menu_keys::MenuType;
     use mcrs_minecraft_model::resource_set::ResourceSet;
     use mcrs_minecraft_player_holders::{PlayerHoldersPlugin, restore_holders};

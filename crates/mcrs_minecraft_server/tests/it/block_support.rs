@@ -17,8 +17,8 @@ use mcrs_minecraft_engine_world::world::dimension::InDimension;
 use mcrs_minecraft_engine_world::world::storage::random_ticks::RandomTickIndex;
 use mcrs_minecraft_engine_world::world::storage::section::SectionIndex;
 use mcrs_minecraft_game_registries::registry_load::test_registries;
+use mcrs_minecraft_item_component::{Count, Kind};
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{Count, Kind};
 use mcrs_minecraft_protocol::uuid::Uuid;
 use mcrs_minecraft_server::{
     VanillaBlocksPlugin, VanillaEntityPhysicsPlugin, VanillaItemEntityPlugin,

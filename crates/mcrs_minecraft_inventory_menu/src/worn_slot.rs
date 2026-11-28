@@ -1,6 +1,6 @@
 use mcrs_minecraft_inventory_player::ArmourSlot;
 use mcrs_minecraft_inventory_player::EquipSlot;
-use mcrs_minecraft_item_stack::EquippableSlot;
+use mcrs_minecraft_item_component::EquippableSlot;
 
 #[must_use]
 pub const fn worn_slot(slot: EquippableSlot) -> Option<EquipSlot> {

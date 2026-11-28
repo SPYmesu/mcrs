@@ -1,17 +1,17 @@
 use alloc::vec::Vec;
 
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ComponentType;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::PatchEntry;
 use mcrs_minecraft_resource::ResourceLocation;
 
-use crate::BuiltinKey;
-use crate::ComponentType;
 use crate::HashError;
 use crate::HashScratch;
 use crate::HashedComponent;
-use crate::ItemStack;
-use crate::Kind;
 use crate::NameLookup;
 use crate::NameTable;
-use crate::PatchEntry;
 use crate::component_hash::component_hash;
 use crate::saved::is_air;
 use crate::wire::present;

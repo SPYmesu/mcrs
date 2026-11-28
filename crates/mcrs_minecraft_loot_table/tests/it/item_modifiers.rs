@@ -9,7 +9,7 @@ use mcrs_minecraft_entity_attribute::attribute_keys::Attribute;
 use mcrs_minecraft_game_registries::registry_load::{
     load_registries, test_additions, test_packs, test_registries,
 };
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     AttributeId, AttributeModifier, AttributeModifiers, Count, Damage, ItemStack, SlotGroup,
 };
 use mcrs_minecraft_loot::context_key_set_keys::ContextKeySet;

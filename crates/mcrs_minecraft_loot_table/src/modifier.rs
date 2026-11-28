@@ -2,7 +2,7 @@ use core::num::NonZeroU8;
 
 use mcrs_minecraft_item::component::equippable::EquipmentSlot;
 use mcrs_minecraft_item::enchantment::Enchantment;
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     Damage, EnchantmentId, EnchantmentLevel, Enchantments, Kind, MaxDamage, Unbreakable,
 };
 use mcrs_minecraft_loot_condition::{
@@ -494,7 +494,7 @@ mod tests {
     use crate::item_rules::ItemRules;
     use mcrs_minecraft_engine_registries::{test_corpus, test_item_table};
     use mcrs_minecraft_game_registries::registry_load::test_registries;
-    use mcrs_minecraft_item_stack::Builtin;
+    use mcrs_minecraft_item_component::Builtin;
     use mcrs_minecraft_item_table::ItemTable;
     use mcrs_minecraft_loot::context_key_set_keys::ContextKeySet;
     use mcrs_minecraft_loot_condition::{LootContext, NamedEntries};

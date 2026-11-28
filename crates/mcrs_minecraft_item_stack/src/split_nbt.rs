@@ -1,6 +1,6 @@
+use mcrs_minecraft_item_component::BuiltinKey;
 use mcrs_minecraft_nbt::split_wire;
 
-use crate::BuiltinKey;
 use crate::WireError;
 
 const NBT_QUOTA: usize = 2_097_152;

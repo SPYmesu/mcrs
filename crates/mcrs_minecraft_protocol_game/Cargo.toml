@@ -45,6 +45,7 @@ derive_more = { workspace = true, features = ["from", "into", "deref", "deref_mu
 anyhow.workspace = true
 bytes.workspace = true
 mcrs_minecraft_engine_registries = { workspace = true, features = ["test-support"] }
+mcrs_minecraft_item_component.workspace = true
 mcrs_minecraft_snbt.workspace = true
 mcrs_minecraft_sound = { workspace = true, features = ["registry"] }
 mcrs_minecraft_game_registries = { workspace = true, features = ["test-support"] }

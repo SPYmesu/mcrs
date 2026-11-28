@@ -5,43 +5,43 @@ use std::path::PathBuf;
 use std::sync::LazyLock;
 
 use mcrs_minecraft_fixtures::vanilla_dir;
-use mcrs_minecraft_item_stack::AttributeModifiers;
-use mcrs_minecraft_item_stack::BannerPatterns;
-use mcrs_minecraft_item_stack::Bees;
-use mcrs_minecraft_item_stack::BlockState;
-use mcrs_minecraft_item_stack::BlockStateProperty;
-use mcrs_minecraft_item_stack::BundleContents;
-use mcrs_minecraft_item_stack::ChargedProjectiles;
-use mcrs_minecraft_item_stack::Container;
-use mcrs_minecraft_item_stack::Damage;
-use mcrs_minecraft_item_stack::EnchantmentGlintOverride;
-use mcrs_minecraft_item_stack::Enchantments;
-use mcrs_minecraft_item_stack::Equippable;
-use mcrs_minecraft_item_stack::Fireworks;
-use mcrs_minecraft_item_stack::Food;
-use mcrs_minecraft_item_stack::Instrument;
-use mcrs_minecraft_item_stack::InstrumentId;
-use mcrs_minecraft_item_stack::ItemModel;
-use mcrs_minecraft_item_stack::ItemName;
-use mcrs_minecraft_item_stack::Kind;
-use mcrs_minecraft_item_stack::Lore;
-use mcrs_minecraft_item_stack::MapDecorations;
-use mcrs_minecraft_item_stack::MaxDamage;
-use mcrs_minecraft_item_stack::MaxStackSize;
+use mcrs_minecraft_item_component::AttributeModifiers;
+use mcrs_minecraft_item_component::BannerPatterns;
+use mcrs_minecraft_item_component::Bees;
+use mcrs_minecraft_item_component::BlockState;
+use mcrs_minecraft_item_component::BlockStateProperty;
+use mcrs_minecraft_item_component::BundleContents;
+use mcrs_minecraft_item_component::ChargedProjectiles;
+use mcrs_minecraft_item_component::Container;
+use mcrs_minecraft_item_component::Damage;
+use mcrs_minecraft_item_component::EnchantmentGlintOverride;
+use mcrs_minecraft_item_component::Enchantments;
+use mcrs_minecraft_item_component::Equippable;
+use mcrs_minecraft_item_component::Fireworks;
+use mcrs_minecraft_item_component::Food;
+use mcrs_minecraft_item_component::Instrument;
+use mcrs_minecraft_item_component::InstrumentId;
+use mcrs_minecraft_item_component::ItemModel;
+use mcrs_minecraft_item_component::ItemName;
+use mcrs_minecraft_item_component::Kind;
+use mcrs_minecraft_item_component::Lore;
+use mcrs_minecraft_item_component::MapDecorations;
+use mcrs_minecraft_item_component::MaxDamage;
+use mcrs_minecraft_item_component::MaxStackSize;
+use mcrs_minecraft_item_component::Neutral;
+use mcrs_minecraft_item_component::OminousBottleAmplifier;
+use mcrs_minecraft_item_component::PaintingVariant;
+use mcrs_minecraft_item_component::PotionContents;
+use mcrs_minecraft_item_component::Rarity;
+use mcrs_minecraft_item_component::RegistryValue;
+use mcrs_minecraft_item_component::RepairCost;
+use mcrs_minecraft_item_component::StoredEnchantments;
+use mcrs_minecraft_item_component::SuspiciousStewEffects;
+use mcrs_minecraft_item_component::Tool;
+use mcrs_minecraft_item_component::TooltipDisplay;
+use mcrs_minecraft_item_component::Unbreakable;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
-use mcrs_minecraft_item_stack::Neutral;
-use mcrs_minecraft_item_stack::OminousBottleAmplifier;
-use mcrs_minecraft_item_stack::PaintingVariant;
-use mcrs_minecraft_item_stack::PotionContents;
-use mcrs_minecraft_item_stack::Rarity;
-use mcrs_minecraft_item_stack::RegistryValue;
-use mcrs_minecraft_item_stack::RepairCost;
-use mcrs_minecraft_item_stack::StoredEnchantments;
-use mcrs_minecraft_item_stack::SuspiciousStewEffects;
-use mcrs_minecraft_item_stack::Tool;
-use mcrs_minecraft_item_stack::TooltipDisplay;
-use mcrs_minecraft_item_stack::Unbreakable;
 use mcrs_minecraft_item_table::BakedItems;
 use mcrs_minecraft_item_table::DefinitionFile;
 use mcrs_minecraft_item_table::Prototype;
@@ -472,7 +472,7 @@ macro_rules! typed_paths {
 
 #[test]
 fn the_bake_skips_no_type_that_the_item_stack_types() {
-    const TYPED: &[&str] = mcrs_minecraft_item_stack::for_each_builtin!(typed_paths);
+    const TYPED: &[&str] = mcrs_minecraft_item_component::for_each_builtin!(typed_paths);
     let typed_but_skipped: Vec<String> = CORPUS
         .baked
         .skipped

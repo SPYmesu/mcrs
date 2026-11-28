@@ -1,6 +1,6 @@
 use bevy_ecs::component::Component;
-use mcrs_minecraft_item_stack::BuiltinKey;
-use mcrs_minecraft_item_stack::ItemComponent;
+use mcrs_minecraft_item_component::BuiltinKey;
+use mcrs_minecraft_item_component::ItemComponent;
 
 #[derive(Component, Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Removed {

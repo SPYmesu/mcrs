@@ -1,4 +1,4 @@
-use mcrs_minecraft_item_stack::{ItemStack, Kind};
+use mcrs_minecraft_item_component::{ItemStack, Kind};
 use mcrs_minecraft_loot_condition::{
     Condition, DynamicName, FloatProvider, IntProvider, LootContext, LootInputs, LootWorld,
     NamedEntries, bounded,

@@ -26,11 +26,11 @@ use mcrs_minecraft_inventory_player::Slot;
 use mcrs_minecraft_inventory_player::Stacking;
 use mcrs_minecraft_inventory_player::insert;
 use mcrs_minecraft_inventory_transaction::Filter;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::Damage;
 use mcrs_minecraft_item_entity::ItemEntity;
 use mcrs_minecraft_item_entity::can_pick_up;
 use mcrs_minecraft_item_entity::pickup_box;
-use mcrs_minecraft_item_stack::Count;
-use mcrs_minecraft_item_stack::Damage;
 use mcrs_minecraft_physics::Aabb;
 
 use crate::Collect;

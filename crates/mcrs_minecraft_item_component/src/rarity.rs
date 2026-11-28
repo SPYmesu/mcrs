@@ -8,18 +8,15 @@ pub enum Rarity {
 }
 
 impl Rarity {
-    pub(crate) const ALL: [Self; 4] = [Self::Common, Self::Uncommon, Self::Rare, Self::Epic];
+    pub const ALL: [Self; 4] = [Self::Common, Self::Uncommon, Self::Rare, Self::Epic];
 
-    pub(crate) const fn name(self) -> &'static str {
+    #[must_use]
+    pub const fn name(self) -> &'static str {
         match self {
             Self::Common => "common",
             Self::Uncommon => "uncommon",
             Self::Rare => "rare",
             Self::Epic => "epic",
         }
-    }
-
-    pub(crate) fn from_name(name: &str) -> Option<Self> {
-        Self::ALL.into_iter().find(|rarity| rarity.name() == name)
     }
 }

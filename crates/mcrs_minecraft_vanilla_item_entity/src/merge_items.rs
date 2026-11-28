@@ -11,11 +11,11 @@ use bevy_ecs::system::ResMut;
 use bevy_ecs::world::World;
 use mcrs_minecraft_engine_item::Dropped;
 use mcrs_minecraft_engine_item::Stacks;
+use mcrs_minecraft_item_component::Count;
 use mcrs_minecraft_item_entity::ItemEntity;
 use mcrs_minecraft_item_entity::Target;
 use mcrs_minecraft_item_entity::merge_box;
 use mcrs_minecraft_item_entity::merge_target;
-use mcrs_minecraft_item_stack::Count;
 use mcrs_minecraft_physics::Aabb;
 use rustc_hash::FxHashSet;
 

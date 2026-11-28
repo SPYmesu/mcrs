@@ -3,14 +3,14 @@ use alloc::string::String;
 use alloc::string::ToString;
 use alloc::vec::Vec;
 
+use mcrs_minecraft_item_component::EntityData;
+use mcrs_minecraft_item_component::Profile;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_nbt::to_nbt_tag;
 use mcrs_minecraft_resource::ResourceLocation;
 use mcrs_minecraft_text::Text;
 
-use crate::Profile;
-use crate::entity_data::ENTITY_TYPE_KEY;
 use crate::saved_form::Fault;
 use crate::saved_key::REMOVAL_MARKER;
 use crate::saved_sink::Field;
@@ -66,7 +66,10 @@ impl SavedSink for TagSink {
         entity_type: ResourceLocation<'_>,
     ) -> Option<NbtTag> {
         let mut compound = data.clone();
-        compound.put(ENTITY_TYPE_KEY, NbtTag::String(entity_type.to_string()));
+        compound.put(
+            EntityData::TYPE_KEY,
+            NbtTag::String(entity_type.to_string()),
+        );
         Some(NbtTag::Compound(compound))
     }
 

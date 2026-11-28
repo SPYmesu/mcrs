@@ -35,7 +35,7 @@ use crate::dim_mail::DimMail;
 use crate::held_joins::HeldJoins;
 use crate::hot_ticket::RemoteTicket;
 use crate::persistence;
-use crate::persistence::PlayerSaveQueue;
+use crate::persistence::{PersistedSnapshotExt, PlayerSaveQueue};
 use crate::player_dimension_change;
 use crate::player_order::OrderedPlayer;
 use crate::player_roster::{ForeignPlayers, OwnPlayers, RosterRow};

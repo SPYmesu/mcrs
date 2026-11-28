@@ -1,7 +1,7 @@
 use bevy_app::App;
 use bevy_ecs::change_detection::Mut;
 use bevy_ecs::component::Component;
-use mcrs_minecraft_item_stack::CustomComponent;
+use mcrs_minecraft_item_component::CustomComponent;
 
 use crate::GateFn;
 use crate::GateId;

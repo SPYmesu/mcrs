@@ -7,12 +7,12 @@ use mcrs_minecraft_core::codec::Bounded as Range;
 use mcrs_minecraft_engine_registries::RegistryNames;
 use mcrs_minecraft_engine_registries::test_item_table;
 use mcrs_minecraft_game_registries::registry_load::test_registries;
+use mcrs_minecraft_item_component::Count;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::Count;
 use mcrs_minecraft_item_stack::HashScratch;
 use mcrs_minecraft_item_stack::HashedStack;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
 use mcrs_minecraft_item_stack::WireStackWithLength;
 use mcrs_minecraft_item_stack::hash_stack;
 use mcrs_minecraft_item_stack::matches_hashed;
@@ -105,11 +105,11 @@ fn one(fixture: &Fixture, path: &str) -> ItemStack {
 
 fn sword_stack(fixture: &Fixture) -> ItemStack {
     one(fixture, "diamond_sword")
-        .set(mcrs_minecraft_item_stack::Damage(7))
-        .set(mcrs_minecraft_item_stack::CustomName(
+        .set(mcrs_minecraft_item_component::Damage(7))
+        .set(mcrs_minecraft_item_component::CustomName(
             mcrs_minecraft_text::Text::text("named"),
         ))
-        .set(mcrs_minecraft_item_stack::Unbreakable)
+        .set(mcrs_minecraft_item_component::Unbreakable)
 }
 
 fn plain(f: &Fixture, path: &str, n: i32) -> ProtoStack<Wire> {

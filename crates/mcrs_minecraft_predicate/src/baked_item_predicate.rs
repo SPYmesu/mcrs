@@ -1,6 +1,7 @@
 use fixedbitset::FixedBitSet;
+use mcrs_minecraft_item_component::ItemStack;
 use mcrs_minecraft_item_key::item_keys::Item;
-use mcrs_minecraft_item_stack::{ItemStack, NameLookup};
+use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_table::ItemTable;
 use mcrs_minecraft_registries::Registries;
 

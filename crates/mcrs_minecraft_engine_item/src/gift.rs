@@ -1,5 +1,5 @@
 use bevy_ecs::entity::Entity;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Gift {

@@ -3,7 +3,7 @@ use alloc::vec::Vec;
 use bevy_ecs::entity::Entity;
 use bevy_ecs::message::Messages;
 use bevy_ecs::world::World;
-use mcrs_minecraft_item_stack::ItemStack;
+use mcrs_minecraft_item_component::ItemStack;
 
 use crate::InSlot;
 use crate::SlotChanged;

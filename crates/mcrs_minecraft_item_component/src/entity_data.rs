@@ -6,8 +6,6 @@ use mcrs_minecraft_nbt::compound::NbtCompound;
 use crate::EntityTypeId;
 use crate::custom_data::compounds_equal;
 
-pub(crate) const ENTITY_TYPE_KEY: &str = "id";
-
 #[derive(Clone, Debug)]
 pub struct EntityData {
     pub entity_type: EntityTypeId,
@@ -15,9 +13,11 @@ pub struct EntityData {
 }
 
 impl EntityData {
+    pub const TYPE_KEY: &'static str = "id";
+
     #[must_use]
     pub fn new(entity_type: EntityTypeId, mut data: NbtCompound) -> Self {
-        data.child_tags.retain(|(key, _)| key != ENTITY_TYPE_KEY);
+        data.child_tags.retain(|(key, _)| key != Self::TYPE_KEY);
         Self { entity_type, data }
     }
 

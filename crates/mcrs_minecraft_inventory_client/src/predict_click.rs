@@ -29,10 +29,10 @@ use mcrs_minecraft_inventory_click::ClickPlayer;
 use mcrs_minecraft_inventory_menu::MenuLayout;
 use mcrs_minecraft_inventory_player::PlayerMode;
 use mcrs_minecraft_inventory_transaction::Op;
+use mcrs_minecraft_item_component::ItemStack;
+use mcrs_minecraft_item_component::Kind;
 use mcrs_minecraft_item_stack::HashScratch;
 use mcrs_minecraft_item_stack::HashedStack;
-use mcrs_minecraft_item_stack::ItemStack;
-use mcrs_minecraft_item_stack::Kind;
 use mcrs_minecraft_item_stack::NameLookup;
 use mcrs_minecraft_item_stack::NameTable;
 use mcrs_minecraft_item_stack::hash_stack;
@@ -263,7 +263,7 @@ fn claim(
 mod tests {
     use mcrs_minecraft_engine_registries::test_item_table;
     use mcrs_minecraft_game_registries::registry_load::test_registries;
-    use mcrs_minecraft_item_stack::Count;
+    use mcrs_minecraft_item_component::Count;
 
     use super::*;
 

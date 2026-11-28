@@ -1,14 +1,14 @@
+use mcrs_minecraft_item_component::Builtin;
+use mcrs_minecraft_item_component::EntityData;
+use mcrs_minecraft_item_component::Profile;
 use mcrs_minecraft_nbt::compound::NbtCompound;
 use mcrs_minecraft_nbt::tag::NbtTag;
 use mcrs_minecraft_resource::ResourceLocation;
 use mcrs_minecraft_text::Text;
 
-use crate::Builtin;
 use crate::HashError;
 use crate::HashScratch;
 use crate::NameLookup;
-use crate::Profile;
-use crate::entity_data::ENTITY_TYPE_KEY;
 use crate::field_map::FieldMap;
 use crate::node_hash::ListHash;
 use crate::node_hash::MapEntry;
@@ -56,7 +56,7 @@ impl HashSink<'_> {
             });
         }
         self.scratch.entries.push(MapEntry {
-            key: NodeHash::string(ENTITY_TYPE_KEY),
+            key: NodeHash::string(EntityData::TYPE_KEY),
             value: identifier(entity_type),
         });
         Some(())

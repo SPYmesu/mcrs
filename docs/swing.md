@@ -19,7 +19,7 @@ Behaviour comes from `docs/spec/arm-swing.md` (SWG), `docs/spec/block-placing.md
 | Crate | Layer | Content |
 |-------|-------|---------|
 | `mcrs_minecraft_swing` (`no_std`) | 3, rules | `SwingModifiers`, `SwingTracker` |
-| `mcrs_minecraft_item_stack` | 3, data | `SwingKind`, `SwingAnimation`, `AttackAnimation`, `InteractAnimation`, `PiercingWeapon` |
+| `mcrs_minecraft_item_component` | 3, data | `SwingKind`, `SwingAnimation`, `AttackAnimation`, `InteractAnimation`, `PiercingWeapon` |
 | `mcrs_minecraft_protocol_game` | 3, data | `ClientboundSwingAnimation`, `ClientboundAnimate` |
 | `mcrs_minecraft_replication` | 3, data | `SwingRecipients`, `PlayerData::Swing`, and `MobSignal::Swing` encoded once and delivered without backlog replay |
 | `mcrs_minecraft_engine` | 4 | `LoadedClientPlugin`, `UnloadedClient`, `PlayerSwingPlugin`, `SwingPlayer`, `SwingEligibility`, `PlayerOrder::Swing`, `MuxerStage` ordering (`views_out` -> `Entities` -> `changes_out`) |

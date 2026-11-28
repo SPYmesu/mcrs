@@ -12,6 +12,7 @@ doctest = false
 workspace = true
 
 [dependencies]
+mcrs_minecraft_item_component = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_nbt.workspace = true
 bevy_app.workspace = true
 bevy_ecs.workspace = true
@@ -28,7 +29,7 @@ mcrs_minecraft_inventory_client_view.workspace = true
 mcrs_minecraft_inventory_menu = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_inventory_player.workspace = true
 mcrs_minecraft_inventory_transaction.workspace = true
-mcrs_minecraft_item_stack = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_item_stack.workspace = true
 mcrs_minecraft_item_table = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_network = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_player_holders.workspace = true

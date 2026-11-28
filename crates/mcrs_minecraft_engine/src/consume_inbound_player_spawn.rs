@@ -16,6 +16,7 @@ use crate::network_id;
 use crate::op_level::AnnouncedOpLevel;
 use crate::persisted_registry::PersistedSnapshot;
 use crate::persistence;
+use crate::persistence::PersistedSnapshotExt;
 use crate::player_bundle::PlayerBundle;
 use crate::publish_player_tiles::AnnounceJoin;
 use crate::saved_spawn::SavedSpawn;
@@ -205,7 +206,7 @@ fn join_flight(
     default_mode: &DefaultGameMode,
     flying: bool,
 ) -> ClientboundPlayerAbilities {
-    let mode = snapshot.saved_game_mode().unwrap_or(default_mode.0);
+    let mode = persistence::saved_game_mode(snapshot).unwrap_or(default_mode.0);
     let abilities = game_mode::abilities(mode, PlayerFlying(flying));
     if flying {
         commands

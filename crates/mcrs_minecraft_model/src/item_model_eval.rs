@@ -4,15 +4,15 @@ use crate::item_model_asset::{Case, ConditionProperty, RangeProperty, SelectSwit
 use mcrs_minecraft_entity::mob_effect_keys::MobEffect;
 use mcrs_minecraft_item::RgbInt;
 use mcrs_minecraft_item::registry_keys::TRIM_MATERIAL;
-use mcrs_minecraft_item_stack::ArgbColor;
-use mcrs_minecraft_item_stack::BlockState as StackBlockState;
-use mcrs_minecraft_item_stack::CustomModelData as StackCustomModelData;
-use mcrs_minecraft_item_stack::DyedColor as StackDyedColor;
-use mcrs_minecraft_item_stack::FireworkExplosion as StackFireworkExplosion;
-use mcrs_minecraft_item_stack::PotionContents as StackPotionContents;
-use mcrs_minecraft_item_stack::RegistryValue;
-use mcrs_minecraft_item_stack::Trim as StackTrim;
-use mcrs_minecraft_item_stack::TrimMaterialId;
+use mcrs_minecraft_item_component::ArgbColor;
+use mcrs_minecraft_item_component::BlockState as StackBlockState;
+use mcrs_minecraft_item_component::CustomModelData as StackCustomModelData;
+use mcrs_minecraft_item_component::DyedColor as StackDyedColor;
+use mcrs_minecraft_item_component::FireworkExplosion as StackFireworkExplosion;
+use mcrs_minecraft_item_component::PotionContents as StackPotionContents;
+use mcrs_minecraft_item_component::RegistryValue;
+use mcrs_minecraft_item_component::Trim as StackTrim;
+use mcrs_minecraft_item_component::TrimMaterialId;
 use mcrs_minecraft_potion::potion_keys::Potion;
 
 use crate::colormap::colormap_rgba;

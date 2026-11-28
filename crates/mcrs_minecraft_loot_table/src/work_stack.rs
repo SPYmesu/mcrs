@@ -1,6 +1,6 @@
 use std::borrow::Cow;
 
-use mcrs_minecraft_item_stack::{
+use mcrs_minecraft_item_component::{
     Builtin, Count, ItemComponent, ItemStack, Kind, MaxStackSize, PatchEntry,
 };
 use mcrs_minecraft_item_table::ItemTable;
@@ -147,7 +147,7 @@ fn without<T: ItemComponent>(stack: Cow<'_, ItemStack>) -> Cow<'_, ItemStack> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mcrs_minecraft_item_stack::{Damage, RepairCost};
+    use mcrs_minecraft_item_component::{Damage, RepairCost};
 
     #[test]
     fn stk_pat_004_set_kind_normalizes_the_patch_against_the_new_prototype() {

@@ -15,7 +15,7 @@ pub struct ResourceLocation<'a> {
     path: &'a str,
 }
 
-const DEFAULT_NAMESPACE: &str = "minecraft";
+pub const DEFAULT_NAMESPACE: &str = "minecraft";
 
 fn split_namespace(text: &str) -> (&str, &str) {
     match text.split_once(':') {
