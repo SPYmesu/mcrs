@@ -42,6 +42,7 @@ use crate::world_presence::world_presence;
 use crate::world_rows::{PreselectedWorld, project_world_rows};
 use mcrs_minecraft_font::ClientLanguage;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_render::panorama_shows;
 use mcrs_minecraft_gui_scene::GuiPhase;
 use mcrs_minecraft_gui_scene::GuiSize;
 use mcrs_minecraft_gui_scene::layer_stale;
@@ -136,14 +137,16 @@ impl Plugin for MenuScreensPlugin {
             )
             .add_systems(
                 PostUpdate,
-                panorama_view::project_panorama_view.run_if(
-                    resource_exists::<PanoramaView>.and_then(
-                        resource_changed::<Screen>
-                            .or_else(any_match_filter::<Added<Player>>)
-                            .or_else(any_component_removed::<Player>)
-                            .or_else(panorama_view::panorama_shows),
+                panorama_view::project_panorama_view
+                    .before(GuiPhase::Batch)
+                    .run_if(
+                        resource_exists::<PanoramaView>.and_then(
+                            resource_changed::<Screen>
+                                .or_else(any_match_filter::<Added<Player>>)
+                                .or_else(any_component_removed::<Player>)
+                                .or_else(panorama_shows),
+                        ),
                     ),
-                ),
             );
         add_screen_draws(app);
     }

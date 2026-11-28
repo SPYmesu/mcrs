@@ -21,7 +21,7 @@ impl Plugin for ClientTerrainPlugin {
             heat: knobs.gpu_hot(),
             timestamps: knobs.pass_timestamps(),
         })
-        .add_plugins(mcrs_minecraft_client_gui::gui_items::GuiItemsPlugin)
+        .add_plugins(mcrs_minecraft_gui_render::GuiItemsPlugin)
         .add_plugins(entities::ClientEntityRenderPlugin)
         .add_plugins(sign_text::SignTextPlugin)
         .add_plugins(crate::name_tag::NameTagPlugin)

@@ -1,8 +1,6 @@
 #![recursion_limit = "256"]
 
 mod accessibility_settings_screen;
-mod atlas_quad;
-mod batch_glint;
 pub mod chat;
 pub mod chat_input;
 pub mod chat_suggestions;
@@ -59,14 +57,6 @@ mod follow_menu_events;
 mod follow_open_menu;
 pub mod game_mode_switcher;
 mod gesture_input;
-mod glyph_uploads;
-mod gui_batch;
-mod gui_batch_build;
-mod gui_batch_extract;
-mod gui_glint;
-pub mod gui_items;
-mod gui_layer_slot;
-mod gui_plugin;
 pub mod health_hud;
 pub mod hotbar;
 mod hover;
@@ -104,9 +94,6 @@ mod options_screen;
 mod panorama_view;
 mod pause_screen;
 mod project_menu;
-pub mod scene {
-    pub use crate::gui_plugin::GuiPlugin;
-}
 mod scroll_area_draw;
 mod search_input;
 mod select_world_screen;

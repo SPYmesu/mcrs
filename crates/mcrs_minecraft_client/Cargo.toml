@@ -52,6 +52,7 @@ mcrs_minecraft_client_gui.workspace = true
 mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_gui_atlas.workspace = true
 mcrs_minecraft_gui_primitives.workspace = true
+mcrs_minecraft_gui_render.workspace = true
 mcrs_minecraft_gui_scene.workspace = true
 mcrs_minecraft_client_options = { workspace = true, features = ["bevy"] }
 bevy = { version = "0.20.1", default-features = false, features = [

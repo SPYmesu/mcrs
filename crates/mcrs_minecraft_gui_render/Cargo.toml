@@ -1,0 +1,37 @@
+[package]
+name = "mcrs_minecraft_gui_render"
+description = "The render side of the GUI: the batch of all layers, the GUI pass and its shader, the extract, the glint and the panorama spin"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+bytemuck = { version = "1", features = ["derive"] }
+mcrs_minecraft_entity_render.workspace = true
+mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_gui_atlas.workspace = true
+mcrs_minecraft_gui_primitives.workspace = true
+mcrs_minecraft_gui_scene.workspace = true
+mcrs_minecraft_item_icon = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_model.workspace = true
+mcrs_minecraft_render.workspace = true
+wgpu = { version = "30", default-features = false }
+bevy = { version = "0.20.1", default-features = false, features = [
+    "std",
+    "bevy_asset",
+    "bevy_render",
+    "bevy_core_pipeline",
+    "bevy_image",
+] }
+
+[dev-dependencies]
+mcrs_minecraft_gui_primitives = { workspace = true, features = ["test-support"] }
+mcrs_minecraft_item_component = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_item_stack.workspace = true
+mcrs_minecraft_resource.workspace = true

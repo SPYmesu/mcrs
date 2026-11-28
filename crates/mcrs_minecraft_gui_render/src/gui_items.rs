@@ -177,7 +177,7 @@ pub(super) fn init_gui_pass(
                 ),
             ),
         ),
-        shader: asset_server.load("embedded://mcrs_minecraft_client_gui/gui_items.wesl"),
+        shader: asset_server.load("embedded://mcrs_minecraft_gui_render/gui_items.wesl"),
         uniform: uniform_buffer("gui items", size_of::<GuiUniform>() as u64, &device),
         vertices: None,
         pipelines: None,

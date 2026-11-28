@@ -1060,7 +1060,7 @@ Line counts are estimates of the added lines, from `wc -l` of the modules that c
 | 5 | `client_gui`, `client` | Done: the stitch requests; `menu_background` out of the atlas; `sprite_draw`; `in_game_gradient`; `gui_clock`; `debug_chord`; `GuiPlugin` loses `screen` | about 500 |
 | 6 | `resource_pack`, `model_file`, `model`, `font`, `client` | Done: `resource_pack` with `PackFiles`, the PNG decoder and the missing texture; the font loader takes `PackFiles` and returns errors and notices; ids through `ResourceLocation`; the font moves; `client` reads the jar | about 2,000 |
 | 7 | `gui_atlas`, `gui_scene`, `gui_primitives` | Done: move the atlas, the scene and the primitives; split `menu_test_app` and `slot_icon` | about 2,700 |
-| 8 | `gui_render` | Move the batch, the pipeline, the extract and the panorama spin | about 1,500 |
+| 8 | `gui_render` | Done: move the batch, the pipeline, the extract and the panorama spin | about 1,500 |
 | 9 | `gui_screen`, `client_world`, `chat_client`, `inventory_client`, `client_gui`, `gui_render`, `client` | The stack (`no_std`), chat, container, creative and the game mode switcher as entities; `ShowsFigure`; the split of `inventory_clicks` | about 2,100 |
 | 10 | `gui_screen`, `client_gui`, `gui_render`, `client` | `Menu` as a component, the session screens, title, pause and options as entities; `project_backdrop` in `gui_render` | about 2,200 |
 | 11 | `client_gui`, `client_world`, `client` | The world screens as entities; `SingleplayerEntry`; `ScreenMessage` as data of `MessageScreen`; delete `Screen`, `next_screen`, `follow_menu_events`, `project_menu` | about 1,700 |
@@ -1192,6 +1192,22 @@ The step is done.
   `draw_outlined_box`, `tile_texture`, `build_icon_meshes`, `draw_tooltip` and `ItemIcons::meshes`.
 - The lint driver follows an event condition helper of a dependency crate. A crate writes the key
   of each exported helper that runs only on an event into its facts.
+
+### Step 8: the render crate
+
+The step is done.
+
+- `mcrs_minecraft_gui_render` holds the batch, the item pipeline and its shader, the glint, the
+  glyph uploads, the batch extract and the panorama spin. The shader path names the new crate.
+- `GuiRenderPlugin` takes the rest of `GuiPlugin`: the batch, the glint, the tooltip layer and its
+  draw, `GlyphCache`, the icon meshes and the extract of `GuiImages`. `GuiPlugin` ends.
+- The client adds `GuiScenePlugin` always and `GuiRenderPlugin` only when the app has a window. The
+  client inserts `StitchRequests` beside the atlas load.
+- `panorama_spin` writes the spin in `GuiPhase::Batch`. `project_panorama_view` stays in
+  `client_gui` and runs before the batch.
+- The render crate also makes these names public: `GuiItemsPlugin`, `draw_gui` and
+  `panorama_shows`. `client_gui` depends on `gui_render`, because two of its plugins draw only
+  when `GuiBatch` exists. Step 9 removes that edge.
 
 ### Steps 9 to 12: the screen entities
 
