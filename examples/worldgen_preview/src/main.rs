@@ -54,6 +54,14 @@ fn run() -> anyhow::Result<()> {
             .checked_mul(grid.nz)
             .and_then(|points| points.checked_mul(6))
             .context("the climate grid has too many samples, raise --climate-step")?;
+        let fits = |samples: i32, start: i32| {
+            (samples - 1)
+                .checked_mul(grid.step)
+                .and_then(|offset| offset.checked_add(start))
+        };
+        fits(grid.nx, grid.x0)
+            .zip(fits(grid.nz, grid.z0))
+            .context("the climate samples do not fit block coordinates, lower --climate-step")?;
         write_climate(&data, &grid, file)?;
     }
     let columns = generate_area(&data.fill, arguments.from, arguments.to);
