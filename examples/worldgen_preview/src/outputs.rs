@@ -7,6 +7,7 @@ use glam::IVec3;
 use mcrs_minecraft_anvil::{Chunk, Heightmaps, PaletteNames, RegionFile, Section, write_chunk};
 use mcrs_minecraft_chunk::{ColumnHeights, VoxelId};
 use mcrs_minecraft_core::RegionPos;
+use mcrs_minecraft_heightmap::build_column_heightmaps;
 use mcrs_minecraft_noise::sample_grid::SampleGrid;
 use mcrs_minecraft_worldgen_density::program::Workspace;
 use mcrs_minecraft_worldgen_density::router::{
@@ -137,10 +138,17 @@ fn chunk_of(
             sky_light: None,
         });
     }
-    let maps = snapshot
-        .maps
-        .as_ref()
-        .context("a column has no heightmaps")?;
+    let first = usize::try_from(rows.start - bottom)?;
+    let kept = snapshot
+        .sections
+        .get(first..first + rows.len())
+        .context("a section of the dimension is not generated")?;
+    let maps = build_column_heightmaps(
+        kept,
+        &rows.clone().collect::<Vec<_>>(),
+        &data.fill.predicates,
+    )
+    .context("a column has no heightmaps")?;
     let longs = |heights: &ColumnHeights| {
         Some(
             heights
