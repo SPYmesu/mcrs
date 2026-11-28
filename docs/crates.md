@@ -115,6 +115,7 @@ Use the crate that owns the item. Do not write a second copy.
 
 - `mcrs_minecraft_gui_atlas`: The GUI atlas of a resource pack: the sprites, the textures and the font pages stitched into one Bevy image, with the stitch requests and the image handles
 - `mcrs_minecraft_gui_primitives`: The draw primitives of the GUI: text, sprites, tiled textures, outlined boxes, tooltips, item icons and their decorations
+- `mcrs_minecraft_gui_render`: The render side of the GUI: the batch of all layers, the GUI pass and its shader, the extract, the glint and the panorama spin
 - `mcrs_minecraft_gui_scene`: The frame of the GUI: the layers of quads and item icons, the GUI size and pointer, the draw phases, the fade, the draw gates and the F3 chord state
 
 ## inventory

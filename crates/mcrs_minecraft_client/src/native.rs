@@ -199,16 +199,22 @@ pub fn run() -> AppExit {
     } else {
         defaults
     })
-    .add_plugins(
-        ClientPlugins(knobs.clone())
+    .add_plugins({
+        let plugins = ClientPlugins(knobs.clone())
             .build()
             .add_before::<sky::SkyPlugin>(
                 mcrs_minecraft_client_gui::slot_icon_plugin::SlotIconPlugin,
             )
-            .add_before::<sky::SkyPlugin>(knobs.gui())
-            .add(screenshot::ScreenshotPlugin),
-    )
+            .add_before::<sky::SkyPlugin>(knobs.gui());
+        if scene.is_none() {
+            plugins.add_before::<sky::SkyPlugin>(mcrs_minecraft_gui_render::GuiRenderPlugin)
+        } else {
+            plugins
+        }
+        .add(screenshot::ScreenshotPlugin)
+    })
     .insert_resource(knobs.start_screen())
+    .init_resource::<mcrs_minecraft_gui_atlas::StitchRequests>()
     .add_systems(
         Update,
         mcrs_minecraft_client::stream::load_gui_atlas.run_if(not(resource_exists::<

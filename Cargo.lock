@@ -4408,6 +4408,7 @@ dependencies = [
  "mcrs_minecraft_game_registries",
  "mcrs_minecraft_gui_atlas",
  "mcrs_minecraft_gui_primitives",
+ "mcrs_minecraft_gui_render",
  "mcrs_minecraft_gui_scene",
  "mcrs_minecraft_inventory_client",
  "mcrs_minecraft_inventory_menu",
@@ -4529,7 +4530,6 @@ name = "mcrs_minecraft_client_gui"
 version = "0.5.8"
 dependencies = [
  "bevy",
- "bytemuck",
  "getrandom 0.4.1",
  "mcrs_minecraft_block_entity",
  "mcrs_minecraft_chat",
@@ -4561,6 +4561,7 @@ dependencies = [
  "mcrs_minecraft_game_registries",
  "mcrs_minecraft_gui_atlas",
  "mcrs_minecraft_gui_primitives",
+ "mcrs_minecraft_gui_render",
  "mcrs_minecraft_gui_scene",
  "mcrs_minecraft_inventory_click",
  "mcrs_minecraft_inventory_client",
@@ -4596,7 +4597,6 @@ dependencies = [
  "serde_json",
  "time",
  "uuid",
- "wgpu",
 ]
 
 [[package]]
@@ -5859,6 +5859,26 @@ dependencies = [
  "mcrs_minecraft_item_table",
  "mcrs_minecraft_model",
  "mcrs_minecraft_registries",
+]
+
+[[package]]
+name = "mcrs_minecraft_gui_render"
+version = "0.5.8"
+dependencies = [
+ "bevy",
+ "bytemuck",
+ "mcrs_minecraft_entity_render",
+ "mcrs_minecraft_font",
+ "mcrs_minecraft_gui_atlas",
+ "mcrs_minecraft_gui_primitives",
+ "mcrs_minecraft_gui_scene",
+ "mcrs_minecraft_item_component",
+ "mcrs_minecraft_item_icon",
+ "mcrs_minecraft_item_stack",
+ "mcrs_minecraft_model",
+ "mcrs_minecraft_render",
+ "mcrs_minecraft_resource",
+ "wgpu",
 ]
 
 [[package]]

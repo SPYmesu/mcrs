@@ -350,8 +350,7 @@ mod tests {
     use mcrs_minecraft_model::stack_view::StackView;
     use mcrs_minecraft_resource::ResourceLocation;
 
-    use crate::menu_test_app::insert_gui_assets;
-    use mcrs_minecraft_gui_primitives::gui_test_assets::{MODELS, TABLE};
+    use mcrs_minecraft_gui_primitives::gui_test_assets::{ATLAS, MODELS, TABLE, corpus_font};
     use mcrs_minecraft_gui_scene::GuiBand;
     use mcrs_minecraft_item_icon::StackOverlay;
 
@@ -381,7 +380,8 @@ mod tests {
             let mut world = World::new();
             world.spawn(layer);
             world.insert_resource(GuiSize::default());
-            insert_gui_assets(&mut world);
+            world.insert_resource(ATLAS.layout.clone());
+            world.insert_resource(corpus_font().clone());
             world.init_resource::<mcrs_minecraft_gui_scene::GuiFade>();
             world.init_resource::<GlyphCache>();
             world.init_resource::<GuiBatch>();

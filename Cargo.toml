@@ -259,6 +259,7 @@ mcrs_minecraft_font = { path = "crates/mcrs_minecraft_font" }
 mcrs_minecraft_gui_atlas = { path = "crates/mcrs_minecraft_gui_atlas" }
 mcrs_minecraft_gui_scene = { path = "crates/mcrs_minecraft_gui_scene" }
 mcrs_minecraft_gui_primitives = { path = "crates/mcrs_minecraft_gui_primitives" }
+mcrs_minecraft_gui_render = { path = "crates/mcrs_minecraft_gui_render" }
 mcrs_minecraft_block_entity_oracle = { path = "tools/mcrs_minecraft_block_entity_oracle" }
 mcrs_minecraft_render = { path = "crates/mcrs_minecraft_render" }
 mcrs_minecraft_light_render = { path = "crates/mcrs_minecraft_light_render" }

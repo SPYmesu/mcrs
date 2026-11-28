@@ -26,7 +26,7 @@ pub(crate) fn write_gui_glint(
     });
 }
 
-pub(crate) const GLINT_ALPHA: f32 = 0.75;
+pub const GLINT_ALPHA: f32 = 0.75;
 pub(crate) const GLINT_SPEED: f64 = 0.5;
 
 pub(crate) fn glint_offset(millis: i64) -> [f32; 2] {

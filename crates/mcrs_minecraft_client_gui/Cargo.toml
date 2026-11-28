@@ -13,7 +13,6 @@ workspace = true
 [dependencies]
 mcrs_minecraft_item_component = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_protocol_game.workspace = true
-bytemuck = { version = "1", features = ["derive"] }
 mcrs_minecraft_chat.workspace = true
 mcrs_minecraft_block_entity.workspace = true
 mcrs_minecraft_chat_client.workspace = true
@@ -54,6 +53,7 @@ mcrs_minecraft_item_tooltip.workspace = true
 mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_gui_atlas.workspace = true
 mcrs_minecraft_gui_primitives.workspace = true
+mcrs_minecraft_gui_render.workspace = true
 mcrs_minecraft_gui_scene.workspace = true
 mcrs_minecraft_menu_geometry.workspace = true
 mcrs_minecraft_model.workspace = true
@@ -71,7 +71,6 @@ mcrs_minecraft_volume.workspace = true
 mcrs_voxel.workspace = true
 time.workspace = true
 uuid.workspace = true
-wgpu = { version = "30", default-features = false }
 bevy = { version = "0.20.1", default-features = false, features = [
     "std",
     "async_executor",

@@ -59,21 +59,13 @@ mod tests {
     use bevy::asset::AssetId;
 
     use super::*;
-    use crate::inflate_zip::inflate_zip;
-    use mcrs_minecraft_font::FontOptions;
-    use mcrs_minecraft_model::resource_set::ResourceSet;
+    use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
 
     const GLYPHS: [char; 3] = ['\u{4E00}', '\u{4E01}', '\u{4E8C}'];
 
     #[test]
     fn resident_cells_are_queued_once_and_again_after_the_atlas_is_added() {
-        let font = Font::load(
-            ResourceSet::corpus().files(),
-            FontOptions::default(),
-            inflate_zip,
-        )
-        .unwrap()
-        .font;
+        let font = corpus_font().clone();
         let mut cache = GlyphCache::default();
         cache.begin_frame();
         for glyph in GLYPHS {
