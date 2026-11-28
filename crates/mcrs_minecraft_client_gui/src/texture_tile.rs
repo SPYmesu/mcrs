@@ -1,21 +1,20 @@
 use bevy::math::{IRect, IVec2, Rect};
 
-use crate::gui_texture_id::GuiTextureId;
-use crate::item_decorations::WHITE;
-use crate::scene::{GuiAtlasData, GuiQuad};
+use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_scene::GuiQuad;
+use mcrs_minecraft_gui_scene::WHITE;
 
-impl GuiAtlasData {
-    pub fn tile(
-        &self,
-        texture: GuiTextureId,
-        rect: IRect,
-        start: IVec2,
-        size: IVec2,
-        out: &mut Vec<GuiQuad>,
-    ) {
-        let texels = self.textures.get(texture as usize).copied();
-        tile(texels.unwrap_or_default().as_rect(), rect, start, size, out);
-    }
+pub(crate) fn tile_texture(
+    atlas: &GuiAtlasLayout,
+    texture: GuiTextureId,
+    rect: IRect,
+    start: IVec2,
+    size: IVec2,
+    out: &mut Vec<GuiQuad>,
+) {
+    let texels = atlas.texture(texture);
+    tile(texels.unwrap_or_default().as_rect(), rect, start, size, out);
 }
 
 fn tile(texels: Rect, rect: IRect, start: IVec2, size: IVec2, out: &mut Vec<GuiQuad>) {

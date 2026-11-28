@@ -6,13 +6,19 @@ use crate::menu_cursor::{reset_pointer_shape, show_pointer_shape};
 use crate::menu_event::MenuEvent;
 use crate::menu_input::{menu_deferred, menu_keys, menu_pointer};
 use crate::menu_input_systems::MenuInputSystems;
+use mcrs_minecraft_gui_scene::GuiPointerSystems;
 
 pub struct MenuPlugin;
 
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_message::<MenuEvent>()
-            .configure_sets(PreUpdate, MenuInputSystems.after(InputSystems))
+            .configure_sets(
+                PreUpdate,
+                MenuInputSystems
+                    .after(InputSystems)
+                    .after(GuiPointerSystems),
+            )
             .add_systems(
                 PreUpdate,
                 (menu_pointer, menu_keys, menu_deferred, show_pointer_shape)
@@ -43,7 +49,9 @@ mod tests {
 
     use super::*;
     use crate::menu::MenuBackground;
-    use crate::scene::{GuiConfig, GuiScene};
+    use mcrs_minecraft_gui_scene::GuiConfig;
+    use mcrs_minecraft_gui_scene::GuiPointer;
+    use mcrs_minecraft_gui_scene::GuiSize;
 
     #[derive(Resource, Default)]
     struct Seen(Vec<MenuEvent>);
@@ -144,11 +152,12 @@ mod tests {
         app.add_plugins(MenuPlugin)
             .insert_resource(GuiConfig {
                 scale: 1,
-                cursor: Some(IVec2::new(20, 45)),
+                cursor: None,
                 frozen_ticks: None,
                 advanced_tooltips: false,
             })
-            .init_resource::<GuiScene>()
+            .insert_resource(GuiPointer::new(IVec2::new(20, 45).as_dvec2()))
+            .init_resource::<GuiSize>()
             .init_resource::<Time<Real>>()
             .init_resource::<ButtonInput<KeyCode>>()
             .init_resource::<ButtonInput<MouseButton>>()
@@ -237,9 +246,8 @@ mod tests {
 
     fn point_at(app: &mut App, x: i32, y: i32) {
         app.world_mut()
-            .resource_mut::<GuiConfig>()
-            .map_unchanged(|resource| &mut resource.cursor)
-            .set_if_neq(Some(IVec2::new(x, y)));
+            .resource_mut::<GuiPointer>()
+            .set_if_neq(GuiPointer::new(IVec2::new(x, y).as_dvec2()));
     }
 
     fn click(app: &mut App) -> Vec<MenuEvent> {

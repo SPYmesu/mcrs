@@ -72,6 +72,7 @@ impl<'tcx> LateLintPass<'tcx> for EcsLint {
             .collect();
         let mut collected = collect(tcx, &anchors, &helper_crates, &event_conditions);
         marked.report(tcx, &mem::take(&mut collected.condition_uses));
+        let event_helpers = mem::take(&mut collected.event_helpers);
         let resolved = resolve(tcx, collected, &deps);
         let test = is_test_target();
         let bodies = body_scan::scan(tcx, &anchors, test);
@@ -117,6 +118,7 @@ impl<'tcx> LateLintPass<'tcx> for EcsLint {
                 .valid
                 .iter()
                 .map(|def| key(tcx, def.to_def_id()))
+                .chain(event_helpers)
                 .collect(),
         };
         if let Some(path) = facts_path(tcx, LOCAL_CRATE)

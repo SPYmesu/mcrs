@@ -112,6 +112,11 @@ pub fn fade(age: u64) -> f32 {
     (t * t) as f32
 }
 
+#[must_use]
+pub fn fades_between(earlier: u64, later: u64) -> bool {
+    fade(earlier) != fade(later)
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum View {
     Open,

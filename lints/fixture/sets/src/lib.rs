@@ -2,6 +2,7 @@ use bevy_app::App;
 use bevy_app::FixedUpdate;
 use bevy_app::Update;
 use bevy_ecs::prelude::*;
+use bevy_ecs::schedule::SystemCondition;
 use bevy_ecs::system::ScheduleSystem;
 
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
@@ -22,6 +23,14 @@ pub struct Age(pub u32);
 #[cfg_attr(mcrs_lint, mcrs::event_condition)]
 pub fn enabled_changed(enabled: Option<Res<Enabled>>) -> bool {
     enabled.is_some_and(|enabled| enabled.is_changed())
+}
+
+pub fn arrives_or_enabled_changed<Kind: Component>() -> impl SystemCondition<()> {
+    any_match_filter::<Added<Kind>>.or_else(enabled_changed)
+}
+
+pub fn arrives_or_enabled<Kind: Component>() -> impl SystemCondition<()> {
+    any_match_filter::<Added<Kind>>.or_else(resource_exists::<Enabled>)
 }
 
 #[cfg_attr(mcrs_lint, expect(mcrs::ungated_system, reason = "fixture"))]

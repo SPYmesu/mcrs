@@ -1,0 +1,22 @@
+[package]
+name = "mcrs_minecraft_gui_scene"
+description = "The frame of the GUI: the layers of quads and item icons, the GUI size and pointer, the draw phases, the fade, the draw gates and the F3 chord state"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+mcrs_minecraft_client_widget.workspace = true
+mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_gui_atlas.workspace = true
+mcrs_minecraft_item_icon.workspace = true
+bevy = { version = "0.20.1", default-features = false, features = [
+    "std",
+    "bevy_window",
+] }
