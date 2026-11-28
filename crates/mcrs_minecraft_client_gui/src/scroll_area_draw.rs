@@ -1,29 +1,36 @@
 use bevy::math::{IRect, IVec2};
 use mcrs_minecraft_client_widget::{SelectionList, Widget, WidgetKind, WidgetPlacement};
 
-use crate::font::draw_text;
-use crate::gui_sprite_id::GuiSpriteId;
-use crate::gui_texture_id::GuiTextureId;
-use crate::item_decorations::WHITE;
+use crate::leaf_draw::draw_leaf;
 use crate::menu::Menu;
-use crate::menu_draw::{WorldPresence, draw_leaf, irect, point};
-use crate::scene::{GuiAtlasData, GuiQuad};
+use crate::world_presence::WorldPresence;
+use mcrs_minecraft_font::Font;
+use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_atlas::GuiSpriteId;
+use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_primitives::BLACK;
+use mcrs_minecraft_gui_primitives::draw_sprite;
+use mcrs_minecraft_gui_primitives::draw_text;
+use mcrs_minecraft_gui_primitives::tile_texture;
+use mcrs_minecraft_gui_primitives::{irect, point};
+use mcrs_minecraft_gui_scene::GuiQuad;
+use mcrs_minecraft_gui_scene::WHITE;
 
-const BLACK: u32 = 0xFF00_0000;
 const BACKGROUND_TILE: i32 = 32;
 const ROW_INSET: i32 = 2;
 
 pub(crate) fn draw_scroll_area(
     menu: &Menu,
     widget: &Widget,
-    world: WorldPresence,
     now_ms: u64,
-    atlas: &GuiAtlasData,
+    atlas: &GuiAtlasLayout,
+    font: &Font,
     out: &mut Vec<GuiQuad>,
-) {
+) -> bool {
     let rect = irect(widget.rect());
     let frame = widget.list_frame();
-    let (background, header, footer) = match world {
+    let mut scrolls = false;
+    let (background, header, footer) = match menu.world {
         WorldPresence::NoWorld => (
             GuiTextureId::MenuListBackground,
             GuiTextureId::HeaderSeparator,
@@ -38,11 +45,11 @@ pub(crate) fn draw_scroll_area(
     if let Some(frame) = frame {
         let start = rect.min.saturating_sub(point(frame.background_origin));
         let tile = IVec2::splat(BACKGROUND_TILE);
-        atlas.tile(background, rect, start, tile, out);
+        tile_texture(atlas, background, rect, start, tile, out);
     }
     out.push(GuiQuad::Clip { rect });
     if let WidgetKind::SelectionList(list) = widget.kind() {
-        draw_rows(menu, widget, list, atlas, out);
+        draw_rows(menu, widget, list, atlas, font, out);
     }
     let members = menu.widgets.iter().filter(|member| {
         member.visible && member.area().is_some_and(|slot| slot.area == widget.id())
@@ -50,7 +57,7 @@ pub(crate) fn draw_scroll_area(
     for member in members {
         if let WidgetPlacement::Area { shift, .. } = menu.widgets.placement(member) {
             let start = out.len();
-            draw_leaf(menu, member, now_ms, atlas, out);
+            scrolls |= draw_leaf(menu, member, now_ms, atlas, font, out);
             if let Some(quads) = out.get_mut(start..) {
                 shift_up(quads, shift);
             }
@@ -64,51 +71,27 @@ pub(crate) fn draw_scroll_area(
         ] {
             let separator = irect(separator);
             let tile = IVec2::new(BACKGROUND_TILE, separator.height());
-            atlas.tile(texture, separator, separator.min, tile, out);
+            tile_texture(atlas, texture, separator, separator.min, tile, out);
         }
     }
     if let Some(scrollbar) = widget.scrollbar() {
         let track = atlas.sprite(GuiSpriteId::ScrollerBackground);
-        track.draw(irect(scrollbar.track), out);
-        atlas
-            .sprite(GuiSpriteId::Scroller)
-            .draw(irect(scrollbar.thumb), out);
+        draw_sprite(&track, irect(scrollbar.track), out);
+        draw_sprite(
+            &atlas.sprite(GuiSpriteId::Scroller),
+            irect(scrollbar.thumb),
+            out,
+        );
     }
-}
-
-pub(crate) fn draw_section_label_box(menu: &Menu, widget: &Widget, out: &mut Vec<GuiQuad>) {
-    if menu.widgets.focused() != Some(widget.id()) {
-        return;
-    }
-    draw_outlined_box(irect(widget.rect()), WHITE, out);
-}
-
-pub(crate) fn draw_outlined_box(rect: IRect, outline: u32, out: &mut Vec<GuiQuad>) {
-    let IRect { min, max } = rect;
-    let fill = IRect::new(min.x.saturating_add(1), min.y, max.x, max.y);
-    out.push(GuiQuad::Fill {
-        rect: fill,
-        color: BLACK,
-    });
-    let edges = [
-        IRect::new(min.x, min.y, max.x, min.y.saturating_add(1)),
-        IRect::new(min.x, max.y.saturating_sub(1), max.x, max.y),
-        IRect::new(min.x, min.y, min.x.saturating_add(1), max.y),
-        IRect::new(max.x.saturating_sub(1), min.y, max.x, max.y),
-    ];
-    for rect in edges {
-        out.push(GuiQuad::Fill {
-            rect,
-            color: outline,
-        });
-    }
+    scrolls
 }
 
 fn draw_rows(
     menu: &Menu,
     widget: &Widget,
     list: &SelectionList,
-    atlas: &GuiAtlasData,
+    atlas: &GuiAtlasLayout,
+    font: &Font,
     out: &mut Vec<GuiQuad>,
 ) {
     let area = irect(widget.rect());
@@ -146,10 +129,7 @@ fn draw_rows(
             continue;
         };
         let inner = bounds.inflate(-ROW_INSET);
-        if let Some(region) = content
-            .icon
-            .and_then(|icon| atlas.textures.get(icon as usize))
-        {
+        if let Some(region) = content.icon.and_then(|icon| atlas.texture(icon)) {
             let side = inner.height();
             out.push(GuiQuad::Texels {
                 rect: IRect::new(
@@ -164,7 +144,7 @@ fn draw_rows(
         }
         for line in &content.lines {
             draw_text(
-                &atlas.font,
+                font,
                 inner.min.saturating_add(line.offset),
                 &line.spans,
                 out,
@@ -201,18 +181,18 @@ mod tests {
     use super::*;
 
     mod jar {
-        use std::sync::LazyLock;
 
         use mcrs_minecraft_client_widget::{
             AreaSlot, GuiExtent, GuiInput, GuiPoint, GuiRect, KeyModifiers, PointerButton,
             PointerPress, WidgetId, WidgetList, Widgets,
         };
-        use mcrs_minecraft_model::resource_set::ResourceSet;
 
         use super::*;
         use crate::menu::MenuBackground;
         use crate::menu_draw::draw_menu;
-        use crate::scene::GuiSize;
+        use crate::menu_test_app::ATLAS;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
+        use mcrs_minecraft_gui_scene::GuiSize;
 
         const GUI: GuiSize = GuiSize {
             width: 427,
@@ -220,9 +200,6 @@ mod tests {
             scale: 2,
         };
         const LIST: WidgetId = WidgetId(1);
-
-        static ATLAS: LazyLock<GuiAtlasData> =
-            LazyLock::new(|| GuiAtlasData::load(ResourceSet::corpus()).unwrap());
 
         fn screen() -> Widgets {
             let extent = GuiExtent::new(GUI.width, GUI.height);
@@ -232,13 +209,13 @@ mod tests {
         fn quads(widgets: Widgets) -> Vec<GuiQuad> {
             let mut quads = Vec::new();
             let menu = Menu::new(widgets, MenuBackground::None);
-            draw_menu(&menu, WorldPresence::NoWorld, 0, GUI, &ATLAS, &mut quads);
+            draw_menu(&menu, 0, GUI, &ATLAS.layout, corpus_font(), &mut quads);
             quads
         }
 
         fn sprite_run(id: GuiSpriteId, rect: IRect) -> Vec<GuiQuad> {
             let mut run = Vec::new();
-            ATLAS.sprite(id).draw(rect, &mut run);
+            draw_sprite(&ATLAS.layout.sprite(id), rect, &mut run);
             run
         }
 

@@ -1,12 +1,16 @@
 use bevy::math::{IRect, IVec2};
 use mcrs_minecraft_client_widget::{TabBar, TabSprite, Widget, WidgetKind};
 
-use crate::font::draw_str;
-use crate::gui_sprite_id::GuiSpriteId;
-use crate::gui_texture_id::GuiTextureId;
 use crate::menu::Menu;
-use crate::menu_draw::{irect, point};
-use crate::scene::{GuiAtlasData, GuiQuad};
+use mcrs_minecraft_font::Font;
+use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_atlas::GuiSpriteId;
+use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_primitives::draw_sprite;
+use mcrs_minecraft_gui_primitives::draw_str;
+use mcrs_minecraft_gui_primitives::tile_texture;
+use mcrs_minecraft_gui_primitives::{irect, point};
+use mcrs_minecraft_gui_scene::GuiQuad;
 
 const HEADER_TILE: i32 = 16;
 const BACKGROUND_TILE: i32 = 32;
@@ -15,17 +19,19 @@ pub(crate) fn draw_tab_bar(
     menu: &Menu,
     widget: &Widget,
     now_ms: u64,
-    atlas: &GuiAtlasData,
+    atlas: &GuiAtlasLayout,
+    font: &Font,
     out: &mut Vec<GuiQuad>,
-) {
+) -> bool {
     let WidgetKind::TabBar(bar) = widget.kind() else {
-        return;
+        return false;
     };
     let screen_width = menu.widgets.screen().width;
     let rect = irect(widget.rect());
     let header = IRect::new(0, rect.min.y, screen_width, rect.max.y);
     let tile = IVec2::splat(HEADER_TILE);
-    atlas.tile(
+    tile_texture(
+        atlas,
         GuiTextureId::TabHeaderBackground,
         header,
         IVec2::ZERO,
@@ -35,7 +41,8 @@ pub(crate) fn draw_tab_bar(
     for separator in TabBar::separators(widget.rect(), screen_width) {
         let separator = irect(separator);
         let tile = IVec2::new(BACKGROUND_TILE, separator.height());
-        atlas.tile(
+        tile_texture(
+            atlas,
             GuiTextureId::HeaderSeparator,
             separator,
             separator.min,
@@ -43,20 +50,22 @@ pub(crate) fn draw_tab_bar(
             out,
         );
     }
+    let mut scrolls = false;
     for (index, tab) in bar.tabs().iter().enumerate() {
         let Some(bounds) = bar.tab_rect(widget.rect(), index) else {
             continue;
         };
         if let Some(sprite) = menu.widgets.tab_sprite(widget, index) {
-            atlas.sprite(tab_sprite_id(sprite)).draw(irect(bounds), out);
+            draw_sprite(&atlas.sprite(tab_sprite_id(sprite)), irect(bounds), out);
         }
-        let label_width = atlas.font.str_width(&tab.label);
+        let label_width = font.str_width(&tab.label);
         let color = tab.label_color();
         if index == bar.current() {
             if let Some(background) = bar.current_background(widget.rect()) {
                 let background = irect(background);
                 let tile = IVec2::splat(BACKGROUND_TILE);
-                atlas.tile(
+                tile_texture(
+                    atlas,
                     GuiTextureId::MenuBackground,
                     background,
                     background.min,
@@ -74,11 +83,12 @@ pub(crate) fn draw_tab_bar(
         let Some(layout) = bar.label_layout(widget.rect(), index, label_width, now_ms) else {
             continue;
         };
+        scrolls |= layout.scrolls;
         if let Some(clip) = layout.clip {
             out.push(GuiQuad::Clip { rect: irect(clip) });
         }
         draw_str(
-            &atlas.font,
+            font,
             point(layout.origin).as_vec2(),
             &tab.label,
             color,
@@ -89,6 +99,7 @@ pub(crate) fn draw_tab_bar(
             out.push(GuiQuad::EndClip);
         }
     }
+    scrolls
 }
 
 fn tab_sprite_id(sprite: TabSprite) -> GuiSpriteId {
@@ -105,24 +116,21 @@ mod tests {
     use super::*;
 
     mod jar {
-        use std::sync::LazyLock;
 
         use mcrs_minecraft_client_widget::{GuiExtent, GuiInput, GuiPoint, Tab, WidgetId, Widgets};
-        use mcrs_minecraft_model::resource_set::ResourceSet;
 
         use super::*;
         use crate::menu::MenuBackground;
-        use crate::menu_draw::{WorldPresence, draw_menu};
-        use crate::scene::GuiSize;
+        use crate::menu_draw::draw_menu;
+        use crate::menu_test_app::ATLAS;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
+        use mcrs_minecraft_gui_scene::GuiSize;
 
         const GUI: GuiSize = GuiSize {
             width: 427,
             height: 240,
             scale: 2,
         };
-
-        static ATLAS: LazyLock<GuiAtlasData> =
-            LazyLock::new(|| GuiAtlasData::load(ResourceSet::corpus()).unwrap());
 
         #[test]
         fn each_tab_at_427_draws_the_sprite_of_its_state_in_its_rectangle() {
@@ -160,14 +168,16 @@ mod tests {
                 widgets.mouse_move(mouse);
                 let menu = Menu::new(widgets, MenuBackground::None);
                 let mut quads = Vec::new();
-                draw_menu(&menu, WorldPresence::NoWorld, 0, GUI, &ATLAS, &mut quads);
+                draw_menu(&menu, 0, GUI, &ATLAS.layout, corpus_font(), &mut quads);
 
                 let mut from = 0;
                 for (left, name) in [28, 152, 276].into_iter().zip(sprites) {
                     let mut run = Vec::new();
-                    ATLAS
-                        .sprite(name)
-                        .draw(IRect::new(left, 0, left + 124, 24), &mut run);
+                    draw_sprite(
+                        &ATLAS.layout.sprite(name),
+                        IRect::new(left, 0, left + 124, 24),
+                        &mut run,
+                    );
                     let at = quads
                         .get(from..)
                         .and_then(|rest| rest.windows(run.len()).position(|w| w == run));

@@ -7,6 +7,8 @@ use bevy_time::Fixed;
 use bevy_time::Real;
 use bevy_time::Time;
 use fixture_sets::Enabled;
+use fixture_sets::arrives_or_enabled;
+use fixture_sets::arrives_or_enabled_changed;
 use fixture_sets::enabled_changed;
 
 #[derive(Component, PartialEq)]
@@ -290,8 +292,47 @@ fn never_gates(scores: Query<&Score>) -> bool {
     scores.is_empty()
 }
 
+#[cfg_attr(mcrs_lint, mcrs::event_condition)]
+fn score_ready(scores: Query<&Score>) -> bool {
+    scores.iter().len() > 1
+}
+
+fn enabled_flips() -> impl SystemCondition<()> {
+    resource_changed::<Switch>.or_else(resource_exists_and_changed::<Counter>)
+}
+
+fn arrives_or_ready<Kind: Component>() -> impl SystemCondition<()> {
+    any_match_filter::<Added<Kind>>
+        .or_else(enabled_flips())
+        .or_else(score_ready)
+}
+
+fn waits_or_arrives<Kind: Component>() -> impl SystemCondition<()> {
+    any_match_filter::<Added<Kind>>.or_else(score_waiting)
+}
+
+fn allocates_when_helper_gates(scores: Query<&Score>) {
+    collect_scores(&scores);
+}
+
+#[cfg_attr(mcrs_lint, expect(mcrs::alloc_in_tick, reason = "fixture"))]
+#[cfg_attr(mcrs_lint, mcrs::alloc_sites(1))]
+fn allocates_when_helper_waits(scores: Query<&Score>) {
+    collect_scores(&scores);
+}
+
 pub fn checks_directly(world: &mut World) -> bool {
     world.run_system_cached(never_gates).unwrap_or(false)
+}
+
+fn allocates_when_foreign_helper_gates(scores: Query<&Score>) {
+    collect_scores(&scores);
+}
+
+#[cfg_attr(mcrs_lint, expect(mcrs::alloc_in_tick, reason = "fixture"))]
+#[cfg_attr(mcrs_lint, mcrs::alloc_sites(1))]
+fn allocates_when_foreign_helper_waits(scores: Query<&Score>) {
+    collect_scores(&scores);
 }
 
 fn collect_scores(scores: &Query<&Score>) {
@@ -410,6 +451,10 @@ pub fn build_tick_rules(app: &mut App) {
             allocates_when_unmarked.run_if(score_waiting),
             allocates_when_marked_or.run_if(score_arrived.or_else(score_waiting)),
             allocates_when_negated.run_if(not(score_arrived)),
+            allocates_when_helper_gates.run_if(arrives_or_ready::<Score>()),
+            allocates_when_helper_waits.run_if(waits_or_arrives::<Score>()),
+            allocates_when_foreign_helper_gates.run_if(arrives_or_enabled_changed::<Score>()),
+            allocates_when_foreign_helper_waits.run_if(arrives_or_enabled::<Score>()),
             inserts_until_present.run_if(not(resource_exists::<Counter>)),
             (
                 allocates_per_message,

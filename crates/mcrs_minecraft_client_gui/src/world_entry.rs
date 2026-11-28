@@ -5,11 +5,10 @@ use mcrs_minecraft_game_mode::GameMode;
 use mcrs_minecraft_save::{ListedLevel, WorldSummary};
 use time::{OffsetDateTime, UtcOffset};
 
-use crate::font::{Font, Span};
-use crate::gui_texture_id::GuiTextureId;
-use crate::item_decorations::WHITE;
-use crate::language::ClientLanguage;
 use crate::menu::{RowContent, RowLine};
+use mcrs_minecraft_font::{ClientLanguage, Font, Span};
+use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_scene::WHITE;
 
 const TEXT_X: i32 = 35;
 const NAME_Y: i32 = 1;

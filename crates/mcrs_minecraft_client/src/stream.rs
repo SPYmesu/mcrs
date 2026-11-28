@@ -6,6 +6,7 @@ use bevy::platform::collections::{HashMap, HashSet};
 use bevy::prelude::*;
 use bevy::tasks::{AsyncComputeTaskPool, IoTaskPool, Task, futures::check_ready};
 use mcrs_minecraft_block::definition::{BlockDefinitions, Blocks};
+use mcrs_minecraft_client_gui::inflate_zip::inflate_zip;
 use mcrs_minecraft_client_world::camera_section_ready::CameraSectionReady;
 use mcrs_minecraft_client_world::columns::{
     ClientTerrainSet, ColumnChange, ColumnStore, Columns, Extent,
@@ -27,7 +28,9 @@ use mcrs_minecraft_client_world::registries::SessionSet;
 use mcrs_minecraft_client_world::session::session_boundary;
 use mcrs_minecraft_dimension::CardinalLight;
 use mcrs_minecraft_dimension_environment::dimension_type::DimensionTypeFile;
+use mcrs_minecraft_font::{ClientLanguage, Font, FontOptions};
 use mcrs_minecraft_game_mode::{GameMode, PlayerGameMode};
+use mcrs_minecraft_gui_atlas::StitchRequests;
 use mcrs_minecraft_mesh::arena::{Arena, Block};
 use mcrs_minecraft_mesh::block::BlockInfo;
 use mcrs_minecraft_mesh::pack::QUAD_WORDS;
@@ -982,13 +985,41 @@ fn kill(bucket: &mut DrawBucket, first: u32, count: u32) {
     }
 }
 
-pub fn load_gui_atlas(catalog: Res<BlockCatalog>, mut commands: Commands) {
+pub fn load_gui_atlas(
+    catalog: Res<BlockCatalog>,
+    requests: Res<StitchRequests>,
+    mut commands: Commands,
+) {
     if let Some(pack) = catalog.pack()
-        && let Err(reason) =
-            mcrs_minecraft_client_gui::scene::load_gui_atlas(pack, commands.reborrow())
+        && let Err(reason) = load_gui(pack, &requests, commands.reborrow())
     {
         panic!("cannot load the GUI: {reason}");
     }
+}
+
+fn load_gui(
+    pack: &ResourceSet,
+    requests: &StitchRequests,
+    mut commands: Commands,
+) -> Result<(), String> {
+    let pack = pack.files();
+    let loaded = Font::load(pack, FontOptions::default(), inflate_zip).map_err(|failure| {
+        for notice in &failure.notices {
+            warn!("{notice}");
+        }
+        format!("the font: {}", failure.error)
+    })?;
+    for notice in &loaded.notices {
+        warn!("{notice}");
+    }
+    let font = loaded.font;
+    mcrs_minecraft_gui_atlas::load_gui_atlas(pack, &font, requests, commands.reborrow())
+        .map_err(|error| error.to_string())?;
+    let language =
+        ClientLanguage::load(pack).map_err(|error| format!("the translations: {error}"))?;
+    commands.insert_resource(font);
+    commands.insert_resource(language);
+    Ok(())
 }
 
 impl BlockCatalog {

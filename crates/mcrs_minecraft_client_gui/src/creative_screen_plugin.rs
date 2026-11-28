@@ -5,6 +5,7 @@ use bevy::prelude::*;
 use mcrs_minecraft_client_options::ClientOptions;
 use mcrs_minecraft_client_world::game_mode::PermissionLevel;
 use mcrs_minecraft_client_world::player::Player;
+use mcrs_minecraft_client_world::screen::Screen;
 use mcrs_minecraft_creative_content::OperatorCondition;
 use mcrs_minecraft_game_mode::Abilities;
 use mcrs_minecraft_item_table::ItemTable;
@@ -12,14 +13,25 @@ use mcrs_minecraft_menu_geometry::CreativeTabKind;
 use mcrs_minecraft_network::client::ClientNetworkSystems;
 use mcrs_minecraft_registries::CurrentRegistries;
 
+use crate::creative_item_tooltip::request_creative_item_tooltip;
+use crate::creative_screen_draw::{
+    CreativeLayer, CreativeTextTooltip, draw_creative_screen, rebuild_creative_text,
+};
 use crate::creative_screen_open::open_creative_screen;
 use crate::creative_screen_shown::creative_screen_shown;
 use crate::creative_screen_state::CreativeScreenState;
+use crate::creative_stitch_requests::creative_stitch_requests;
 use crate::creative_tab_content::CreativeInputs;
 use crate::creative_tab_content::CreativeTabContent;
-use crate::language::ClientLanguage;
+use crate::draw_gate::slot_view_changed;
+use crate::gui_batch::GuiBatch;
 use crate::loaded_creative_report::LoadedCreativeReport;
 use crate::menu_input;
+use mcrs_minecraft_font::ClientLanguage;
+use mcrs_minecraft_gui_atlas::StitchRequests;
+use mcrs_minecraft_gui_scene::GuiPhase;
+use mcrs_minecraft_gui_scene::layer_stale;
+use mcrs_minecraft_gui_scene::spawn_layer;
 
 #[derive(SystemSet, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct CreativeContentSystems;
@@ -28,9 +40,13 @@ pub struct CreativeScreenPlugin;
 
 impl Plugin for CreativeScreenPlugin {
     fn build(&self, app: &mut App) {
+        app.world_mut()
+            .get_resource_or_init::<StitchRequests>()
+            .extend(creative_stitch_requests());
         app.insert_resource(LoadedCreativeReport::embedded())
             .init_resource::<CreativeTabContent>()
             .init_resource::<CreativeScreenState>()
+            .init_resource::<CreativeTextTooltip>()
             .add_observer(open_creative_screen)
             .add_systems(
                 PreUpdate,
@@ -50,7 +66,33 @@ impl Plugin for CreativeScreenPlugin {
                     .chain()
                     .in_set(CreativeContentSystems)
                     .after(ClientNetworkSystems::Receive),
-            );
+            )
+            .add_systems(
+                PostUpdate,
+                (
+                    rebuild_creative_text
+                        .before(draw_creative_screen)
+                        .run_if(resource_exists_and_changed::<ClientLanguage>),
+                    draw_creative_screen,
+                    request_creative_item_tooltip
+                        .after(draw_creative_screen)
+                        .run_if(resource_exists::<ItemTable>)
+                        .run_if(creative_screen_shown),
+                )
+                    .chain()
+                    .in_set(GuiPhase::Draw)
+                    .run_if(
+                        resource_exists::<GuiBatch>.and_then(
+                            layer_stale::<CreativeLayer>()
+                                .or_else(resource_changed::<Screen>)
+                                .or_else(resource_changed::<CreativeScreenState>)
+                                .or_else(resource_changed::<CreativeTabContent>)
+                                .or_else(resource_changed::<CreativeTextTooltip>)
+                                .or_else(slot_view_changed()),
+                        ),
+                    ),
+            )
+            .add_systems(Startup, spawn_layer::<CreativeLayer>);
     }
 }
 

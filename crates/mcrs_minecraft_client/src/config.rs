@@ -9,9 +9,10 @@ use crate::cave::CaveCull;
 use crate::options;
 use bevy::app::App;
 use bevy::ecs::resource::Resource;
-use mcrs_minecraft_client_gui::scene::{GuiConfig, GuiPlugin};
+use mcrs_minecraft_client_gui::scene::GuiPlugin;
 use mcrs_minecraft_client_options::{ClientOptions, VIEW_DISTANCE_DEFAULT, VIEW_DISTANCE_RANGE};
 use mcrs_minecraft_client_world::screen::{AccessibilityParent, Screen};
+use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_render::{Budget, FACE_BYTES, MODEL_BYTES, QUAD_BYTES, Uploads};
 
 #[cfg(not(target_family = "wasm"))]
@@ -341,7 +342,6 @@ impl Knobs {
                 frozen_ticks: self.frozen_time(),
                 advanced_tooltips: false,
             },
-            screen: self.start_screen(),
         }
     }
 

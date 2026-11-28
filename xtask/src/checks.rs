@@ -28,7 +28,7 @@ const WASM32_PACKAGES: [&str; 11] = [
     "mcrs_minecraft_biome_file",
 ];
 
-const NO_STD_PACKAGES: [&str; 21] = [
+const NO_STD_PACKAGES: [&str; 22] = [
     "mcrs_command",
     "mcrs_minecraft_bedrock_wire",
     "mcrs_minecraft_block_break",
@@ -36,6 +36,7 @@ const NO_STD_PACKAGES: [&str; 21] = [
     "mcrs_minecraft_chat",
     "mcrs_minecraft_client_widget",
     "mcrs_minecraft_container_click",
+    "mcrs_minecraft_container_gesture",
     "mcrs_minecraft_damage",
     "mcrs_minecraft_entity_key",
     "mcrs_minecraft_fog",
@@ -52,7 +53,7 @@ const NO_STD_PACKAGES: [&str; 21] = [
     "mcrs_voxel",
 ];
 
-const NO_BEVY_PACKAGES: [&str; 144] = [
+const NO_BEVY_PACKAGES: [&str; 146] = [
     "mcrs_command",
     "mcrs_engine_cell",
     "mcrs_engine_link",
@@ -77,6 +78,7 @@ const NO_BEVY_PACKAGES: [&str; 144] = [
     "mcrs_minecraft_chat_client",
     "mcrs_minecraft_chunk",
     "mcrs_minecraft_container_click",
+    "mcrs_minecraft_container_gesture",
     "mcrs_minecraft_creative_content",
     "mcrs_minecraft_creative_report",
     "mcrs_minecraft_client_jar",
@@ -166,6 +168,7 @@ const NO_BEVY_PACKAGES: [&str; 144] = [
     "mcrs_minecraft_render_controller",
     "mcrs_minecraft_replication",
     "mcrs_minecraft_resource",
+    "mcrs_minecraft_resource_pack",
     "mcrs_minecraft_server_settings",
     "mcrs_minecraft_simulation",
     "mcrs_minecraft_snbt",
