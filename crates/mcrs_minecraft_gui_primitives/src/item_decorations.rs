@@ -13,12 +13,12 @@ use mcrs_minecraft_gui_scene::WHITE;
 const CAPPED: u32 = 0xFFFF_FF55;
 const BAR_BACK: u32 = 0xFF00_0000;
 
-pub fn bar_width(damage: i32, max_damage: i32) -> i32 {
+pub(crate) fn bar_width(damage: i32, max_damage: i32) -> i32 {
     let width = 13.0 - damage as f32 * 13.0 / max_damage as f32;
     ((width + 0.5).floor() as i32).clamp(0, 13)
 }
 
-pub fn bar_color(damage: i32, max_damage: i32) -> u32 {
+pub(crate) fn bar_color(damage: i32, max_damage: i32) -> u32 {
     let health = ((max_damage - damage) as f32 / max_damage as f32).max(0.0);
     let [r, g, b, _] = Srgba::from(Hsva::hsv(health / 3.0 * 360.0, 1.0, 1.0)).to_u8_array();
     u32::from_be_bytes([0, r, g, b])
@@ -78,7 +78,7 @@ pub fn decorations(origin: IVec2, stack: &Decorated, font: &Font, out: &mut Vec<
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::corpus_font::corpus_font;
+    use crate::gui_test_assets::corpus_font;
     use bevy::math::Vec2;
     use mcrs_minecraft_font::Weight;
 

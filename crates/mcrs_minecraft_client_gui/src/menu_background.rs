@@ -28,8 +28,8 @@ mod tests {
     use super::*;
     use mcrs_minecraft_gui_atlas::{BLANK, GUI_TEXTURES, GuiAtlasParts};
 
-    use crate::corpus_font::corpus_font;
     use crate::menu_test_app::{ATLAS, stitch_requests};
+    use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
 
     #[test]
     fn the_gui_atlas_holds_every_region_and_the_digit_widths() {

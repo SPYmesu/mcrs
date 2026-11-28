@@ -8,40 +8,29 @@ use bevy::prelude::*;
 use bevy::time::Real;
 use bevy::window::{CursorGrabMode, CursorOptions, PrimaryWindow};
 use mcrs_minecraft_client_options::ClientOptions;
-use mcrs_minecraft_client_widget::{GuiExtent, WidgetId};
+use mcrs_minecraft_client_widget::WidgetId;
 use mcrs_minecraft_client_world::player::Player;
 use mcrs_minecraft_client_world::screen::Screen;
 use mcrs_minecraft_client_world::world_list::{ReadWorldList, WorldList};
-use mcrs_minecraft_engine_registries::test_item_table;
-use mcrs_minecraft_item_table::ItemTable;
-use mcrs_minecraft_model::atlas::SpriteRegistry;
-use mcrs_minecraft_model::item_model_bake::{ItemModels, bake_all};
 use mcrs_minecraft_model::resource_set::ResourceSet;
 use mcrs_minecraft_resource::ResourceLocationBuf;
 use mcrs_minecraft_save::{ListedLevel, WorldSummary};
 use time::UtcOffset;
 
-use crate::corpus_font::corpus_font;
 use crate::creative_screen_plugin::CreativeScreenPlugin;
 use crate::inventory_clicks::InventoryClicksPlugin;
 use crate::menu::Menu;
 use crate::menu_plugin::MenuPlugin;
 use crate::menu_screens_plugin::MenuScreensPlugin;
 use mcrs_minecraft_font::ClientLanguage;
+use mcrs_minecraft_gui_atlas::GuiAtlasParts;
 use mcrs_minecraft_gui_atlas::StitchRequests;
-use mcrs_minecraft_gui_atlas::{GuiAtlasParts, build_gui_atlas};
+use mcrs_minecraft_gui_primitives::gui_test_assets::{GUI, corpus_font, gui_atlas};
 use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_gui_scene::GuiPointer;
 use mcrs_minecraft_gui_scene::GuiSize;
 
-pub(crate) static ATLAS: LazyLock<GuiAtlasParts> = LazyLock::new(|| {
-    build_gui_atlas(
-        ResourceSet::corpus().files(),
-        corpus_font(),
-        &stitch_requests(),
-    )
-    .unwrap()
-});
+pub(crate) static ATLAS: LazyLock<GuiAtlasParts> = LazyLock::new(|| gui_atlas(&stitch_requests()));
 
 pub(crate) fn stitch_requests() -> StitchRequests {
     let mut app = App::new();
@@ -55,13 +44,6 @@ pub(crate) fn insert_gui_assets(world: &mut World) {
     world.insert_resource(ATLAS.layout.clone());
     world.insert_resource(corpus_font().clone());
 }
-
-pub(crate) static TABLE: LazyLock<ItemTable> = LazyLock::new(test_item_table);
-
-pub(crate) static MODELS: LazyLock<ItemModels> =
-    LazyLock::new(|| bake_all(ResourceSet::corpus(), &mut SpriteRegistry::default()).unwrap());
-
-pub(crate) const GUI: GuiExtent = GuiExtent::new(427, 240);
 
 pub(crate) fn game_app() -> App {
     let mut app = App::new();

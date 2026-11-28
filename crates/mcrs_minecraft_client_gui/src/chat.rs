@@ -11,14 +11,14 @@ use crate::chat_view::{
     BOTTOM, CHAT_WIDTH, ChatFocus, GRAY, LINE, RED, input_bounds, per_page, text_origin, text_under,
 };
 use crate::edit_box_draw;
-use crate::irect;
-use crate::text_draw;
-use crate::tooltip::Tooltip;
 use mcrs_minecraft_client_world::GuiTick;
 use mcrs_minecraft_client_world::chat::{Chat, ChatInput};
 use mcrs_minecraft_client_world::screen::Screen;
 use mcrs_minecraft_font::{ClientLanguage, Font, Hover, Span, SpanEvents, Wrap, text_spans, wrap};
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::Tooltip;
+use mcrs_minecraft_gui_primitives::point;
+use mcrs_minecraft_gui_primitives::{draw_centered_text, draw_tinted_text};
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_gui_scene::GuiPhase;
@@ -114,7 +114,7 @@ pub(crate) fn chat_lines<'c>(
             color: with_alpha(0xFF00_0000, alpha * fade.background_opacity),
         });
         let origin = text_origin(slot);
-        text_draw::draw_tinted_text(
+        draw_tinted_text(
             font,
             origin,
             &line.content,
@@ -296,7 +296,7 @@ pub fn draw(
     };
     let font = &*font;
     let size = *size;
-    let mouse = irect::point(pointer.point());
+    let mouse = point(pointer.point());
     let open = *screen == Screen::Chat;
     let pointer = open.then(|| ChatPointer {
         at: mouse,
@@ -318,7 +318,7 @@ pub fn draw(
     );
     if let Some((text, alpha)) = chat.overlay.shown(tick.0, 0.0) {
         let spans = text_spans(text, &language, u32::from(alpha) << 24 | 0x00FF_FFFF);
-        text_draw::draw_centered_text(font, size.width / 2, size.height - 72, &spans, out);
+        draw_centered_text(font, size.width / 2, size.height - 72, &spans, out);
     }
     if !open {
         return;
@@ -411,9 +411,9 @@ impl Plugin for ChatDrawPlugin {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::corpus_font::corpus_font;
     use crate::corpus_language::corpus_language;
     use mcrs_minecraft_font::{Weight, row_texts};
+    use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
 
     #[test]
     fn a_closed_chat_redraws_only_on_the_ticks_where_a_line_fades() {

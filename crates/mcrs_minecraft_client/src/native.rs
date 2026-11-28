@@ -202,7 +202,9 @@ pub fn run() -> AppExit {
     .add_plugins(
         ClientPlugins(knobs.clone())
             .build()
-            .add_before::<sky::SkyPlugin>(mcrs_minecraft_client_gui::slot_icon::SlotIconPlugin)
+            .add_before::<sky::SkyPlugin>(
+                mcrs_minecraft_client_gui::slot_icon_plugin::SlotIconPlugin,
+            )
             .add_before::<sky::SkyPlugin>(knobs.gui())
             .add(screenshot::ScreenshotPlugin),
     )

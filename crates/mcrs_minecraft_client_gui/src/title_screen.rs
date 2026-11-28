@@ -152,9 +152,9 @@ mod tests {
         use mcrs_minecraft_client_widget::GuiPoint;
 
         use super::super::*;
-        use crate::corpus_font::corpus_font;
         use crate::corpus_language::corpus_language;
-        use crate::menu_test_app::GUI;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::GUI;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
 
         #[test]
         fn the_title_widgets_and_the_notice_lines_sit_where_the_title_screen_places_them() {

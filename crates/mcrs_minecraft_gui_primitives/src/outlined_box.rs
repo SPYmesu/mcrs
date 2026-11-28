@@ -2,9 +2,9 @@ use bevy::math::IRect;
 
 use mcrs_minecraft_gui_scene::GuiQuad;
 
-pub(crate) const BLACK: u32 = 0xFF00_0000;
+pub const BLACK: u32 = 0xFF00_0000;
 
-pub(crate) fn draw_outlined_box(rect: IRect, outline: u32, out: &mut Vec<GuiQuad>) {
+pub fn draw_outlined_box(rect: IRect, outline: u32, out: &mut Vec<GuiQuad>) {
     let IRect { min, max } = rect;
     let fill = IRect::new(min.x.saturating_add(1), min.y, max.x, max.y);
     out.push(GuiQuad::Fill {

@@ -57,11 +57,18 @@ impl ItemIcons<'_> {
         );
     }
 
-    pub(crate) fn meshes(&self) -> Option<&IconMeshes> {
+    pub fn meshes(&self) -> Option<&IconMeshes> {
         self.meshes.as_deref()
     }
 }
 
-pub(crate) fn build_icon_meshes(models: Res<ItemModels>, mut commands: Commands) {
+pub fn build_icon_meshes(models: Res<ItemModels>, mut commands: Commands) {
     commands.insert_resource(IconMeshes::build(&models));
+}
+
+pub fn item_icons_changed() -> impl SystemCondition<()> {
+    resource_exists_and_changed::<ItemTable>
+        .or_else(resource_exists_and_changed::<CurrentRegistries>)
+        .or_else(resource_exists_and_changed::<ItemModels>)
+        .or_else(resource_exists_and_changed::<IconMeshes>)
 }

@@ -4,16 +4,13 @@ use mcrs_minecraft_engine_item::{Removed, SlotChanged, Slots};
 use mcrs_minecraft_entity_attribute::AttributeInstances;
 use mcrs_minecraft_game_mode::Abilities;
 use mcrs_minecraft_inventory_menu::MenuLayout;
-use mcrs_minecraft_item_icon::IconMeshes;
 use mcrs_minecraft_item_stack::{Count, Kind};
-use mcrs_minecraft_item_table::ItemTable;
-use mcrs_minecraft_model::item_model_bake::ItemModels;
 use mcrs_minecraft_player_holders::PlayerHolders;
-use mcrs_minecraft_registries::CurrentRegistries;
 
 use crate::shown_drag_preview::ShownDragPreview;
-use crate::slot_icon::SlotIcon;
 use mcrs_minecraft_font::ClientLanguage;
+use mcrs_minecraft_gui_primitives::SlotIcon;
+use mcrs_minecraft_gui_primitives::item_icons_changed;
 use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_gui_scene::GuiPointer;
 
@@ -33,13 +30,6 @@ type StackChanged = Or<(
     Changed<Count>,
     Changed<Removed>,
 )>;
-
-pub(crate) fn item_icons_changed() -> impl SystemCondition<()> {
-    resource_exists_and_changed::<ItemTable>
-        .or_else(resource_exists_and_changed::<CurrentRegistries>)
-        .or_else(resource_exists_and_changed::<ItemModels>)
-        .or_else(resource_exists_and_changed::<IconMeshes>)
-}
 
 pub(crate) fn slot_view_changed() -> impl SystemCondition<()> {
     resource_changed::<GuiPointer>

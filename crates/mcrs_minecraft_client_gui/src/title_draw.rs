@@ -6,11 +6,11 @@ use bevy::time::Real;
 use mcrs_minecraft_client_widget::GuiExtent;
 use mcrs_minecraft_client_world::screen::Screen;
 
-use crate::text_draw::draw_str;
 use crate::title_screen::{TitleText, notice_lines, version_text};
 use mcrs_minecraft_font::Font;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
 use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_primitives::draw_str;
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiFade;
 use mcrs_minecraft_gui_scene::GuiLayer;

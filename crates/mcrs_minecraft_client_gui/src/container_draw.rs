@@ -1,11 +1,8 @@
 use crate::creative_screen_shown::shows_creative_screen;
-use crate::irect;
 use crate::menu_label_text::MenuLabelText;
 use crate::menu_screen::{MenuContents, menu_screen};
 use crate::menu_stacks::MenuStacks;
 use crate::shown_drag_preview::ShownDragPreview;
-use crate::slot_icon::SlotIcon;
-use crate::tooltip::Tooltip;
 use bevy::prelude::*;
 use mcrs_minecraft_client_world::screen::Screen;
 use mcrs_minecraft_container_gesture::DragPreview;
@@ -17,6 +14,9 @@ use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_font::{ClientLanguage, Font};
 use mcrs_minecraft_game_mode::Abilities;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::SlotIcon;
+use mcrs_minecraft_gui_primitives::Tooltip;
+use mcrs_minecraft_gui_primitives::point;
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiPointer;
@@ -85,7 +85,7 @@ pub(crate) fn container_draw(
             stacks: &stacks.open,
             drag: drag.as_deref().map_or(&no_drag, ShownDragPreview::preview),
             size: *size,
-            cursor: irect::point(pointer.point()),
+            cursor: point(pointer.point()),
         },
         &stacks.labels,
         &atlas,

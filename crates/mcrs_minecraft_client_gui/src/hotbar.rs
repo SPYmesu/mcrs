@@ -12,9 +12,9 @@ use mcrs_minecraft_item::slots;
 use mcrs_minecraft_item_icon::Overlays;
 use mcrs_minecraft_player_holders::PlayerHolders;
 
-use crate::item_icons::ItemIcons;
 use crate::menu_stacks::MenuStacks;
-use crate::slot_icon::SlotIcon;
+use mcrs_minecraft_gui_primitives::ItemIcons;
+use mcrs_minecraft_gui_primitives::SlotIcon;
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiPhase;
 use mcrs_minecraft_gui_scene::GuiSize;

@@ -1,0 +1,37 @@
+[package]
+name = "mcrs_minecraft_gui_primitives"
+description = "The draw primitives of the GUI: text, sprites, tiled textures, outlined boxes, tooltips, item icons and their decorations"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[features]
+test-support = [
+    "dep:mcrs_minecraft_client_jar",
+    "dep:mcrs_minecraft_engine_registries",
+    "mcrs_minecraft_engine_registries/test-support",
+    "mcrs_minecraft_model/test-support",
+]
+
+[dependencies]
+mcrs_minecraft_client_jar = { workspace = true, optional = true }
+mcrs_minecraft_client_widget.workspace = true
+mcrs_minecraft_engine_registries = { workspace = true, optional = true }
+mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_gui_atlas.workspace = true
+mcrs_minecraft_gui_scene.workspace = true
+mcrs_minecraft_item_icon = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_item_stack = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_item_table = { workspace = true, features = ["bevy"] }
+mcrs_minecraft_model.workspace = true
+mcrs_minecraft_registries = { workspace = true, features = ["bevy"] }
+bevy = { version = "0.20.1", default-features = false, features = ["std"] }
+
+[dev-dependencies]
+mcrs_minecraft_gui_primitives = { workspace = true, features = ["test-support"] }

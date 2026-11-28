@@ -20,18 +20,18 @@ use crate::creative_screen_state::CreativeScreenState;
 use crate::creative_tab_content::CreativeTabContent;
 use crate::edit_box_draw;
 use crate::figure_placement::FigurePlacement;
-use crate::in_game_gradient::{DIM_BOTTOM, DIM_TOP};
-use crate::irect;
-use crate::item_icons::ItemIcons;
 use crate::menu_label_text::LABEL_COLOR;
 use crate::menu_screen;
 use crate::menu_stacks::MenuStacks;
 use crate::shown_drag_preview::ShownDragPreview;
-use crate::slot_icon::SlotIcon;
-use crate::text_draw;
-use crate::tooltip::Tooltip;
 use mcrs_minecraft_font::{ClientLanguage, Font, Span};
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::ItemIcons;
+use mcrs_minecraft_gui_primitives::SlotIcon;
+use mcrs_minecraft_gui_primitives::Tooltip;
+use mcrs_minecraft_gui_primitives::draw_str_without_shadow;
+use mcrs_minecraft_gui_primitives::point;
+use mcrs_minecraft_gui_primitives::{DIM_BOTTOM, DIM_TOP};
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiPointer;
@@ -150,7 +150,7 @@ pub(crate) fn rebuild_creative_text(
 impl CreativeTextTooltip {
     fn request(&self, target: TextTarget, pointer: GuiPointer, request: &mut Tooltip) {
         if let Some((_, lines)) = self.lines.iter().find(|(known, _)| *known == target) {
-            request.request_lines(irect::point(pointer.point()), lines);
+            request.request_lines(point(pointer.point()), lines);
         }
     }
 }
@@ -189,7 +189,7 @@ fn creative_screen(
     request: &mut Tooltip,
 ) {
     let window = CreativeGeometry::window(frame.size.width, frame.size.height);
-    let top_left = irect::point(window);
+    let top_left = point(window);
     let state = frame.state;
     let tab = state.selected_tab();
     let visible = frame.content.visible_tabs();
@@ -235,9 +235,9 @@ fn creative_screen(
         tab.selected_sprite().path(),
     ));
     if tab.kind.has_title() {
-        text_draw::draw_str_without_shadow(
+        draw_str_without_shadow(
             frame.font,
-            (top_left + irect::point(CreativeGeometry::TITLE)).as_vec2(),
+            (top_left + point(CreativeGeometry::TITLE)).as_vec2(),
             frame.language.get(tab.title_key),
             LABEL_COLOR,
             out,
@@ -252,12 +252,7 @@ fn creative_screen(
     request_tab_tooltip(frame, text_tooltip, request, window);
     request_destroy_tooltip(frame, text_tooltip, request, hit);
     let carried = frame.carried();
-    menu_screen::draw_carried(
-        layer,
-        carried,
-        frame.drag,
-        irect::point(frame.pointer.point()),
-    );
+    menu_screen::draw_carried(layer, carried, frame.drag, point(frame.pointer.point()));
 }
 
 fn unselected_tabs(
@@ -277,7 +272,7 @@ fn draw_tab_icon(
     let Some(stack) = frame.content.tab_icon(tab) else {
         return;
     };
-    let at = top_left + irect::point(tab.tab().icon_position());
+    let at = top_left + point(tab.tab().icon_position());
     icons.draw_stack(layer, at, stack, Overlays::None);
 }
 
@@ -289,15 +284,15 @@ fn draw_slots(
     kind: CreativeTabKind,
     hit: CreativeHit,
 ) {
-    let top_left = irect::point(window);
-    let highlight = slot_corner(hit).map(|corner| top_left + irect::point(corner));
+    let top_left = point(window);
+    let highlight = slot_corner(hit).map(|corner| top_left + point(corner));
     if let Some(at) = highlight {
         layer.push(highlight_sprite(at, "container/slot_highlight_back"));
     }
     if kind == CreativeTabKind::SurvivalInventory {
         for index in FIRST_INVENTORY_ENTRY..=LAST_INVENTORY_ENTRY {
             if let Some(corner) = CreativeGeometry::inventory_entry(index) {
-                draw_entry(frame, top_left + irect::point(corner), index, layer);
+                draw_entry(frame, top_left + point(corner), index, layer);
             }
         }
     } else {
@@ -305,13 +300,13 @@ fn draw_slots(
             let corner = CreativeGeometry::grid_slot(slot);
             let stack = frame.state.grid_stack(slot, frame.content);
             if let (Some(corner), Some(stack)) = (corner, stack) {
-                let at = top_left + irect::point(corner);
+                let at = top_left + point(corner);
                 icons.draw_stack(layer, at, stack, Overlays::Stack);
             }
         }
         for column in 0..HOTBAR_COLUMNS {
             if let Some(corner) = CreativeGeometry::hotbar_slot(column) {
-                let at = top_left + irect::point(corner);
+                let at = top_left + point(corner);
                 draw_entry(frame, at, HOTBAR_MENU_START + column, layer);
             }
         }

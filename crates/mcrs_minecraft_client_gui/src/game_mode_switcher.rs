@@ -16,14 +16,14 @@ use mcrs_minecraft_protocol_game::serverbound::ServerboundChangeGameMode;
 use mcrs_minecraft_protocol_game::text::{Color, IntoText, Text};
 
 use crate::cursor_grab::grab;
-use crate::draw_gate::item_icons_changed;
-use crate::item_icons::ItemIcons;
-use crate::text_draw::draw_centered_text;
 use mcrs_minecraft_client_world::chat::ChatMessage;
 use mcrs_minecraft_client_world::game_mode::PermissionLevel;
 use mcrs_minecraft_client_world::player::Player;
 use mcrs_minecraft_client_world::screen::Screen;
 use mcrs_minecraft_font::{ClientLanguage, Font, Span};
+use mcrs_minecraft_gui_primitives::ItemIcons;
+use mcrs_minecraft_gui_primitives::draw_centered_text;
+use mcrs_minecraft_gui_primitives::item_icons_changed;
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiPhase;
 use mcrs_minecraft_gui_scene::GuiSize;
@@ -402,7 +402,8 @@ mod tests {
         use mcrs_minecraft_resource::ResourceLocation;
 
         use super::*;
-        use crate::menu_test_app::{MODELS, TABLE, insert_gui_assets};
+        use crate::menu_test_app::insert_gui_assets;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::{MODELS, TABLE};
         use mcrs_minecraft_gui_scene::GuiQuad;
         use mcrs_minecraft_gui_scene::GuiSize;
         use mcrs_minecraft_gui_scene::SceneIcon;

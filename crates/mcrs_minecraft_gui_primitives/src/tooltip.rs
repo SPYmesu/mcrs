@@ -114,7 +114,7 @@ impl Tooltip {
     }
 }
 
-pub fn content_size(font: &Font, lines: &[Vec<Span>], gap: LineGap) -> IVec2 {
+pub(crate) fn content_size(font: &Font, lines: &[Vec<Span>], gap: LineGap) -> IVec2 {
     let width = lines.iter().map(|line| font.width(line)).max().unwrap_or(0);
     let rows = LINE * lines.len() as i32;
     let height = match gap {
@@ -132,7 +132,7 @@ fn line_top(index: usize, gap: LineGap) -> i32 {
     LINE * index as i32 + shift
 }
 
-pub fn content_origin(mouse: IVec2, size: IVec2, gui: IVec2) -> IVec2 {
+pub(crate) fn content_origin(mouse: IVec2, size: IVec2, gui: IVec2) -> IVec2 {
     let mut at = mouse + IVec2::new(OFFSET, -OFFSET);
     if at.x + size.x > gui.x {
         at.x = (at.x - 2 * OFFSET - size.x).max(4);
@@ -143,7 +143,7 @@ pub fn content_origin(mouse: IVec2, size: IVec2, gui: IVec2) -> IVec2 {
     at
 }
 
-pub fn draw(
+pub(crate) fn draw(
     tooltip: &Tooltip,
     gui: GuiSize,
     atlas: &GuiAtlasLayout,

@@ -1,15 +1,15 @@
 use bevy::math::{IRect, IVec2};
 use mcrs_minecraft_client_widget::{TabBar, TabSprite, Widget, WidgetKind};
 
-use crate::irect::{irect, point};
 use crate::menu::Menu;
-use crate::sprite_draw::draw_sprite;
-use crate::text_draw::draw_str;
-use crate::texture_tile::tile_texture;
 use mcrs_minecraft_font::Font;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
 use mcrs_minecraft_gui_atlas::GuiSpriteId;
 use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_primitives::draw_sprite;
+use mcrs_minecraft_gui_primitives::draw_str;
+use mcrs_minecraft_gui_primitives::tile_texture;
+use mcrs_minecraft_gui_primitives::{irect, point};
 use mcrs_minecraft_gui_scene::GuiQuad;
 
 const HEADER_TILE: i32 = 16;
@@ -120,10 +120,10 @@ mod tests {
         use mcrs_minecraft_client_widget::{GuiExtent, GuiInput, GuiPoint, Tab, WidgetId, Widgets};
 
         use super::*;
-        use crate::corpus_font::corpus_font;
         use crate::menu::MenuBackground;
         use crate::menu_draw::draw_menu;
         use crate::menu_test_app::ATLAS;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
         use mcrs_minecraft_gui_scene::GuiSize;
 
         const GUI: GuiSize = GuiSize {

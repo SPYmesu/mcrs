@@ -5,15 +5,15 @@ use mcrs_minecraft_client_widget::{
 };
 
 use crate::edit_box_draw::draw_edit_box;
-use crate::irect::{irect, point};
 use crate::menu::Menu;
-use crate::outlined_box::draw_outlined_box;
-use crate::sprite_draw::draw_sprite;
 use crate::tab_bar_draw::draw_tab_bar;
-use crate::text_draw::draw_str;
 use mcrs_minecraft_font::Font;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
 use mcrs_minecraft_gui_atlas::GuiSpriteId;
+use mcrs_minecraft_gui_primitives::draw_outlined_box;
+use mcrs_minecraft_gui_primitives::draw_sprite;
+use mcrs_minecraft_gui_primitives::draw_str;
+use mcrs_minecraft_gui_primitives::{irect, point};
 use mcrs_minecraft_gui_scene::{GuiQuad, WHITE};
 
 const ELLIPSIS: &str = "...";

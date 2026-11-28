@@ -25,7 +25,7 @@ use crate::creative_screen_shown::shows_creative_screen;
 use crate::creative_screen_state::CreativeScreenState;
 use crate::figure_placement::FigurePlacement;
 use crate::figure_projection;
-use crate::irect;
+use mcrs_minecraft_gui_primitives::point;
 use mcrs_minecraft_gui_scene::GuiPointer;
 use mcrs_minecraft_gui_scene::GuiSize;
 use mcrs_minecraft_gui_scene::window_framebuffer;
@@ -116,8 +116,7 @@ pub(crate) fn pose_inventory_figure(
     let pose = motion.map_or(Pose::Standing, |motion| motion.0.pose);
     let placement = placed.placement;
     let points = placement.points(placed.origin, pose.player_dimensions());
-    let angles =
-        figure_projection::figure_angles(points.eye, irect::point(pointer.point()).as_vec2());
+    let angles = figure_projection::figure_angles(points.eye, point(pointer.point()).as_vec2());
     let frame = FigureFrame {
         clip_from_figure: figure_projection::clip_from_figure(
             points.feet,
@@ -161,7 +160,7 @@ fn placed_figure(
     if shows_creative_screen(screen, menus, abilities) {
         let placement = FigurePlacement::for_creative_tab(creative?.selected_tab().kind)?;
         Some(PlacedFigure {
-            origin: irect::point(CreativeGeometry::window(size.width, size.height)),
+            origin: point(CreativeGeometry::window(size.width, size.height)),
             placement,
         })
     } else if screen == Screen::Menu && shows_inventory_menu(menus) {
@@ -176,7 +175,7 @@ fn placed_figure(
 
 #[must_use]
 pub(crate) fn inventory_window_corner(size: GuiSize) -> IVec2 {
-    irect::point(MenuGeometry::INVENTORY.window(size.width, size.height))
+    point(MenuGeometry::INVENTORY.window(size.width, size.height))
 }
 
 #[cfg(test)]

@@ -9,15 +9,15 @@ use mcrs_minecraft_item_icon::{Overlays, StackOverlay};
 use mcrs_minecraft_menu_geometry::{BackgroundPart, MenuGeometry};
 
 use crate::figure_placement::FigurePlacement;
-use crate::in_game_gradient::{DIM_BOTTOM, DIM_TOP};
-use crate::irect;
-use crate::item_icons::ItemIcons;
 use crate::menu_label_text::MenuLabelText;
 use crate::menu_stacks::MenuStacks;
-use crate::slot_icon::SlotIcon;
 use mcrs_minecraft_font::Font;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
 use mcrs_minecraft_gui_atlas::background_region;
+use mcrs_minecraft_gui_primitives::ItemIcons;
+use mcrs_minecraft_gui_primitives::SlotIcon;
+use mcrs_minecraft_gui_primitives::{DIM_BOTTOM, DIM_TOP};
+use mcrs_minecraft_gui_primitives::{irect, point};
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiSize;
 use mcrs_minecraft_gui_scene::WHITE;
@@ -70,7 +70,7 @@ pub(crate) fn menu_screen(
         cursor,
     } = contents;
     let corner = geometry.window(size.width, size.height);
-    let top_left = irect::point(corner);
+    let top_left = point(corner);
     let pointer = GuiPoint::new(cursor.x, cursor.y);
     let inventory = geometry.is_inventory();
     let out = layer.redraw();
@@ -92,7 +92,7 @@ pub(crate) fn menu_screen(
     let highlight = match clicked {
         Clicked::Entry(index) => geometry
             .entry(index)
-            .map(|entry| top_left + irect::point(entry) - 4),
+            .map(|entry| top_left + point(entry) - 4),
         Clicked::Outside | Clicked::Nowhere => None,
     };
     if let Some(at) = highlight {
@@ -105,7 +105,7 @@ pub(crate) fn menu_screen(
     let carried_stack = stacks.carried();
     let carried = carried_stack.and_then(&icon_of);
     for entry in geometry.entries() {
-        let at = top_left + irect::point(entry.corner);
+        let at = top_left + point(entry.corner);
         if let Some(preview) = drag.entry(entry.index)
             && carried_stack.is_some()
         {
@@ -178,12 +178,12 @@ pub(crate) fn draw_carried(
 }
 
 fn inventory_extras(out: &mut Vec<GuiQuad>, corner: GuiPoint, pointer: GuiPoint) {
-    let top_left = irect::point(corner);
+    let top_left = point(corner);
     out.push(GuiQuad::Figure {
         rect: FigurePlacement::SURVIVAL.rect_at(top_left),
     });
     let button = recipe_book_button(corner);
-    let button_area = irect::irect(button);
+    let button_area = irect(button);
     out.push(sprite(
         button_area.min,
         button_area.size(),
@@ -211,7 +211,7 @@ pub(crate) fn background(
         part.source.x.saturating_add(part.source.width),
         part.source.y.saturating_add(part.source.height),
     );
-    let at = top_left + irect::point(part.destination);
+    let at = top_left + point(part.destination);
     out.push(GuiQuad::Texels {
         rect: IRect::from_corners(at, at + source.size()),
         texels: Rect::from_corners(
@@ -226,7 +226,6 @@ pub(crate) fn background(
 mod tests {
     use std::sync::LazyLock;
 
-    use crate::corpus_font::corpus_font;
     use crate::corpus_language::corpus_language;
     use crate::menu_test_app::ATLAS;
     use bevy::app::App;
@@ -238,6 +237,7 @@ mod tests {
     use mcrs_minecraft_engine_item::ItemPlugin;
     use mcrs_minecraft_engine_item::Slots;
     use mcrs_minecraft_engine_item::StackCommandsExt;
+    use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
     use mcrs_minecraft_inventory_click::DragEntry;
     use mcrs_minecraft_inventory_click::DragKind;
     use mcrs_minecraft_inventory_click::DragSplit;
@@ -266,7 +266,7 @@ mod tests {
     use super::*;
     use crate::hotbar::hotbar;
     use crate::menu_label_text::LABEL_COLOR;
-    use crate::menu_test_app::{MODELS, TABLE};
+    use mcrs_minecraft_gui_primitives::gui_test_assets::{MODELS, TABLE};
     use mcrs_minecraft_gui_scene::GuiBand;
 
     const SIZE: GuiSize = GuiSize {
@@ -567,7 +567,7 @@ mod tests {
         let out = &layer.quads();
         let top_left = inventory_window_corner(SIZE);
         let corners: Vec<IVec2> = (9..12)
-            .map(|index| top_left + irect::point(MenuGeometry::INVENTORY.entry(index).unwrap()))
+            .map(|index| top_left + point(MenuGeometry::INVENTORY.entry(index).unwrap()))
             .collect();
         let fills: Vec<IRect> = (out.iter())
             .filter_map(|quad| match quad {

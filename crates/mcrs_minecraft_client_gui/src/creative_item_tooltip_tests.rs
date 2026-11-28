@@ -14,7 +14,7 @@ use crate::creative_item_tooltip::request_creative_item_tooltip;
 use crate::creative_screen_draw::draw_creative_screen;
 use crate::creative_screen_shown::creative_screen_shown;
 use crate::creative_screen_view_tests::{creative, creative_app, item};
-use crate::tooltip::Tooltip;
+use mcrs_minecraft_gui_primitives::Tooltip;
 use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_gui_scene::GuiPointer;
 

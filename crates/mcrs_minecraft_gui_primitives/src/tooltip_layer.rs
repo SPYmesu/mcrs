@@ -10,7 +10,7 @@ use mcrs_minecraft_gui_scene::GuiSize;
 #[require(GuiLayer = GuiLayer::new(GuiBand::Overlay, 0))]
 pub struct TooltipLayer;
 
-pub(crate) fn draw_tooltip(
+pub fn draw_tooltip(
     atlas: Option<Res<GuiAtlasLayout>>,
     font: Option<Res<Font>>,
     size: Res<GuiSize>,

@@ -4,9 +4,9 @@ use mcrs_minecraft_engine_inventory_menu::MenuTitle;
 use mcrs_minecraft_item::ItemHoverMap;
 use mcrs_minecraft_menu_geometry::{MenuGeometry, MenuLabels, TitlePosition};
 
-use crate::irect;
-use crate::text_draw::draw_text_without_shadow;
 use mcrs_minecraft_font::{ClientLanguage, Font, Span, text_spans};
+use mcrs_minecraft_gui_primitives::draw_text_without_shadow;
+use mcrs_minecraft_gui_primitives::point;
 use mcrs_minecraft_gui_scene::GuiQuad;
 
 pub(crate) const LABEL_COLOR: u32 = 0xFF40_4040;
@@ -56,7 +56,7 @@ impl MenuLabelText {
         out: &mut Vec<GuiQuad>,
     ) {
         let title = match positions.title {
-            TitlePosition::Left(at) => Some(irect::point(at)),
+            TitlePosition::Left(at) => Some(point(at)),
             TitlePosition::Centred { y } => Some(IVec2::new(
                 geometry
                     .width()
@@ -71,7 +71,7 @@ impl MenuLabelText {
         }
         draw_text_without_shadow(
             font,
-            top_left + irect::point(positions.player_inventory),
+            top_left + point(positions.player_inventory),
             &self.inventory,
             out,
         );

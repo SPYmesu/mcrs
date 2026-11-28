@@ -292,16 +292,17 @@ mod tests {
         use super::super::*;
         use crate::accessibility_settings_screen::accessibility_settings_screen;
         use crate::controls_screen::controls_screen;
-        use crate::corpus_font::corpus_font;
         use crate::corpus_language::corpus_language;
         use crate::menu_plugin::MenuPlugin;
         use crate::menu_test_app::{
-            GUI, caption, click, game_app, grab_mode, insert_gui_assets, screen, tap_escape,
+            caption, click, game_app, grab_mode, insert_gui_assets, screen, tap_escape,
         };
         use crate::mouse_settings_screen::mouse_settings_screen;
         use crate::options_screen::options_screen;
         use crate::pause_screen::pause_screen;
         use crate::video_settings_screen::video_settings_screen;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::GUI;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
         use mcrs_minecraft_gui_scene::GuiConfig;
         use mcrs_minecraft_gui_scene::GuiPointer;
         use mcrs_minecraft_gui_scene::GuiSize;

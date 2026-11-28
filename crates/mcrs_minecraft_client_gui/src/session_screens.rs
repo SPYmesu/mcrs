@@ -229,13 +229,14 @@ mod tests {
         use mcrs_minecraft_client_world::player::Player;
 
         use super::super::*;
-        use crate::corpus_font::corpus_font;
         use crate::corpus_language::corpus_language;
         use crate::disconnected_screen::{self, disconnected_screen};
         use crate::level_loading_screen::level_loading_screen;
-        use crate::menu_test_app::{GUI, advance, caption, click, game_app, grab_mode, screen};
+        use crate::menu_test_app::{advance, caption, click, game_app, grab_mode, screen};
         use crate::message_screen;
         use mcrs_minecraft_font::Span;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::GUI;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
         use mcrs_minecraft_gui_scene::WHITE;
 
         fn join(app: &mut App) -> Entity {

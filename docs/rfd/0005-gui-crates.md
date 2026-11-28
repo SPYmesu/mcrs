@@ -1059,7 +1059,7 @@ Line counts are estimates of the added lines, from `wc -l` of the modules that c
 | 4 | `container_gesture` | Done with step 3: move the kernel as a `no_std` crate | about 500 |
 | 5 | `client_gui`, `client` | Done: the stitch requests; `menu_background` out of the atlas; `sprite_draw`; `in_game_gradient`; `gui_clock`; `debug_chord`; `GuiPlugin` loses `screen` | about 500 |
 | 6 | `resource_pack`, `model_file`, `model`, `font`, `client` | Done: `resource_pack` with `PackFiles`, the PNG decoder and the missing texture; the font loader takes `PackFiles` and returns errors and notices; ids through `ResourceLocation`; the font moves; `client` reads the jar | about 2,000 |
-| 7 | `gui_atlas`, `gui_scene`, `gui_primitives` | Part done: the atlas and the scene. Open: move the primitives; split `menu_test_app` and `slot_icon` | about 2,700 |
+| 7 | `gui_atlas`, `gui_scene`, `gui_primitives` | Done: move the atlas, the scene and the primitives; split `menu_test_app` and `slot_icon` | about 2,700 |
 | 8 | `gui_render` | Move the batch, the pipeline, the extract and the panorama spin | about 1,500 |
 | 9 | `gui_screen`, `client_world`, `chat_client`, `inventory_client`, `client_gui`, `gui_render`, `client` | The stack (`no_std`), chat, container, creative and the game mode switcher as entities; `ShowsFigure`; the split of `inventory_clicks` | about 2,100 |
 | 10 | `gui_screen`, `client_gui`, `gui_render`, `client` | `Menu` as a component, the session screens, title, pause and options as entities; `project_backdrop` in `gui_render` | about 2,200 |
@@ -1164,7 +1164,7 @@ The step is done. It adds two crates of layer 3 (determination 2).
 
 ### Step 7: the atlas and the scene
 
-The atlas and the scene are done. The primitives are open.
+The step is done.
 
 - `mcrs_minecraft_gui_atlas` holds the atlas layout, the sprites, the ids, the stitch requests and
   the atlas load. It does not depend on `bevy_render`. `GuiImages` has no extract derive.
@@ -1178,6 +1178,18 @@ The atlas and the scene are done. The primitives are open.
 - The scene also makes these names public: `GuiPointerPlugin`, `GuiPointerSystems`, `spawn_layer`,
   `GuiLayerOrder`, `sprite`, `WHITE` and `window_framebuffer`. `MenuInputSystems` runs after
   `GuiPointerSystems`, so the pointer does not name a set of the menu.
+- `mcrs_minecraft_gui_primitives` holds the text draw, the tooltip, the item icons and
+  decorations, the sprite draw, the texture tile, the outlined box and the in-game gradient.
+  `SlotIcon` moves without its projection. `SlotIconPlugin` stays in `slot_icon_plugin` of
+  `client_gui` until `gui_container` exists.
+- `gui_test_assets` holds `ATLAS`, `TABLE`, `MODELS`, `GUI`, `corpus_font` and the builder
+  `gui_atlas`. `corpus_font` loads the vanilla font from the corpus of the client jar.
+  `insert_gui_assets` stays in `client_gui`, because it inserts the atlas with the stitch requests
+  of the `client_gui` plugins. The feature `test-support` adds the optional dependencies
+  `client_jar`, `engine_registries` and the test support of `model`.
+- The primitives also make these names public: `Shadow`, `draw_glyphs`, `draw_str_without_shadow`,
+  `draw_text_without_shadow`, `draw_tinted_text`, `shadow_color`, `irect`, `point`, `BLACK`,
+  `draw_outlined_box`, `tile_texture`, `build_icon_meshes`, `draw_tooltip` and `ItemIcons::meshes`.
 - The lint driver follows an event condition helper of a dependency crate. A crate writes the key
   of each exported helper that runs only on an event into its facts.
 

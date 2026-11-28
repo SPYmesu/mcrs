@@ -52,6 +52,7 @@ mcrs_minecraft_item_table = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_item_tooltip.workspace = true
 mcrs_minecraft_font = { workspace = true, features = ["bevy"] }
 mcrs_minecraft_gui_atlas.workspace = true
+mcrs_minecraft_gui_primitives.workspace = true
 mcrs_minecraft_gui_scene.workspace = true
 mcrs_minecraft_menu_geometry.workspace = true
 mcrs_minecraft_model.workspace = true
@@ -98,6 +99,7 @@ getrandom = { version = "0.4", features = ["wasm_js"] }
 [dev-dependencies]
 mcrs_minecraft_engine_registries = { workspace = true, features = ["test-support"] }
 mcrs_minecraft_fixtures.workspace = true
+mcrs_minecraft_gui_primitives = { workspace = true, features = ["test-support"] }
 mcrs_minecraft_game_registries = { workspace = true, features = ["test-support"] }
 mcrs_minecraft_inventory_file.workspace = true
 mcrs_minecraft_model = { workspace = true, features = ["test-support"] }

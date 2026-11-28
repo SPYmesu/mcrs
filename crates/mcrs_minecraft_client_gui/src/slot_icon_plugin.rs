@@ -1,39 +1,20 @@
 use bevy::app::{App, Plugin, Update};
 use bevy::prelude::{
-    Commands, Component, DetectChanges, DetectChangesMut, Entity, IntoScheduleConfigs, Local,
-    MessageReader, Query, Res, SystemCondition, on_message, resource_changed, resource_exists,
+    Commands, DetectChanges, DetectChangesMut, Entity, IntoScheduleConfigs, Local, MessageReader,
+    Query, Res, SystemCondition, on_message, resource_changed, resource_exists,
     resource_exists_and_changed,
 };
 use mcrs_minecraft_engine_item::SlotChanged;
 use mcrs_minecraft_engine_item::Slots;
 use mcrs_minecraft_engine_item::Stacks;
+use mcrs_minecraft_gui_primitives::SlotIcon;
 use mcrs_minecraft_inventory_client::InventoryClientSet;
-use mcrs_minecraft_item_icon::{IconSources, ItemIcon, StackOverlay, resolve};
+use mcrs_minecraft_item_icon::IconSources;
 use mcrs_minecraft_item_table::ItemTable;
-use mcrs_minecraft_model::item_model_asset::DisplayContext;
 use mcrs_minecraft_model::item_model_bake::ItemModels;
-use mcrs_minecraft_model::item_model_context::ItemModelContext;
 use mcrs_minecraft_model::stack_view::StackView;
 use mcrs_minecraft_network::client::ClientNetworkSystems;
 use mcrs_minecraft_registries::CurrentRegistries;
-
-const GUI: ItemModelContext = ItemModelContext::new(DisplayContext::Gui);
-
-#[derive(Component, Clone, Copy, Debug, PartialEq, Eq)]
-pub struct SlotIcon {
-    pub icon: ItemIcon,
-    pub overlay: StackOverlay,
-}
-
-impl SlotIcon {
-    #[must_use]
-    pub fn of(view: StackView<'_>, sources: &IconSources<'_>) -> Self {
-        Self {
-            icon: resolve(view, sources, &GUI),
-            overlay: StackOverlay::of(view),
-        }
-    }
-}
 
 pub struct SlotIconPlugin;
 
@@ -142,14 +123,21 @@ mod tests {
     use mcrs_minecraft_player_holders::{PlayerHolders, PlayerHoldersPlugin, restore_holders};
     use mcrs_minecraft_resource::ResourceLocation;
 
+    use mcrs_minecraft_gui_primitives::gui_test_assets::{self, MODELS, TABLE};
+    use mcrs_minecraft_item_icon::resolve;
+    use mcrs_minecraft_model::item_model_asset::DisplayContext;
+    use mcrs_minecraft_model::item_model_context::ItemModelContext;
+
     use super::*;
     use crate::container_draw::{ContainerLayer, container_draw};
     use crate::hotbar::{HotbarLayer, hotbar_draw};
-    use crate::menu_test_app::{self, MODELS, TABLE};
+    use crate::menu_test_app;
     use mcrs_minecraft_gui_scene::GuiLayer;
     use mcrs_minecraft_gui_scene::GuiPointer;
     use mcrs_minecraft_gui_scene::GuiSize;
     use mcrs_minecraft_gui_scene::SceneIcon;
+
+    const GUI: ItemModelContext = ItemModelContext::new(DisplayContext::Gui);
 
     fn stack(path: &str, count: u8) -> ItemStack {
         let name = format!("minecraft:{path}");
@@ -279,8 +267,8 @@ mod tests {
             let mut app = icon_app();
             menu_test_app::insert_gui_assets(app.world_mut());
             app.insert_resource(GuiSize {
-                width: menu_test_app::GUI.width,
-                height: menu_test_app::GUI.height,
+                width: gui_test_assets::GUI.width,
+                height: gui_test_assets::GUI.height,
                 scale: 1,
             })
             .insert_resource(GuiPointer::new(bevy::math::DVec2::ZERO))

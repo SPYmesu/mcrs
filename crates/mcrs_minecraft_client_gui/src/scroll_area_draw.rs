@@ -1,18 +1,18 @@
 use bevy::math::{IRect, IVec2};
 use mcrs_minecraft_client_widget::{SelectionList, Widget, WidgetKind, WidgetPlacement};
 
-use crate::irect::{irect, point};
 use crate::leaf_draw::draw_leaf;
 use crate::menu::Menu;
-use crate::outlined_box::BLACK;
-use crate::sprite_draw::draw_sprite;
-use crate::text_draw::draw_text;
-use crate::texture_tile::tile_texture;
 use crate::world_presence::WorldPresence;
 use mcrs_minecraft_font::Font;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
 use mcrs_minecraft_gui_atlas::GuiSpriteId;
 use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_primitives::BLACK;
+use mcrs_minecraft_gui_primitives::draw_sprite;
+use mcrs_minecraft_gui_primitives::draw_text;
+use mcrs_minecraft_gui_primitives::tile_texture;
+use mcrs_minecraft_gui_primitives::{irect, point};
 use mcrs_minecraft_gui_scene::GuiQuad;
 use mcrs_minecraft_gui_scene::WHITE;
 
@@ -188,10 +188,10 @@ mod tests {
         };
 
         use super::*;
-        use crate::corpus_font::corpus_font;
         use crate::menu::MenuBackground;
         use crate::menu_draw::draw_menu;
         use crate::menu_test_app::ATLAS;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
         use mcrs_minecraft_gui_scene::GuiSize;
 
         const GUI: GuiSize = GuiSize {

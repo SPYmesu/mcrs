@@ -187,14 +187,15 @@ mod tests {
         use time::UtcOffset;
 
         use super::super::*;
-        use crate::corpus_font::corpus_font;
         use crate::corpus_language::corpus_language;
         use crate::create_world_screen::{NewWorldForm, create_world_menu};
         use crate::delete_world_screen::delete_world_screen;
-        use crate::menu_test_app::{GUI, world, world_types};
+        use crate::menu_test_app::{world, world_types};
         use crate::project_menu::widgets_of;
         use crate::world_entry::world_entry;
         use crate::world_list_error_screen::world_list_error_screen;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::GUI;
+        use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
 
         #[test]
         #[expect(

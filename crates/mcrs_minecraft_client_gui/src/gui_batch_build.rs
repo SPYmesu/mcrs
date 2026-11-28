@@ -2,13 +2,13 @@ use crate::atlas_quad::AtlasQuad;
 use crate::batch_glint::BatchGlint;
 use crate::gui_batch::{GLINT_BIT, GUI_ATLAS_BIT, GuiBatch, GuiDraw, GuiDrawKind};
 use crate::gui_layer_slot::LayerSlot;
-use crate::item_decorations::{CountLabel, Decorated, decorations};
-use crate::item_icons::ItemIcons;
 use bevy::math::{IRect, IVec2};
 use bevy::prelude::*;
 use mcrs_minecraft_font::{Font, GlyphCache};
 use mcrs_minecraft_gui_atlas::BLANK;
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::ItemIcons;
+use mcrs_minecraft_gui_primitives::{CountLabel, Decorated, decorations};
 use mcrs_minecraft_gui_scene::GuiFade;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiQuad;
@@ -349,7 +349,8 @@ mod tests {
     use mcrs_minecraft_model::stack_view::StackView;
     use mcrs_minecraft_resource::ResourceLocation;
 
-    use crate::menu_test_app::{MODELS, TABLE, insert_gui_assets};
+    use crate::menu_test_app::insert_gui_assets;
+    use mcrs_minecraft_gui_primitives::gui_test_assets::{MODELS, TABLE};
     use mcrs_minecraft_gui_scene::GuiBand;
     use mcrs_minecraft_item_icon::StackOverlay;
 

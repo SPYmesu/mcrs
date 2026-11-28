@@ -21,9 +21,9 @@ use crate::creative_tab_content::CreativeTabContent;
 use crate::menu_item_tooltip::{
     self, HoveredItem, HoveredStack, LineSources, MenuItemTooltip, TooltipSlot, TooltipStyle,
 };
-use crate::tooltip::Tooltip;
 use mcrs_minecraft_font::{ClientLanguage, Font};
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::Tooltip;
 use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiPointer;

@@ -10,9 +10,9 @@ use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 use mcrs_minecraft_client_jar::{self as client_jar, Files, IndexLayer, Progress};
 
-use mcrs_minecraft_client_gui::draw_centered_text;
 use mcrs_minecraft_client_gui::inflate_zip::inflate_zip;
 use mcrs_minecraft_font::{Font, FontOptions, ImageSource, Span};
+use mcrs_minecraft_gui_primitives::draw_centered_text;
 use mcrs_minecraft_gui_scene::GuiQuad;
 use mcrs_minecraft_model::resource_set::{ResourceSet, is_resource};
 use mcrs_minecraft_model::vanilla_source::{fill, register_source};

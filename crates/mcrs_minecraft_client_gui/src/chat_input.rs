@@ -20,7 +20,6 @@ use crate::chat_suggestions;
 use crate::chat_view::{self, ChatFocus};
 use crate::cursor_grab::grab;
 use crate::edit_input::{clipboard_text, copy_text, pastes, screen_key};
-use crate::irect;
 use crate::menu_input;
 use mcrs_minecraft_client_world::chat::{
     self, Chat, ChatInput, ClientLookup, CommandWorld, SendChat,
@@ -31,6 +30,7 @@ use mcrs_minecraft_font::{
     ClientLanguage, Font, Span, SpanEvents, Wrap, text_spans_with_events, wrap,
 };
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::point;
 use mcrs_minecraft_gui_scene::GuiPointer;
 use mcrs_minecraft_gui_scene::GuiSize;
 use mcrs_minecraft_gui_scene::WHITE;
@@ -363,7 +363,7 @@ fn input_mouse(
     font: &Font,
     now_ms: u64,
 ) {
-    let cursor = irect::point(keys.pointer.point());
+    let cursor = point(keys.pointer.point());
     let size = *keys.size;
     let rect = chat_view::input_bounds(size);
     let width = |text: &str| font.str_width(text);
@@ -401,7 +401,7 @@ fn mouse(
     font: &Font,
     cx: &Context<'_, ClientLookup<'_>>,
 ) -> bool {
-    let (size, cursor) = (*keys.size, irect::point(keys.pointer.point()));
+    let (size, cursor) = (*keys.size, point(keys.pointer.point()));
     let left = keys.buttons.just_pressed(MouseButton::Left) && !*keys.input_dragging;
     let rows = chat_suggestions::list_rows(size, font, screen);
     let over = rows.as_ref().and_then(|rows| {

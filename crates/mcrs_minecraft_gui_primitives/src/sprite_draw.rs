@@ -113,7 +113,7 @@ fn part_quad(sprite: &GuiSprite, size: IVec2, rect: IRect, part: IRect) -> GuiQu
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::menu_test_app::ATLAS;
+    use crate::gui_test_assets::ATLAS;
     use mcrs_minecraft_gui_atlas::Border;
     use mcrs_minecraft_gui_atlas::GuiSpriteId;
 

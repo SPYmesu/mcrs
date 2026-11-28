@@ -3,16 +3,16 @@ use bevy::prelude::*;
 use bevy::time::Real;
 use mcrs_minecraft_client_widget::{TOOLTIP_WRAP_WIDTH, Widget, WidgetKind, WidgetPlacement};
 
-use crate::in_game_gradient::{DIM_BOTTOM, DIM_TOP};
 use crate::leaf_draw::draw_leaf;
 use crate::menu::{Menu, MenuBackground};
 use crate::scroll_area_draw::draw_scroll_area;
-use crate::texture_tile::tile_texture;
-use crate::tooltip::{LineGap, Tooltip};
 use crate::world_presence::WorldPresence;
 use mcrs_minecraft_font::{Font, Wrap, wrap};
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
 use mcrs_minecraft_gui_atlas::GuiTextureId;
+use mcrs_minecraft_gui_primitives::tile_texture;
+use mcrs_minecraft_gui_primitives::{DIM_BOTTOM, DIM_TOP};
+use mcrs_minecraft_gui_primitives::{LineGap, Tooltip};
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiQuad;
@@ -158,17 +158,17 @@ fn draw_background(menu: &Menu, size: GuiSize, atlas: &GuiAtlasLayout, out: &mut
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::corpus_font::corpus_font;
-    use crate::irect::irect;
     use crate::menu::WidgetTooltip;
-    use crate::sprite_draw::draw_sprite;
-    use crate::text_draw::shadow_color;
     use mcrs_minecraft_client_widget::{
         EditBox, EditBoxLook, GuiExtent, GuiInput, GuiKey, GuiPoint, GuiRect, KeyModifiers,
         Overflow, Slider, TooltipDelay as Delay, WidgetId, Widgets,
     };
     use mcrs_minecraft_font::Span;
     use mcrs_minecraft_gui_atlas::GuiSpriteId;
+    use mcrs_minecraft_gui_primitives::draw_sprite;
+    use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
+    use mcrs_minecraft_gui_primitives::irect;
+    use mcrs_minecraft_gui_primitives::shadow_color;
     use mcrs_minecraft_gui_scene::WHITE;
 
     const GUI: GuiSize = GuiSize {

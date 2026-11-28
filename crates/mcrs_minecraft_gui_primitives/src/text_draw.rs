@@ -21,7 +21,7 @@ pub fn draw_tinted_text(
     draw_spans(font, origin, spans, tint, Shadow::Drawn, out);
 }
 
-pub(crate) fn draw_text_without_shadow(
+pub fn draw_text_without_shadow(
     font: &Font,
     origin: IVec2,
     spans: &[Span],
@@ -31,7 +31,7 @@ pub(crate) fn draw_text_without_shadow(
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
-pub(crate) enum Shadow {
+pub enum Shadow {
     Drawn,
     Omitted,
 }
@@ -68,7 +68,7 @@ pub fn draw_str(
     draw_glyphs(font, origin, styled(text, bold), color, Shadow::Drawn, out)
 }
 
-pub(crate) fn draw_str_without_shadow(
+pub fn draw_str_without_shadow(
     font: &Font,
     origin: Vec2,
     text: &str,
@@ -85,7 +85,7 @@ pub(crate) fn draw_str_without_shadow(
     );
 }
 
-pub(crate) fn draw_glyphs(
+pub fn draw_glyphs(
     font: &Font,
     origin: Vec2,
     glyphs: impl Iterator<Item = (char, bool)>,
@@ -134,7 +134,7 @@ pub fn draw_centered_text(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::corpus_font::corpus_font;
+    use crate::gui_test_assets::corpus_font;
 
     mod jar {
         use super::*;

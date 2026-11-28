@@ -25,9 +25,9 @@ use mcrs_minecraft_registries::CurrentRegistries;
 use mcrs_minecraft_text::Text;
 
 use crate::container_draw::ContainerLayer;
-use crate::tooltip::{LineGap, Tooltip};
 use mcrs_minecraft_font::{ClientLanguage, Font, Span, Wrap, text_spans, wrap};
 use mcrs_minecraft_gui_atlas::GuiAtlasLayout;
+use mcrs_minecraft_gui_primitives::{LineGap, Tooltip};
 use mcrs_minecraft_gui_scene::GuiConfig;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiPointer;
@@ -386,7 +386,8 @@ mod tests {
     use mcrs_test_alloc::CountingAllocator;
 
     use super::*;
-    use crate::menu_test_app::{GUI, insert_gui_assets};
+    use crate::menu_test_app::insert_gui_assets;
+    use mcrs_minecraft_gui_primitives::gui_test_assets::GUI;
 
     fn stack(items: &ItemTable, item: &str) -> ItemStack {
         let name = ResourceLocation::read(item).unwrap();

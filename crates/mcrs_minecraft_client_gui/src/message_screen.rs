@@ -4,10 +4,10 @@ use mcrs_minecraft_client_widget::{GuiExtent, GuiPoint, GuiRect};
 use mcrs_minecraft_client_world::screen::{Screen, ScreenMessage};
 use mcrs_minecraft_client_world::world_list::WorldTypes;
 
-use crate::irect::irect;
-use crate::outlined_box::draw_outlined_box;
-use crate::text_draw::draw_str;
 use mcrs_minecraft_font::{ClientLanguage, Font};
+use mcrs_minecraft_gui_primitives::draw_outlined_box;
+use mcrs_minecraft_gui_primitives::draw_str;
+use mcrs_minecraft_gui_primitives::irect;
 use mcrs_minecraft_gui_scene::GuiBand;
 use mcrs_minecraft_gui_scene::GuiLayer;
 use mcrs_minecraft_gui_scene::GuiSize;

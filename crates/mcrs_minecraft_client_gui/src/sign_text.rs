@@ -6,8 +6,8 @@ use mcrs_voxel::BlockPos;
 
 use mcrs_minecraft_font::{Font, Span};
 
-use crate::text_draw::{Shadow, draw_glyphs};
 use mcrs_minecraft_font::{ClientLanguage, ImageSource, Wrap, text_spans, wrap};
+use mcrs_minecraft_gui_primitives::{Shadow, draw_glyphs};
 use mcrs_minecraft_gui_scene::GuiQuad;
 
 pub const FULL_BRIGHT_LIGHT: u32 = 15_728_880;
@@ -326,9 +326,9 @@ pub fn span_quads(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::corpus_font::corpus_font;
     use crate::corpus_language::corpus_language;
     use mcrs_minecraft_client_world::sign::yaw_of;
+    use mcrs_minecraft_gui_primitives::gui_test_assets::corpus_font;
     use serde::Deserialize;
 
     #[derive(Deserialize)]

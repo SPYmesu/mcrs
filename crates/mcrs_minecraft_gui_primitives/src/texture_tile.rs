@@ -5,7 +5,7 @@ use mcrs_minecraft_gui_atlas::GuiTextureId;
 use mcrs_minecraft_gui_scene::GuiQuad;
 use mcrs_minecraft_gui_scene::WHITE;
 
-pub(crate) fn tile_texture(
+pub fn tile_texture(
     atlas: &GuiAtlasLayout,
     texture: GuiTextureId,
     rect: IRect,

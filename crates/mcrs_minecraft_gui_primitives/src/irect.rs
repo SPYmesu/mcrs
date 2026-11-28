@@ -1,7 +1,7 @@
 use bevy::math::{IRect, IVec2};
 use mcrs_minecraft_client_widget::{GuiPoint, GuiRect};
 
-pub(crate) fn irect(rect: GuiRect) -> IRect {
+pub fn irect(rect: GuiRect) -> IRect {
     IRect::new(
         rect.x,
         rect.y,
@@ -10,6 +10,6 @@ pub(crate) fn irect(rect: GuiRect) -> IRect {
     )
 }
 
-pub(crate) fn point(point: GuiPoint) -> IVec2 {
+pub fn point(point: GuiPoint) -> IVec2 {
     IVec2::new(point.x, point.y)
 }
