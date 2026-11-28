@@ -161,6 +161,7 @@ fn chunk_of(
     let block_entities = snapshot
         .block_entities
         .iter()
+        .filter(|entity| rows.contains(&(entity.position().y >> 4)))
         .map(mcrs_minecraft_nbt::to_nbt_compound)
         .collect::<Result<Vec<_>, _>>()?;
     Ok(Chunk {
